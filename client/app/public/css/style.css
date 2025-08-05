@@ -1,0 +1,28 @@
+@import url("joinForm.css");
+
+:root {
+  /* Background & Base Colors */
+  --bg-color: #1a1a2e;
+  --wall-color: #0f3460;
+  --block-color: #53354a;
+
+  /* Player Colors */
+  --player1-color: #ff2e63;
+  --player2-color: #08d9d6;
+  --player3-color: #fcbf1e;
+  --player4-color: #a29bfe;
+
+  /* Game Elements */
+  --bomb-color: #222831;
+  --explosion-color: #f32424;
+  --powerup-color: #32e0c4;
+
+  /* UI Elements */
+  --text-color: #eeeeee;
+  --button-color: #393e46;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+}

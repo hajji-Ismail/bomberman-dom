@@ -1,0 +1,19 @@
+{
+  "name": "h-mini",
+  "version": "1.0.2",
+  "description": "## Structure",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helouazizi/h-mini.git"
+  },
+  "author": "helouaziz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helouazizi/h-mini/issues"
+  },
+  "homepage": "https://github.com/helouazizi/h-mini#readme"
+}

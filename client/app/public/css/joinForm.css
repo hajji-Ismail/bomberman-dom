@@ -1,0 +1,92 @@
+:root {
+    /* Background & Base Colors */
+    --bg-color: #1a1a2e;
+    --wall-color: #0f3460;
+    --block-color: #53354a;
+
+    /* Player Colors */
+    --player1-color: #ff2e63;
+    --player2-color: #08d9d6;
+    --player3-color: #fcbf1e;
+    --player4-color: #a29bfe;
+
+    /* Game Elements */
+    --bomb-color: #222831;
+    --explosion-color: #f32424;
+    --powerup-color: #32e0c4;
+
+    /* UI Elements */
+    --text-color: #eeeeee;
+    --button-color: #393e46;
+}
+
+body {
+    background-color: var(--bg-color);
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color: var(--wall-color);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: fit-content;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: var(--player2-color);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.join-form input {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid var(--button-color);
+    background-color: var(--block-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    text-align: center;
+    transition: 0.2s ease-in-out;
+}
+
+.join-form input::placeholder {
+    color: #cccccc;
+}
+
+.join-form input:focus {
+    border-color: var(--player1-color);
+    box-shadow: 0 0 8px var(--player1-color);
+}
+
+.join-form button {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--button-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.join-form button:hover {
+    background-color: var(--player3-color);
+    color: var(--bg-color);
+}
