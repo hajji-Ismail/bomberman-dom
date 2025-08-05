@@ -9,7 +9,7 @@ const renderer = new Renderer();
 
 const state = new State({
     route: location.hash || '#/',
-    mesaage : 'Welcome to the mini  App',
+    mesaage: 'Welcome to the mini  App',
 });
 
 
@@ -28,11 +28,19 @@ const router = new Router({
         state.set('message', 'Welcome to the Home Page');
         updateRoute();
     },
+    "/waitting": () => {
+        updateRoute();
+    }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
     router.init();
     renderApp();
+    const ws = new WebSocket("ws://localhost:8080/ws")
+    ws.onopen = () => {
+        console.log("🔗 WebSocket connection opened");
+    };
+    state.set("ws", ws)
 });
 
 window.addEventListener('hashchange', updateRoute);

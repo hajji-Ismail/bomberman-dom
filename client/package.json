@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/helouazizi/h-mini/issues"
   },
-  "homepage": "https://github.com/helouazizi/h-mini#readme"
+  "homepage": "https://github.com/helouazizi/h-mini#readme",
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
 }
