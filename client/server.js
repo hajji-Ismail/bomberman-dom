@@ -22,7 +22,6 @@ const routeMap = {
 
 const server = http.createServer((req, res) => {
   let urlPath = req.url === '/' ? '/index.html' : req.url;
-  console.log(`Request URL: ${req.url}`);
 
   let baseDir, relativePath;
 
