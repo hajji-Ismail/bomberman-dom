@@ -1,5 +1,5 @@
-import Joinning from "./components/Joinning.js"
-import Waitting from "./components/Waitting.js";
+import Joinning from "./pages/Joinning.js"
+import Waitting from "./pages/Waitting.js";
 
 function App(state) {
     const route = state.get('route') || "/"
