@@ -5,13 +5,15 @@ function Joinning(state) {
         e.preventDefault();
 
         try {
-            await CreateWs(state);
+
+           await CreateWs(state);
             const socket = state.get("ws")
+            
             socket.send(JSON.stringify({
-                type : "join",
-                username : state.get("username")
+                type: "join",
+                username: state.get("username")
             }))
-            console.log(state.get("username"));
+
             state.set('route', "/waitting");
         } catch (err) {
             console.log("Connection failed");

@@ -11,6 +11,21 @@ export const CreateWs = (state) => {
             console.log("❌ WebSocket error");
             reject(false);
         };
+
+        ws.onmessage = (data) => {
+            const message = JSON.parse(data.data)
+            switch (message.type) {
+                case "waitting_room":
+                    console.log(message, "on message");
+                    state.set('current_room',message.room)
+                    break;
+
+                default:
+                    break;
+            }
+
+
+        }
     });
 }
 
