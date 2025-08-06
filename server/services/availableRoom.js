@@ -3,8 +3,7 @@ export function HandleRooms(rooms = [], stream, username = "") {
     // case of no room available
     const player = { username, stream }
     if (rooms.length == 0) {
-        NewRoom(rooms, player)
-        return
+        return NewRoom(rooms, player)
     }
     const emptyRooms = rooms.filter(room => !room.available && room.players.length == 0)
     emptyRooms.forEach(ele => {
@@ -17,17 +16,19 @@ export function HandleRooms(rooms = [], stream, username = "") {
         if (availableRoom.players.length === 4) {
             availableRoom.available = false
         }
+        return availableRoom
     } else {
-        NewRoom(rooms, player)
+        return NewRoom(rooms, player)
     }
 }
 
 function NewRoom(rooms = [], player = {}) {
-    const now = new Date()
+
     const room = {
         id: Date.now(),
         players: [player],
         available: true
     }
     rooms.push(room)
+    return room
 }

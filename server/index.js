@@ -16,18 +16,12 @@ ws.on('connection', (stream) => {
         const data = JSON.parse(message.toString())
         switch (data.type) {
             case "join":
-                HandleRooms(rooms, stream, data.username)
+                console.log(HandleRooms(rooms, stream, data.username))
                 break
         }
-
-
     })
-
     console.log("🔌 Client connected!");
 })
-
-
-
 
 server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
