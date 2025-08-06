@@ -36,11 +36,6 @@ const router = new Router({
 window.addEventListener('DOMContentLoaded', () => {
     router.init();
     renderApp();
-    const ws = new WebSocket("ws://localhost:8080/ws")
-    ws.onopen = () => {
-        console.log("🔗 WebSocket connection opened");
-    };
-    state.set("ws", ws)
 });
 
 window.addEventListener('hashchange', updateRoute);

@@ -1,6 +1,7 @@
 function Waitting(state) {
 
-
+    const ws = state.get("ws")
+    
     return [
         {
             tag: "h1",

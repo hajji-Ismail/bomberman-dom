@@ -1,9 +1,17 @@
-function Joinning(state) {
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        state.set('route', "/waitting")
+import { CreateWs } from "../ws/Ws.js"
 
-    }
+function Joinning(state) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await CreateWs(state);
+            state.set('route', "/waitting");
+            console.log(state.get("username"));
+        } catch (err) {
+            console.log("Connection failed");
+        }
+    };
 
     return [
         {
