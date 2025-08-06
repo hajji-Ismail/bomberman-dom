@@ -1,6 +1,7 @@
 let isInitialized = false;
 
 const counterRoom = (state) => {
+    console.log('sdfmjksdfjksdflk')
     if (!isInitialized) {
         isInitialized = true;
 

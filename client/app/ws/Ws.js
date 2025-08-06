@@ -16,7 +16,6 @@ export const CreateWs = (state) => {
             const message = JSON.parse(data.data)
             switch (message.type) {
                 case "waitting_room":
-                    console.log(message, "on message");
                     state.set('current_room',message.room)
                     break;
 

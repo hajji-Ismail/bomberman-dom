@@ -19,7 +19,9 @@ ws.on('connection', (stream) => {
             case "join":
                 // console.log(HandleRooms(rooms, stream, data.username))
                 const room = HandleRooms(rooms, stream, data.username)
-                stream.send(JSON.stringify({ 'type':"waitting_room",room}))
+                room.players.forEach(element => {
+                    element.stream.send(JSON.stringify({ 'type': "waitting_room", room }))
+                });
                 break
         }
     })
