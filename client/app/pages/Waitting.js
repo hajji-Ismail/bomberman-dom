@@ -1,9 +1,7 @@
 import counterRoom from "../components/counterRoom.js"
 
 function Waitting(state) {
-
-    // const ws = state.get("ws")
-    
+    const current = state.get('current_room')
     return [
         {
             tag: "h1",
@@ -12,8 +10,13 @@ function Waitting(state) {
             },
             text: "WAITTING..."
         },
-        counterRoom(state)
-
+        ...(current?.players?.length > 1 ? [counterRoom(state)] : [{
+            tag: "h3",
+            attrs: {
+                class: 'title'
+            },
+            text: "waitt for others to join"
+        }])
     ]
 
 }

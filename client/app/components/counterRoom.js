@@ -1,28 +1,25 @@
 let isInitialized = false;
 
 const counterRoom = (state) => {
-    if (!isInitialized) {
+   
+     if (!isInitialized) {
         isInitialized = true;
-
         let isRestartPhase = false;
-
         state.set("counter", 20);
-
         const timer = setInterval(() => {
             let counter = state.get("counter");
-
             if (counter === 0) {
                 if (isRestartPhase) {
                     clearInterval(timer);
                     return;
                 } else {
+                    console.log("close waiting room.");
                     state.set("counter", 10);
                     isRestartPhase = true;
                     return;
                 }
             }
-
-            state.set("counter", counter - 1);  
+            state.set("counter", counter - 1);
         }, 1000);
     }
 

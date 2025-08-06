@@ -4,7 +4,7 @@ import Waitting from "./pages/Waitting.js";
 function App(state) {
     const route = state.get('route') || "/"
     let currentComponent
-    
+
     switch (route) {
         case "#/":
             currentComponent = Joinning(state)
