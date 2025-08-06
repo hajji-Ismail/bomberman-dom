@@ -23,7 +23,6 @@ export function HandleRooms(rooms = [], stream, username = "") {
 }
 
 function NewRoom(rooms = [], player = {}) {
-
     const room = {
         id: Date.now(),
         players: [player],

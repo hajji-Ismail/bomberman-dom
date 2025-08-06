@@ -16,7 +16,7 @@ ws.on('connection', (stream) => {
         const data = JSON.parse(message.toString())
         switch (data.type) {
             case "join":
-                console.log(HandleRooms(rooms, stream, data.username))
+                const room = HandleRooms(rooms, stream, data.username)
                 break
         }
     })
