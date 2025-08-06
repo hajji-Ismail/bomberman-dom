@@ -1,5 +1,6 @@
 const http = require('http');
-const { WebSocketServer } = require('ws')
+const { WebSocketServer } = require('ws');
+const { HandleRooms } = require('./services/availableRoom');
 const PORT = 8080;
 
 const rooms = []
@@ -13,12 +14,9 @@ const ws = new WebSocketServer({ server, path: '/ws' })
 ws.on('connection', (stream) => {
     stream.on('message', (message) => {
         const data = JSON.parse(message.toString())
-        console.log(data);
-
         switch (data.type) {
             case "join":
-                
-
+                HandleRooms(rooms, stream, data.username)
                 break
         }
 
