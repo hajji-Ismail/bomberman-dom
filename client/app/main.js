@@ -40,6 +40,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('hashchange', updateRoute);
 
-state.subscribe(['message', 'route'], renderApp);
+state.subscribe(['message', 'route', 'counter'], renderApp);
 
 

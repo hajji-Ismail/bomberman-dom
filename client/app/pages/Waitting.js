@@ -1,6 +1,8 @@
+import counterRoom from "../components/counterRoom.js"
+
 function Waitting(state) {
 
-    const ws = state.get("ws")
+    // const ws = state.get("ws")
     
     return [
         {
@@ -10,6 +12,7 @@ function Waitting(state) {
             },
             text: "WAITTING..."
         },
+        counterRoom(state)
 
     ]
 
