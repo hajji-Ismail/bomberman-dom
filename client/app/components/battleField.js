@@ -11,10 +11,11 @@ const battleField = (map) => {
     }
 
     for (let row = 0; row < map.length; row++) {
+        let wall = []
         for (let col = 0; col < map[row].length; col++) {
             const divType = map[row][col]
             const divclass = divsClasses[divType]
-            divs.push(
+            wall.push(
                 {
                     tag: "div",
                     attrs: { class: `${divclass} box` },
@@ -22,6 +23,14 @@ const battleField = (map) => {
                 }
             )
         }
+        divs.push({
+
+            tag: "div",
+            attrs: { class: `wall` },
+            children: wall
+
+        })
+        wall = []
 
     }
 
