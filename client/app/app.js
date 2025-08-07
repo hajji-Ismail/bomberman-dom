@@ -6,7 +6,7 @@ import battleField from "./components/battleField.js";
 
 function App(state) {
     const route = state.get('route') || "/"
-    const map = generateMap(10)
+    const map = generateMap(13)
     state.set('map', map)
     let currentComponent
 
@@ -19,8 +19,6 @@ function App(state) {
             break
         case "/game":
             currentComponent = battleField(map)
-            console.log(currentComponent,"componne");
-            
             break
         default:
             alert("hhhhh 404")

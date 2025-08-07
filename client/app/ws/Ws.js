@@ -1,3 +1,4 @@
+// client/app/ws/Ws.js
 export const CreateWs = (state) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket("ws://localhost:8080/ws");
@@ -18,7 +19,7 @@ export const CreateWs = (state) => {
                 case "waitting_room":
                     state.set('current_room',message.room)
                     if(state.get('counter')){
-                        state.set('counter',20)
+                        state.set('counter',5)
                     }
                     break;
 

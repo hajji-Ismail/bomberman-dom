@@ -6,8 +6,9 @@ const battleField = (map) => {
 
     const divsClasses = {
         0: "path",
-        1: "solid",
-        2: "soft",
+        1: "solid-wall",
+        2: "soft-wall",
+        
     }
 
     for (let row = 0; row < map.length; row++) {
@@ -19,7 +20,7 @@ const battleField = (map) => {
                 {
                     tag: "div",
                     attrs: { class: `${divclass} box` },
-                    text: divclass
+
                 }
             )
         }

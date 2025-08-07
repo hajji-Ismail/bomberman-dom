@@ -6,7 +6,7 @@ const counterRoom = (state) => {
     if (!isInitialized) {
         isInitialized = true;
         let isRestartPhase = false;
-        state.set("counter", 20);
+        state.set("counter", 5);
         const timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
@@ -16,7 +16,7 @@ const counterRoom = (state) => {
                     return;
                 } else {
                     console.log("close waiting room.");
-                    state.set("counter", 10);
+                    state.set("counter", 3);
                     isRestartPhase = true;
                     return;
                 }
@@ -28,7 +28,7 @@ const counterRoom = (state) => {
     const counter = state.get("counter");
     return {
         tag: "div",
-        text: (counter || counter === 0) ? counter : 20
+        text: (counter || counter === 0) ? counter : 5
     };
 };
 
