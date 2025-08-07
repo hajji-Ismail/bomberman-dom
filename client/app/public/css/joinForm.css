@@ -1,44 +1,29 @@
 :root {
-    /* Background & Base Colors */
-    --bg-color: #1a1a2e;
-    --wall-color: #0f3460;
-    --block-color: #53354a;
+  --bg-color: #1e1e2f;
+  --wall-color: #3a3a4f;
+  --block-color: #6b6bb5;
 
-    /* Player Colors */
-    --player1-color: #ff2e63;
-    --player2-color: #08d9d6;
-    --player3-color: #fcbf1e;
-    --player4-color: #a29bfe;
+  --player1-color: #ff7b7b;
+  --player2-color: #70e1d6;
+  --player3-color: #fff07d;
+  --player4-color: #d1b3ff;
 
-    /* Game Elements */
-    --bomb-color: #222831;
-    --explosion-color: #f32424;
-    --powerup-color: #32e0c4;
+  --bomb-color: #4a4d55;
+  --explosion-color: #ff6e6e;
+  --powerup-color: #00d6a0;
 
-    /* UI Elements */
-    --text-color: #eeeeee;
-    --button-color: #393e46;
+  --text-color: #f7f7f7;
+  --button-color: #3f7ff3;
 }
 
-body {
-    background-color: var(--bg-color);
-    height: 100vh;
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
+/* .container {
     background-color: var(--wall-color);
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: fit-content;
-}
+} */
 
 .title {
     margin-bottom: 20px;

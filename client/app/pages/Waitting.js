@@ -12,7 +12,7 @@ function Waitting(state) {
             text: "WAITTING..."
         },
         ...(current?.players?.length > 1 ? [counterRoom(state)] : [{
-            tag: "h3",
+            tag: "p",
             attrs: {
                 class: 'title'
             },

@@ -1,29 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 @import url("joinForm.css");
 @import url("chat.css");
+@import url("waittingRoom.css");
 
 :root {
-  /* Background & Base Colors */
-  --bg-color: #1a1a2e;
-  --wall-color: #0f3460;
-  --block-color: #53354a;
+  --bg-color: #1e1e2f;
+  --wall-color: #3a3a4f;
+  --block-color: #6b6bb5;
 
-  /* Player Colors */
-  --player1-color: #ff2e63;
-  --player2-color: #08d9d6;
-  --player3-color: #fcbf1e;
-  --player4-color: #a29bfe;
+  --player1-color: #ff7b7b;
+  --player2-color: #70e1d6;
+  --player3-color: #fff07d;
+  --player4-color: #d1b3ff;
 
-  /* Game Elements */
-  --bomb-color: #222831;
-  --explosion-color: #f32424;
-  --powerup-color: #32e0c4;
+  --bomb-color: #4a4d55;
+  --explosion-color: #ff6e6e;
+  --powerup-color: #00d6a0;
 
-  /* UI Elements */
-  --text-color: #eeeeee;
-  --button-color: #393e46;
+  --text-color: #f7f7f7;
+  --button-color: #3f7ff3;
 }
 
-*{
+* {
   padding: 0;
   margin: 0;
+  font-family: "Press Start 2P", system-ui;
+}
+
+body {
+  background-color: var(--bg-color);
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  color: var(--text-color);
+  width: 100%;
 }
