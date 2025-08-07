@@ -1,3 +1,4 @@
+// client/app/pages/Waitting.js
 import counterRoom from "../components/counterRoom.js"
 
 function Waitting(state) {

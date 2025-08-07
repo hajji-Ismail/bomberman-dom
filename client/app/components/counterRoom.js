@@ -2,8 +2,8 @@
 let isInitialized = false;
 
 const counterRoom = (state) => {
-   
-     if (!isInitialized) {
+
+    if (!isInitialized) {
         isInitialized = true;
         let isRestartPhase = false;
         state.set("counter", 20);
@@ -12,6 +12,7 @@ const counterRoom = (state) => {
             if (counter === 0) {
                 if (isRestartPhase) {
                     clearInterval(timer);
+                    state.set('route', "/game")
                     return;
                 } else {
                     console.log("close waiting room.");

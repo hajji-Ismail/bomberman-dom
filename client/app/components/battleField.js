@@ -17,19 +17,20 @@ const battleField = (map) => {
             divs.push(
                 {
                     tag: "div",
-                    atrrs: { class: divclass },
+                    attrs: { class: `${divclass} box` },
+                    text: divclass
                 }
             )
         }
 
     }
 
-    return {
+    return [{
         tag: "div",
-        atrrs: { class: "battle-field" },
+        attrs: { class: "battle-field" },
         children: divs
 
-    }
+    }]
 }
 
 export default battleField

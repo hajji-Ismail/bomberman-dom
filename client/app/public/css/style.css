@@ -1,4 +1,6 @@
+/* client/app/public/css/style.css */
 @import url("joinForm.css");
+@import url("battle.css");
 
 :root {
   /* Background & Base Colors */
@@ -22,7 +24,7 @@
   --button-color: #393e46;
 }
 
-*{
+* {
   padding: 0;
   margin: 0;
 }
