@@ -1,0 +1,86 @@
+:root {
+  /* Background & Base Colors */
+  --bg-color: #1a1a2e;
+  --wall-color: #0f3460;
+  --block-color: #53354a;
+
+  /* Player Colors */
+  --player1-color: #ff2e63;
+  --player2-color: #08d9d6;
+  --player3-color: #fcbf1e;
+  --player4-color: #a29bfe;
+
+  /* Game Elements */
+  --bomb-color: #222831;
+  --explosion-color: #f32424;
+  --powerup-color: #32e0c4;
+
+  /* UI Elements */
+  --text-color: #eeeeee;
+  --button-color: #393e46;
+}
+
+/* Chat Component Styles */
+#chatroom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  background-color: var(--wall-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#chatmessages {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--bg-color);
+}
+
+#chatmessages p {
+  margin: 0;
+  padding: 0.6rem 1rem;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Sent message - current user */
+.message--sent {
+  align-self: flex-end;
+  background-color: var(--player1-color);
+  color: var(--text-color);
+  border-bottom-right-radius: 4px;
+}
+
+/* Received message - others */
+.message--received {
+  align-self: flex-start;
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border-bottom-left-radius: 4px;
+}
+
+/* Input Styling */
+#chatinput {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-top: 1px solid var(--wall-color);
+}
+
+#chatinput::placeholder {
+  color: rgba(238, 238, 238, 0.5);
+}

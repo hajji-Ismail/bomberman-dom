@@ -4,12 +4,14 @@ import {
     Renderer
 } from '../src/index.js';
 import App from './app.js';
+import chat from './components/chat.js';
 
 const renderer = new Renderer();
 
 const state = new State({
     route: location.hash || '#/',
     mesaage: 'Welcome to the mini  App',
+    messages : [],
 });
 
 
@@ -40,6 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('hashchange', updateRoute);
 
-state.subscribe(['message', 'route', 'counter', 'current_room'], renderApp);
+state.subscribe(['message', 'route', 'counter', 'current_room','messages'], renderApp);
+
 
 

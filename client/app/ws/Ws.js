@@ -16,11 +16,17 @@ export const CreateWs = (state) => {
 
         ws.onmessage = (data) => {
             const message = JSON.parse(data.data)
+            console.log(message);
+
             switch (message.type) {
                 case "waitting_room":
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
                     state.set('current_room',message.room)
+                    break;
+                case "chating":
+                    const messages = state.get('messages') || []; // get current messages
+                    state.set('messages', [...messages, message]); // append new message
                     break;
 
                 default:

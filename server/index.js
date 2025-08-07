@@ -3,6 +3,7 @@ const { WebSocketServer } = require('ws');
 const { HandleRooms } = require('./services/availableRoom');
 const { RemovePlayer } = require('./services/RemovePlayer');
 const { broadCastWaittingRoom } = require('./services/broadCast');
+const { HandleChat } = require('./services/handleChating');
 const PORT = 8080;
 
 const rooms = []
@@ -21,6 +22,12 @@ ws.on('connection', (stream) => {
                 const room = HandleRooms(rooms, stream, data.username)
                 broadCastWaittingRoom(room)
                 break
+            case "chating" :
+                HandleChat(data, rooms) 
+               
+                break
+                
+
 
         }
     })
