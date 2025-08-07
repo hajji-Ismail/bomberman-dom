@@ -6,7 +6,7 @@ import battleField from "./components/battleField.js";
 
 function App(state) {
     const route = state.get('route') || "/"
-    const map = generateMap(13)
+    const map = generateMap(12)
     state.set('map', map)
     let currentComponent
 
