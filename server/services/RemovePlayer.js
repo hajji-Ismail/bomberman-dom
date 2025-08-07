@@ -1,13 +1,19 @@
 export function RemovePlayer(rooms = [], stream) {
+    let newRoom;
     rooms.forEach(room => {
-        const index = room.players.findIndex(player => player.stream === stream)
+        const index = room.players.findIndex(player => {
+            if (player.stream === stream) {
+                newRoom = room
+                return true
+            }
+        })
         if (index !== -1) {
-            console.log(room);
             room.players.splice(index, 1)
-            console.log(room);
             if (room.players.length === 0) {
                 room.available = true
             }
         }
     })
+
+    return newRoom
 }

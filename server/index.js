@@ -2,6 +2,7 @@ const http = require('http');
 const { WebSocketServer } = require('ws');
 const { HandleRooms } = require('./services/availableRoom');
 const { RemovePlayer } = require('./services/RemovePlayer');
+const { broadCastWaittingRoom } = require('./services/broadCast');
 const PORT = 8080;
 
 const rooms = []
@@ -18,18 +19,16 @@ ws.on('connection', (stream) => {
         switch (data.type) {
             case "join":
                 const room = HandleRooms(rooms, stream, data.username)
-                room.players.forEach(element => {
-                    element.stream.send(JSON.stringify({ 'type': "waitting_room", room }))
-                });
+                broadCastWaittingRoom(room)
                 break
 
         }
     })
+
     stream.on('close', () => {
-        RemovePlayer(rooms, stream)
+        let room = RemovePlayer(rooms, stream)
+        broadCastWaittingRoom(room)
     })
-
-
 
     console.log("🔌 Client connected!");
 })

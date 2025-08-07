@@ -40,6 +40,7 @@ function Joinning(state) {
                     attrs: {
                         placeholder: "Enter your name",
                         maxlength: 20,
+                        autofocus: true,
                         onchange: (e) => { state.set('username', e.target.value) }
                     }
                 }, {
