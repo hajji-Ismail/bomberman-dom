@@ -16,7 +16,6 @@ export const CreateWs = (state) => {
 
         ws.onmessage = (data) => {
             const message = JSON.parse(data.data)
-            console.log(message);
 
             switch (message.type) {
                 case "waitting_room":
