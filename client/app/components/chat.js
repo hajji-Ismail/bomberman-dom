@@ -17,6 +17,7 @@ function chat(state) {
     const showMessages = () => {
         
         const messages = state.get('messages');
+        
         const user = state.get("username")
 
         return {
