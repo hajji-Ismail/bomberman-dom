@@ -1,3 +1,4 @@
+// client/app/components/counterRoom.js
 let isInitialized = false;
 
 const counterRoom = (state) => {

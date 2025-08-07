@@ -1,5 +1,7 @@
+// client/app/app.js
 import Joinning from "./pages/Joinning.js"
 import Waitting from "./pages/Waitting.js";
+import { generateMap } from "./pages/game.js";
 
 function App(state) {
     const route = state.get('route') || "/"

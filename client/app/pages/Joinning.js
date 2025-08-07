@@ -1,3 +1,4 @@
+// client/app/pages/Joinning.js
 import { CreateWs } from "../ws/Ws.js"
 
 function Joinning(state) {
