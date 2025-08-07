@@ -3,10 +3,7 @@ export const CounterObj = {
     timer: undefined
 }
 
-const counterRoom = (state) => {
-
-    console.log('first')
-   
+const counterRoom = (state) => {   
      if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
         let isRestartPhase = false;
