@@ -12,6 +12,20 @@ export function HandleRooms(rooms = [], stream, username = "") {
     const availableRoom = rooms.find(room => room.available && room.players.length < 4)
 
     if (availableRoom) {
+        const notUnique = rooms.find(room =>
+            room.players.some(el => el.username === username)
+        );
+
+        if (notUnique) {
+            player.username = username + `_${availableRoom.players.length}`
+            player.stream.send(JSON.stringify({
+                type : 'userhange',
+                username : player.username
+            }))
+            
+        }
+        
+
         availableRoom.players.push(player)
         if (availableRoom.players.length === 4) {
             availableRoom.available = false

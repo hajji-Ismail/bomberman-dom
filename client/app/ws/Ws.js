@@ -27,7 +27,10 @@ export const CreateWs = (state) => {
                     const messages = state.get('messages') || []; // get current messages
                     state.set('messages', [...messages, message]); // append new message
                     break;
-
+                case "userhange" :
+                    
+                    state.set("username",message.username)
+                    break
                 default:
                     break;
             }

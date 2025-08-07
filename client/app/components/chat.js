@@ -3,20 +3,26 @@ function chat(state) {
         const socket = state.get('ws');
 
         if (e.key === 'Enter') {
-            socket.send(JSON.stringify({
-                type: 'chating',
-                chating_room: state.get('current_room'),
-                message: e.target.value.trim(),
-                username: state.get("username")
-            }));
+            if (e.target.value.trim().length > 0) {
+                socket.send(JSON.stringify({
+                    type: 'chating',
+                    chating_room: state.get('current_room'),
+                    message: e.target.value.trim(),
+                    username: state.get("username")
+                }));
+                e.target.value = "";
 
-            e.target.value = ""; // Clear input after sending
+            }
+
+
         }
     };
 
     const showMessages = () => {
 
+
         const messages = state.get('messages');
+
 
         const user = state.get("username")
 
