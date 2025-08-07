@@ -18,7 +18,7 @@ function App(state) {
         case "/game":
             const map = generateMap(12)
             state.set('map', map)
-            currentComponent = battleField(map)
+            currentComponent = battleField(state)
             break
         default:
             alert("hhhhh 404")

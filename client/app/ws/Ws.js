@@ -17,9 +17,9 @@ export const CreateWs = (state) => {
             const message = JSON.parse(data.data)
             switch (message.type) {
                 case "waitting_room":
-                    state.set('current_room',message.room)
-                    if(state.get('counter')){
-                        state.set('counter',5)
+                    state.set('current_room', message.room)
+                    if (state.get('counter')) {
+                        state.set('counter', 5)
                     }
                     break;
 
