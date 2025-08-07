@@ -43,6 +43,6 @@ window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('hashchange', updateRoute);
 
 state.subscribe(['message', 'route', 'counter', 'current_room','messages'], renderApp);
-// state.subscribe(['messages'], chat)
+
 
 
