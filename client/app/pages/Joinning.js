@@ -11,7 +11,7 @@ function Joinning(state) {
 
                 socket.send(JSON.stringify({
                     type: "join",
-                    username: state.get("username")
+                    username: state.get("username").trim()
                 }))
 
                 state.set('route', "/waitting");
