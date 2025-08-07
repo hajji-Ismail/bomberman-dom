@@ -6,8 +6,6 @@ import battleField from "./components/battleField.js";
 
 function App(state) {
     const route = state.get('route') || "/"
-    const map = generateMap(12)
-    state.set('map', map)
     let currentComponent
 
     switch (route) {
@@ -18,6 +16,8 @@ function App(state) {
             currentComponent = Waitting(state)
             break
         case "/game":
+            const map = generateMap(12)
+            state.set('map', map)
             currentComponent = battleField(map)
             break
         default:
