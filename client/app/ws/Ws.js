@@ -1,3 +1,5 @@
+import { CounterObj } from "../components/counterRoom.js";
+
 export const CreateWs = (state) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket("ws://localhost:8080/ws");
@@ -16,10 +18,9 @@ export const CreateWs = (state) => {
             const message = JSON.parse(data.data)
             switch (message.type) {
                 case "waitting_room":
+                    CounterObj.isInitialized = false
+                    clearInterval(CounterObj.timer)
                     state.set('current_room',message.room)
-                    if(state.get('counter')){
-                        state.set('counter',20)
-                    }
                     break;
 
                 default:

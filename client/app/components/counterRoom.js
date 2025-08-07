@@ -1,16 +1,21 @@
-let isInitialized = false;
+export const CounterObj = {
+    isInitialized: false,
+    timer: undefined
+}
 
 const counterRoom = (state) => {
+
+    console.log('first')
    
-     if (!isInitialized) {
-        isInitialized = true;
+     if (!CounterObj.isInitialized) {
+        CounterObj.isInitialized = true;
         let isRestartPhase = false;
         state.set("counter", 20);
-        const timer = setInterval(() => {
+        CounterObj.timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
                 if (isRestartPhase) {
-                    clearInterval(timer);
+                    clearInterval(CounterObj.timer);
                     return;
                 } else {
                     console.log("close waiting room.");
