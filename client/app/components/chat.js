@@ -14,10 +14,10 @@ function chat(state) {
         }
     };
 
-    const showMessages = (state) => {
-        console.log(state);
+    const showMessages = () => {
         
         const messages = state.get('messages');
+        const user = state.get("username")
 
         return {
             tag: "div",
@@ -25,6 +25,7 @@ function chat(state) {
             children: Array.isArray(messages)
                 ? messages.map(msg => ({
                     tag: "p",
+                    attrs:{class : msg.username ==user ?"message--sent" : "message--received" },
                     text: `${msg.username}: ${msg.message}`
                 }))
                 : []
@@ -35,7 +36,7 @@ function chat(state) {
         tag: "div",
         attrs: { id: "chatroom" },
         children: [
-            showMessages(state),
+            showMessages(),
             {
                 tag: "input",
                 attrs: {
