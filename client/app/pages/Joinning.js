@@ -3,21 +3,25 @@ import { CreateWs } from "../ws/Ws.js"
 function Joinning(state) {
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (state.get("username").trim().length > 0) {
+            try {
 
-        try {
+                await CreateWs(state);
+                const socket = state.get("ws")
 
-            await CreateWs(state);
-            const socket = state.get("ws")
+                socket.send(JSON.stringify({
+                    type: "join",
+                    username: state.get("username")
+                }))
 
-            socket.send(JSON.stringify({
-                type: "join",
-                username: state.get("username")
-            }))
-
-            state.set('route', "/waitting");
-        } catch (err) {
-            console.log(err);
+                state.set('route', "/waitting");
+            } catch (err) {
+                console.log(err);
+            }
         }
+
+
+
     };
 
     return [
