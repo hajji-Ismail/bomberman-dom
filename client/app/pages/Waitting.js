@@ -1,3 +1,4 @@
+import chat from "../components/chat.js"
 import counterRoom from "../components/counterRoom.js"
 
 function Waitting(state) {
@@ -16,7 +17,8 @@ function Waitting(state) {
                 class: 'title'
             },
             text: "waitt for others to join"
-        }])
+        }]) ,
+        chat(state)
     ]
 
 }

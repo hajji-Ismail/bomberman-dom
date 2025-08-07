@@ -2,6 +2,7 @@ const http = require('http');
 const { WebSocketServer } = require('ws');
 const { HandleRooms } = require('./services/availableRoom');
 const { RemovePlayer } = require('./services/RemovePlayer');
+const { HandleChat } = require('./services/handleChating');
 const PORT = 8080;
 
 const rooms = []
@@ -22,6 +23,12 @@ ws.on('connection', (stream) => {
                     element.stream.send(JSON.stringify({ 'type': "waitting_room", room }))
                 });
                 break
+            case "chating" :
+                HandleChat(data, rooms) 
+               
+                break
+                
+
 
         }
     })

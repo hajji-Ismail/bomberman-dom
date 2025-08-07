@@ -14,12 +14,18 @@ export const CreateWs = (state) => {
 
         ws.onmessage = (data) => {
             const message = JSON.parse(data.data)
+            console.log(message);
+
             switch (message.type) {
                 case "waitting_room":
-                    state.set('current_room',message.room)
-                    if(state.get('counter')){
-                        state.set('counter',20)
+                    state.set('current_room', message.room)
+                    if (state.get('counter')) {
+                        state.set('counter', 20)
                     }
+                    break;
+                case "chating":
+                    const messages = state.get('messages') || []; // get current messages
+                    state.set('messages', [...messages, message]); // append new message
                     break;
 
                 default:
