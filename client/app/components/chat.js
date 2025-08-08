@@ -3,12 +3,18 @@ function chat(state) {
         const socket = state.get('ws');
 
         if (e.key === 'Enter') {
+            const currentRoom = state.get('current_room')
+            const user = state.get("username")
+
+            let player = currentRoom.players.find(p => p.username === user)
+
             if (e.target.value.trim().length > 0) {
                 socket.send(JSON.stringify({
                     type: 'chating',
-                    chating_room: state.get('current_room'),
+                    chating_room: currentRoom,
                     message: e.target.value.trim(),
-                    username: state.get("username")
+                    playerNumber: player.playerNumber,
+                    username: player.username
                 }));
                 e.target.value = "";
 
@@ -19,11 +25,7 @@ function chat(state) {
     };
 
     const showMessages = () => {
-
-
         const messages = state.get('messages');
-
-
         const user = state.get("username")
 
         return {
@@ -38,6 +40,9 @@ function chat(state) {
                     children: [
                         {
                             tag: "p",
+                            attrs: {
+                                class: msg.playerNumber
+                            },
                             text: `${msg.username}: ${msg.message}`
                         }
                     ]

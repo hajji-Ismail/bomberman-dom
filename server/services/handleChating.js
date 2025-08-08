@@ -7,7 +7,8 @@ function HandleChat(data = {}, rooms = []) {
         player.stream.send(JSON.stringify({
             type : "chating",
             message : data.message,
-            username : data.username
+            username : data.username,
+            playerNumber: data.playerNumber
         }))
 
 

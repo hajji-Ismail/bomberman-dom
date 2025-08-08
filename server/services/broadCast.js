@@ -1,4 +1,4 @@
-function broadCastWaittingRoom(room) {
+function  broadCastWaittingRoom(room) {
     const safeRoom = getSafeRoom(room);
 
     room.players.forEach(element => {
@@ -13,8 +13,8 @@ function getSafeRoom(room) {
     return {
         id: room.id,
         players: room.players.map(p => ({
-            id: p.id,
-            name: p.name
+            username: p.username,
+            playerNumber: p.playerNumber
         }))
     };
 }

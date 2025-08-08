@@ -3,6 +3,19 @@ import counterRoom from "../components/counterRoom.js"
 
 function Waitting(state) {
     const current = state.get('current_room')
+
+    const displayPlayerNames = () => {
+        return current?.players?.map(p => {
+            return {
+                tag: "p",
+                attrs: {
+                    class: p.playerNumber
+                },
+                text: p.username
+            }
+        })
+    }
+ 
     return [
         {
             tag: "h1",
@@ -18,6 +31,13 @@ function Waitting(state) {
             },
             text: "waitt for others to join"
         }]) ,
+        {
+            tag: "div",
+            attrs: {
+                class: "player-names"
+            },
+            children: displayPlayerNames()
+        },
         chat(state)
     ]
 
