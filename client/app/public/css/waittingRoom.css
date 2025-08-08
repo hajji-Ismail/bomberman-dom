@@ -78,3 +78,12 @@
   outline: none;
   border: none;
 }
+
+.wait-counter {
+  background-color: var(--wall-color);
+  padding: 25px;
+  color: var(--text-color);
+  font-size: 1.3em;
+  font-weight: 700;
+  border-radius: 50%;
+}

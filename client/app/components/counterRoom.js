@@ -28,6 +28,9 @@ const counterRoom = (state) => {
     const counter = state.get("counter");
     return {
         tag: "div",
+        attrs: {
+            class: "wait-counter"
+        },
         text: (counter || counter === 0) ? counter : 20
     };
 };

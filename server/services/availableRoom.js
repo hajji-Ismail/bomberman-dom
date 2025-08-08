@@ -1,5 +1,5 @@
 // This function helps us search for an available room to join; otherwise, it creates a new one.
-export function HandleRooms(rooms = [], stream, username = "") {
+function HandleRooms(rooms = [], stream, username = "") {
     // case of no room available
     const player = { username, stream }
     if (rooms.length == 0) {
@@ -19,12 +19,12 @@ export function HandleRooms(rooms = [], stream, username = "") {
         if (notUnique) {
             player.username = username + `_${availableRoom.players.length}`
             player.stream.send(JSON.stringify({
-                type : 'userhange',
-                username : player.username
+                type: 'userhange',
+                username: player.username
             }))
-            
+
         }
-        
+
 
         availableRoom.players.push(player)
         if (availableRoom.players.length === 4) {
@@ -45,3 +45,5 @@ function NewRoom(rooms = [], player = {}) {
     rooms.push(room)
     return room
 }
+
+module.exports = { HandleRooms }

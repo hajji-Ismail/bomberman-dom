@@ -1,4 +1,4 @@
-export function RemovePlayer(rooms = [], stream) {
+function RemovePlayer(rooms = [], stream) {
     let newRoom;
     rooms.forEach(room => {
         const index = room.players.findIndex(player => {
@@ -17,3 +17,5 @@ export function RemovePlayer(rooms = [], stream) {
 
     return newRoom
 }
+
+module.exports = { RemovePlayer }
