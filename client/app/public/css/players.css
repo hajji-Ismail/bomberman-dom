@@ -1,0 +1,28 @@
+/* Common player styles */
+.player {
+    width: 38px;
+    height: 76px;
+    background-repeat: no-repeat;
+    background-size: 152px 303px;
+    animation: var(--anim) 0.9s steps(4) infinite;
+    background-position: var(--pos-x, 0px) var(--pos-y, 0px);
+    border-bottom: 2px solid rgba(0, 0, 0, 0);
+}
+
+/* Character variations (only the image changes) */
+.player.char1 { background-image: url('../players/player1.png'); }
+.player.char2 { background-image: url('../players/player2.png'); }
+.player.char3 { background-image: url('../players/player3.png'); }
+.player.char4 { background-image: url('../players/player4.png'); }
+
+/* Directions */
+.player-bottom { --pos-x: 0px; --pos-y: 0px; --anim: run-bottom; }
+.player-left   { --pos-x: 0px; --pos-y: -75px; --anim: run-left; }
+.player-right  { --pos-x: 0px; --pos-y: -150px; --anim: run-right; }
+.player-top    { --pos-x: 0px; --pos-y: -225.5px; --anim: run-top; }
+
+/* Animations */
+@keyframes run-bottom { from { background-position: 0px 0px; } to { background-position: -152px 0px; } }
+@keyframes run-left   { from { background-position: 0px -75px; } to { background-position: -152px -75px; } }
+@keyframes run-right  { from { background-position: 0px -150px; } to { background-position: -152px -150px; } }
+@keyframes run-top    { from { background-position: 0px -225.5px; } to { background-position: -152px -225.5px; } }
