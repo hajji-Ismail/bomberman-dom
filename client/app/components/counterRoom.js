@@ -3,8 +3,8 @@ export const CounterObj = {
     timer: undefined
 }
 
-const counterRoom = (state) => {   
-     if (!CounterObj.isInitialized) {
+const counterRoom = (state) => {
+    if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
         let isRestartPhase = false;
         state.set("counter", 20);
@@ -15,7 +15,11 @@ const counterRoom = (state) => {
                     clearInterval(CounterObj.timer);
                     return;
                 } else {
-                    console.log("close waiting room.");
+                    state.get('ws').send(JSON.stringify({
+                        type: "close-room",
+                        id: state.get('current_room').id
+                    }))
+                    state.set('current_room', { ...state.get('current_room'), available: false })
                     state.set("counter", 10);
                     isRestartPhase = true;
                     return;

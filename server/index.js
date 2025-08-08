@@ -22,13 +22,17 @@ ws.on('connection', (stream) => {
                 const room = HandleRooms(rooms, stream, data.username)
                 broadCastWaittingRoom(room)
                 break
-            case "chating" :
-                HandleChat(data, rooms) 
-               
+            case "chating":
+                HandleChat(data, rooms)
                 break
-                
-
-
+            case "close-room":
+                const c_room = rooms.find((element) => {
+                    return element.id == data.id
+                })
+                if (c_room.available) {
+                    c_room.available = false
+                }
+                break
         }
     })
 
