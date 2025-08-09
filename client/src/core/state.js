@@ -16,6 +16,10 @@ export class State {
 
     }
 
+    setContext(key, value) {
+        this.state[key] = value
+    }
+
     setStet(callack) {
         this.callack = callack;
     }
