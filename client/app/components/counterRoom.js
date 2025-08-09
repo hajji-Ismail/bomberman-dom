@@ -1,13 +1,14 @@
 export const CounterObj = {
     isInitialized: false,
-    timer: undefined
+    timer: undefined,
+    cp: 2
 }
 
 const counterRoom = (state) => {
     if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
         let isRestartPhase = false;
-        state.set("counter", 2);
+        state.set("counter", CounterObj.cp);
         CounterObj.timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
