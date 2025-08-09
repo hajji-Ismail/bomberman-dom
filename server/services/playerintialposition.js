@@ -14,27 +14,28 @@ room.map = data.room.map
         switch (index) {
             case 0:
                 player.position = {
-                    x: 1.5,
-                    y: 1.5
+                    x: 1.8,
+                    y: 1.8
                 };
                 
                 break;
             case 1:
                 player.position = {
-                    x: data.room.map[0].length - 2 + 0.5,
-                    y: 1.5
+                    x: data.room.map[0].length - 2 + 0.8,
+                    y: 1.8
                 };
                 break;
             case 3:
                 player.position = {
-                    x: 1.5,
-                    y: data.room.map.length - 2 + 0.5
+                    x: 1.8,
+                    y: data.room.map.length - 2 + 0.8
                 };
                 break;
             case 2:
                 player.position = {
-                    x: data.room.map[0].length - 2 + 0.5,
-                    y: data.room.map.length - 2 + 0.5
+                    x: data.room.map[0].length - 2 + 0.8,
+                    y: data.room.map.length - 2 + 0.8
+
                 };
                 break;
             default:

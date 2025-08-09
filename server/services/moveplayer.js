@@ -35,7 +35,7 @@ export function movePlayer(data = {}, rooms, stream) {
 
             break;
         case "ArrowLeft":
-            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
+            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - step)]
             if (canMove(cellul)) {
                 sendMessages(stream, {
                     type: "canMove",
