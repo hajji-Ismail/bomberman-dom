@@ -1,7 +1,7 @@
 export const CounterObj = {
     isInitialized: false,
     timer: undefined,
-    cp: 20
+    cp: 2
 }
 
 const counterRoom = (state) => {
@@ -21,7 +21,7 @@ const counterRoom = (state) => {
                         id: state.get('current_room').id
                     }))
                     state.set('current_room', { ...state.get('current_room'), available: false })
-                    state.set("counter", 10);
+                    state.set("counter", 1);
                     isRestartPhase = true;
                     return;
                 }
