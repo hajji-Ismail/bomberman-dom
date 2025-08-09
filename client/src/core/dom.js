@@ -1,66 +1,66 @@
 // src/core/dom.js
-import { GlobalEvents } from './events.js';
 
 export class Renderer {
     constructor() {
         this.eventIdCounter = 0;
         this.oldVtree = null;
-        this._setupGlobalListeners();
+        // this._setupGlobalListeners();
     }
 
-    _setupGlobalListeners() {
-        const eventTypes = ['click', 'input', 'change', 'submit', 'keydown', 'dblclick', 'blur'];
+    // _setupGlobalListeners() {
+    //     const eventTypes = ['click', 'input', 'change', 'submit', 'keydown', 'dblclick', 'blur'];
 
-        eventTypes.forEach(eventType => {
-            const useCapture = eventType === 'blur';
-            document.addEventListener(eventType, (e) => {
-                const target = e.target;
-                const handlerId = target.getAttribute(`data-event-${eventType}`);
-                if (handlerId) {
-                    GlobalEvents.emit(handlerId, e);
+    //     eventTypes.forEach(eventType => {
+    //         const useCapture = eventType === 'blur';
+    //         document.addEventListener(eventType, (e) => {
+    //             const target = e.target;
+    //             const handlerId = target.getAttribute(`data-event-${eventType}`);
+    //             if (handlerId) {
+    //                 GlobalEvents.emit(handlerId, e);
+    //             }
+    //         }, useCapture);
+    //     });
+    // }
+
+    _createElement(obj) {
+        if (!obj.tag) return document.createTextNode('')
+
+        const el = document.createElement(obj.tag)
+
+        el._listeners = {}  // Initialize listener map
+
+
+        for (const [key, value] of Object.entries(obj.attrs || {})) {
+
+
+            if (key.startsWith("on") && typeof value === 'function') {
+                const event = key.slice(2).toLowerCase()
+                if (obj.player) {
+                    addEventListener(event, value)
+                } else {
+                    el.addEventListener(event, value)
+                    el._listeners[event] = value  // Track listener for later
+
                 }
-            }, useCapture);
-        });
-    }
+            } else {
 
-    _createElement(vnode) {
-        if (typeof vnode === 'string') return document.createTextNode(vnode);
-        if (!vnode.tag) return document.createTextNode('');
-
-        const el = document.createElement(vnode.tag);
-
-        for (const [attr, value] of Object.entries(vnode.attrs || {})) {
-            if (attr.startsWith('on') && typeof value === 'function') {
-                const eventType = attr.slice(2).toLowerCase();
-                const handlerId = `evt-${eventType}-${this.eventIdCounter++}`;
-                GlobalEvents.on(handlerId, value);
-                el.setAttribute(`data-event-${eventType}`, handlerId);
-            }
-            else if (attr === 'checked') {
-                el.attr = !!value;
-            }
-            else if (attr === 'disabled') {
-                el[attr] = !!value;
-            }
-            else if (attr === 'selected') {
-                el[attr] = !!value;
-            }
-            else {
-                el.setAttribute(attr, value);
+                el.setAttribute(key, value)
             }
         }
 
-
-        if (vnode.children) {
-            vnode.children.forEach(child => el.appendChild(this._createElement(child)));
+        if (obj.children) {
+            obj.children.forEach(child => {
+                el.appendChild(this._createElement(child))
+            })
         }
 
-        if (vnode.text) {
-            el.appendChild(document.createTextNode(vnode.text));
+        if (obj.text) {
+            el.appendChild(document.createTextNode(obj.text))
         }
 
-        vnode.el = el;
-        return el;
+        obj.el = el
+
+        return el
     }
 
     render(target, vtree) {
@@ -206,29 +206,44 @@ export class Renderer {
 
 
     _updateAttributes(el, newAttrs, oldAttrs) {
-        // Remove old attributes not in newAttrs
+        if (!el) return; // ✅ SAFETY CHECK: don't crash if el is undefined
+
+        // Ensure _listeners map exists
+        el._listeners = el._listeners || {};
+
+        // Remove old attributes and listeners
         for (const key of Object.keys(oldAttrs)) {
             if (!(key in newAttrs)) {
-                el.removeAttribute(key);
+                if (key.startsWith("on") && typeof oldAttrs[key] === 'function') {
+                    const event = key.slice(2).toLowerCase();
+                    if (el._listeners[event]) {
+                        el.removeEventListener(event, el._listeners[event]);
+                        delete el._listeners[event];
+                    }
+                } else {
+                    el.removeAttribute(key);
+                }
             }
         }
 
-        // Add/update new attributes (except event handlers)
+        // Add/update attributes and listeners
         for (const [key, value] of Object.entries(newAttrs)) {
-            if (key.startsWith('on')) continue;
-            else if (key === 'checked') {
+            if (key.startsWith("on") && typeof value === 'function') {
+                const event = key.slice(2).toLowerCase();
+                const oldListener = el._listeners[event];
+
+                if (oldListener !== value) {
+                    if (oldListener) {
+                        el.removeEventListener(event, oldListener);
+                    }
+                    el.addEventListener(event, value);
+                    el._listeners[event] = value;
+                }
+            } else if (key === 'checked' || key === 'disabled' || key === 'selected') {
                 el[key] = !!value;
-            }
-            else if (key === 'disabled') {
-                el[key] = !!value;
-            }
-            else if (key === 'selected') {
-                el[key] = !!value;
-            }
-            else {
+            } else {
                 el.setAttribute(key, value);
             }
-
         }
     }
 

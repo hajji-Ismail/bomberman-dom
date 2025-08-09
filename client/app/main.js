@@ -4,7 +4,6 @@ import {
     Renderer
 } from '../src/index.js';
 import App from './app.js';
-import chat from './components/chat.js';
 
 const renderer = new Renderer();
 

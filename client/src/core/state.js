@@ -11,6 +11,9 @@ export class State {
         }
     }
 
+    setContext(key, value) {
+        this.state[key] = value;
+    }
     get(key) {
         return this.state[key]
     }
