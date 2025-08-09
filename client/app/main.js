@@ -3,45 +3,28 @@ import {
     Router,
     Renderer
 } from '../src/index.js';
+
+
 import App from './app.js';
 
 const renderer = new Renderer();
 
-const state = new State({
-    route: location.hash || '#/',
-    mesaage: 'Welcome to the mini  App',
-    messages : [],
-});
+export const state = new State();
 
+state.setStet(renderApp)
 
-function updateRoute() {
-    const route = location.hash || '#/';
-    state.set('route', route);
-    renderApp();
+export function renderApp() {
+    renderer.render('#root', App());
 }
 
-function renderApp() {
-    renderer.render('#root', App(state));
-}
-
-const router = new Router({
+new Router({
     '/': () => {
-        state.set('message', 'Welcome to the Home Page');
-        updateRoute();
+        renderApp();
     },
-    "/waitting": () => {
-        updateRoute();
+    '/waitting': () => {
+        renderApp();
+
     }
 });
-
-window.addEventListener('DOMContentLoaded', () => {
-    router.init();
-    renderApp();
-});
-
-window.addEventListener('hashchange', updateRoute);
-
-state.subscribe(['message', 'route', 'counter', 'current_room','messages'], renderApp);
-
 
 

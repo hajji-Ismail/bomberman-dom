@@ -1,7 +1,8 @@
 import chat from "../components/chat.js"
 import counterRoom from "../components/counterRoom.js"
+import { state } from "../main.js"
 
-function Waitting(state) {
+function Waitting() {
     const current = state.get('current_room')
 
     const displayPlayerNames = () => {
@@ -24,7 +25,7 @@ function Waitting(state) {
             },
             text: "WAITTING..."
         },
-        ...(current?.players?.length > 1 ? [counterRoom(state)] : [{
+        ...(current?.players?.length > 1 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'

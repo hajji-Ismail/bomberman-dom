@@ -1,12 +1,13 @@
 import { CreateWs } from "../ws/Ws.js"
+import { state } from "../main.js";
 
-function Joinning(state) {
+function Joinning() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (state.get("username").trim().length > 0) {
             try {
 
-                await CreateWs(state);
+                await CreateWs();
                 const socket = state.get("ws")
 
                 socket.send(JSON.stringify({

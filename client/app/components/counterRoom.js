@@ -1,10 +1,12 @@
+import { state } from "../main.js";
+
 export const CounterObj = {
     isInitialized: false,
     timer: undefined,
     cp: 2
 }
 
-const counterRoom = (state) => {
+const counterRoom = () => {
     if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
         let isRestartPhase = false;

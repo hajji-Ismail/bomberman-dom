@@ -1,4 +1,5 @@
-const battleField = (state) => {
+import { state } from "../main.js";
+const battleField = () => {
     const current = state.get('current_room');
     const map = current.map
     const players = current.players;

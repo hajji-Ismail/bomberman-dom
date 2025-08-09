@@ -22,10 +22,7 @@ ws.on('connection', (stream) => {
         switch (data.type) {
             case "join":
                 const room = HandleRooms(rooms, stream, data.username)
-                let playerLength = room.players.length
-                // room.players[playerLength - 1].playerNumber = `player${playerLength}`
                 setPlayerNumbers(room)
-                // console.log(room)
                 broadCastWaittingRoom(room)
                 break
             case "chating":

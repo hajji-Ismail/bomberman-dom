@@ -1,6 +1,7 @@
 import { CounterObj } from "../components/counterRoom.js";
+import { state } from "../main.js";
 
-export const CreateWs = (state) => {
+export const CreateWs = () => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket("ws://localhost:8080/ws");
         ws.onopen = () => {
@@ -32,9 +33,9 @@ export const CreateWs = (state) => {
                     state.set("username", message.username)
                     break
                 case "getMap":
-                    
+
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
-                   
+
 
                 default:
                     break;
