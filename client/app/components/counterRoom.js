@@ -7,7 +7,7 @@ const counterRoom = (state) => {
     if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
         let isRestartPhase = false;
-        state.set("counter", 5);
+        state.set("counter", 2);
         CounterObj.timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
@@ -20,7 +20,7 @@ const counterRoom = (state) => {
                         id: state.get('current_room').id
                     }))
                     state.set('current_room', { ...state.get('current_room'), available: false })
-                    state.set("counter", 3);
+                    state.set("counter", 1);
                     isRestartPhase = true;
                     return;
                 }

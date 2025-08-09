@@ -34,7 +34,16 @@ export const CreateWs = (state) => {
                 case "getMap":
                     
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
-                   
+                    
+                    ws.send(JSON.stringify({
+                        type : "start",
+                        room : state.get('current_room')
+                    }))
+                    break
+                case "canMove":
+                    console.log(message);
+                    
+                    break
 
                 default:
                     break;

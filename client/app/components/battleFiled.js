@@ -3,8 +3,19 @@ const battleField = (state) => {
     const map = current.map
     const players = current.players;
     const currrentUsername = state.get('username')
+    const socket = state.get('ws')
+    
     let divs = [];
+const moving = (e)=>{
+   socket.send(JSON.stringify({
+    type:"move",
+    username : currrentUsername,
+    room : current,
+    action : e.key
 
+   }))
+    
+}
     // Map values to base classes
     const divsClasses = {
         0: "path",
@@ -37,9 +48,7 @@ const battleField = (state) => {
                             player: true,
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
-                                onkeyup: (e) => {
-                                    // console.log(e.key)
-                                },
+                                onkeyup: moving
                             },
                         } : {
                             tag: "div",

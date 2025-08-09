@@ -1,5 +1,4 @@
 // src/core/dom.js
-import { GlobalEvents } from './events.js';
 
 export class Renderer {
     constructor() {
