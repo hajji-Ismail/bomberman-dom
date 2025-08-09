@@ -1,0 +1,100 @@
+:root {
+  /* Background & Base Colors */
+  --bg-color: #1a1a2e;
+  --wall-color: #0f3460; /* Indestructible walls */
+  --block-color: #53354a; /* Destructible blocks */
+  --path-color: #2d2d44; /* Walkable path */
+
+  /* Player Colors */
+  --player1-color: #ff2e63;
+  --player2-color: #08d9d6;
+  --player3-color: #fcbf1e;
+  --player4-color: #a29bfe;
+
+  /* Game Elements */
+  --bomb-color: #222831;
+  --explosion-color: #f32424;
+  --powerup-color: #32e0c4;
+
+  /* UI Elements */
+  --text-color: #eeeeee;
+  --button-color: #393e46;
+}
+
+/* =============================
+   Battle Field Layout
+============================= */
+.battle-field {
+  display: inline-grid;
+  gap: 0;
+  border: 2px solid var(--wall-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  margin: 20px auto;
+  max-width: max-content;
+}
+
+.wall {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =============================
+   Grid Cell Base
+============================= */
+.box {
+  width: 50px;
+  height: 50px;
+  border: 0.1rem solid var(--text-color);
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* =============================
+   Tile Types
+============================= */
+.path {
+  background-color: var(--path-color);
+}
+
+.solid-wall {
+  background-color: var(--bg-color);
+  background-size: 50px 50px;
+}
+
+.soft-wall {
+  background-color: var(--block-color);
+  background-size: 50px 50px;
+}
+
+/* =============================
+   Player Avatars
+============================= */
+.box > .player-1,
+.box > .player-2,
+.box > .player-3,
+.box > .player-4 {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  margin: auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.player-1 {
+  background-color: var(--player1-color);
+}
+
+.player-2 {
+  background-color: var(--player2-color);
+}
+
+.player-3 {
+  background-color: var(--player3-color);
+}
+
+.player-4 {
+  background-color: var(--player4-color);
+}

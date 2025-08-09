@@ -1,9 +1,10 @@
 const http = require('http');
 const { WebSocketServer } = require('ws');
 const { RemovePlayer } = require('./services/RemovePlayer');
-const { broadCastWaittingRoom } = require('./services/broadCast');
+const { broadCastWaittingRoom, brodCastMap } = require('./services/broadCast');
 const { HandleChat } = require('./services/handleChating');
 const { HandleRooms } = require('./services/availableRoom');
+const { GenerateMap } = require('./services/genrateMap');
 const PORT = 8080;
 
 const rooms = []
@@ -33,7 +34,9 @@ ws.on('connection', (stream) => {
                 })
                 if (c_room.available) {
                     c_room.available = false
+                    brodCastMap(c_room, GenerateMap(13))
                 }
+
                 break
         }
     })

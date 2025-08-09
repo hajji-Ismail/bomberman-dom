@@ -40,7 +40,8 @@ function NewRoom(rooms = [], player = {}) {
     const room = {
         id: Date.now(),
         players: [player],
-        available: true
+        available: true,
+        map: null
     }
     rooms.push(room)
     return room

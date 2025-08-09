@@ -1,3 +1,4 @@
+import battleField from "./components/battleFiled.js";
 import Joinning from "./pages/Joinning.js"
 import Waitting from "./pages/Waitting.js";
 
@@ -11,6 +12,10 @@ function App(state) {
             break
         case "/waitting":
             currentComponent = Waitting(state)
+            break
+        case "/game":
+            currentComponent = battleField(state)
+
             break
         default:
             alert("hhhhh 404")

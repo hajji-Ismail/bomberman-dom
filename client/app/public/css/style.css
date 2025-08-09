@@ -2,6 +2,7 @@
 
 @import url("joinForm.css");
 @import url("waittingRoom.css");
+@import url("battle.css");
 
 :root {
   --bg-color: #1e1e2f;

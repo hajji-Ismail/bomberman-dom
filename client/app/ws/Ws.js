@@ -21,16 +21,21 @@ export const CreateWs = (state) => {
                 case "waitting_room":
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
-                    state.set('current_room',message.room)
+                    state.set('current_room', message.room)
                     break;
                 case "chating":
                     const messages = state.get('messages') || []; // get current messages
                     state.set('messages', [...messages, message]); // append new message
                     break;
-                case "userhange" :
-                    
-                    state.set("username",message.username)
+                case "userhange":
+
+                    state.set("username", message.username)
                     break
+                case "getMap":
+                    
+                    state.set('current_room', { ...state.get('current_room'), map: message.map })
+                   
+
                 default:
                     break;
             }
