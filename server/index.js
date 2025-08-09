@@ -5,6 +5,7 @@ const { broadCastWaittingRoom, brodCastMap } = require('./services/broadCast');
 const { HandleChat } = require('./services/handleChating');
 const { HandleRooms } = require('./services/availableRoom');
 const { GenerateMap } = require('./services/genrateMap');
+const { setPlayerNumbers } = require('./services/setPlayerNumbers');
 const PORT = 8080;
 
 const rooms = []
@@ -22,7 +23,9 @@ ws.on('connection', (stream) => {
             case "join":
                 const room = HandleRooms(rooms, stream, data.username)
                 let playerLength = room.players.length
-                room.players[playerLength - 1].playerNumber = `player${playerLength}`
+                // room.players[playerLength - 1].playerNumber = `player${playerLength}`
+                setPlayerNumbers(room)
+                // console.log(room)
                 broadCastWaittingRoom(room)
                 break
             case "chating":
