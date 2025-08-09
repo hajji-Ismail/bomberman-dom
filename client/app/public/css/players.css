@@ -10,6 +10,8 @@ body{
     animation: var(--anim) 0.9s steps(4) infinite;
     background-position: var(--pos-x, 0px) var(--pos-y, 0px);
     border-bottom: 2px solid rgba(0, 0, 0, 0);
+    position: relative;
+    z-index: 999;
 }
 
 /* Character variations (only the image changes) */

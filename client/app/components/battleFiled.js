@@ -37,6 +37,8 @@ const moving = (e)=>{
 
             // Check if a player exists at this cell
             const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
+           
+            
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
@@ -48,7 +50,8 @@ const moving = (e)=>{
                             player: true,
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
-                                onkeyup: moving
+                                onkeyup: moving,
+                                style : state.get("style") || ' transform: translate(0px,0px);'
                             },
                         } : {
                             tag: "div",
