@@ -4,8 +4,19 @@ const battleField = () => {
     const map = current.map
     const players = current.players;
     const currrentUsername = state.get('username')
+    const socket = state.get('ws')
+    
     let divs = [];
+const moving = (e)=>{
+   socket.send(JSON.stringify({
+    type:"move",
+    username : currrentUsername,
+    room : current,
+    action : e.key
 
+   }))
+    
+}
     // Map values to base classes
     const divsClasses = {
         0: "path",
@@ -27,6 +38,8 @@ const battleField = () => {
 
             // Check if a player exists at this cell
             const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
+           
+            
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
@@ -38,9 +51,8 @@ const battleField = () => {
                             player: true,
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
-                                onkeyup: (e) => {
-                                    // console.log(e.key)
-                                },
+                                onkeyup: moving,
+                                style : state.get("style") || ' transform: translate(0px,0px);'
                             },
                         } : {
                             tag: "div",

@@ -1,4 +1,5 @@
 import { CounterObj } from "../components/counterRoom.js";
+import { HandleMovement } from "../services/HandleMovemement.js";
 import { state } from "../main.js";
 
 export const CreateWs = () => {
@@ -35,6 +36,20 @@ export const CreateWs = () => {
                 case "getMap":
 
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
+                    state.setContext('positionX', 0)
+                     state.setContext('positionY', 0)
+                     console.log(state.get("positionX"),state.get("positionY"), "ujiohiouhoiuhioujohjiou");
+                     
+
+                    ws.send(JSON.stringify({
+                        type : "start",
+                        room : state.get('current_room')
+                    }))
+                    break
+                case "canMove":
+                    HandleMovement(message, state)
+                    
+                    break
 
 
                 default:
