@@ -2,7 +2,7 @@ const battleField = (state) => {
     const current = state.get('current_room');
     const map = current.map
     const players = current.players;
-
+    const currrentUsername = state.get('username')
     let divs = [];
 
     // Map values to base classes
@@ -26,13 +26,27 @@ const battleField = (state) => {
 
             // Check if a player exists at this cell
             const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
+
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
+
                 box.children = [
-                    {
-                        tag: "div",
-                        attrs: { class: `player-${playerIndex + 1}` },
-                    },
+                    playerAtCell.username === currrentUsername ?
+                        {
+                            tag: "div",
+                            player: true,
+                            attrs: {
+                                class: `player char${playerIndex + 1}`,
+                                onkeyup: (e) => {
+                                    // console.log(e.key)
+                                },
+                            },
+                        } : {
+                            tag: "div",
+                            attrs: {
+                                class: `player char${playerIndex + 1}`,
+                            },
+                        }
                 ];
             }
 
