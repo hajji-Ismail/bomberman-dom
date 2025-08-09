@@ -31,7 +31,7 @@ const battleField = (state) => {
                 box.children = [
                     {
                         tag: "div",
-                        attrs: { class: `player-${playerIndex + 1}` },
+                        attrs: { class: `player char${playerIndex + 1}` },
                     },
                 ];
             }
