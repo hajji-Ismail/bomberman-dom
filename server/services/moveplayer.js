@@ -7,8 +7,8 @@ export function movePlayer(data = {}, rooms, stream) {
     const player = room.players.find((player) => player.username == data.username)
 
 
-    let Xstep = 0.09 * player.Speed
-    let Ystep = 0.09*player.Speed
+    let Xstep = 0.65 * player.Speed
+    let Ystep = 0.15*player.Speed
     const canMove = (cellul) => {
 
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14

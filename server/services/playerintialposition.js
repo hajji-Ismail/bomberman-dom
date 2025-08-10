@@ -15,16 +15,16 @@ export function PlayerInitialPosition(data = {}, rooms = []) {
         // Set position centered on tile
         switch (index) {
             case 0: // Top-left
-                player.position = { x: 1.9, y: 1.9 };
+                player.position = { x: 1.35, y: 1.85 };
                 break;
             case 1: // Top-right
-                player.position = { x: mapWidth - 2.9, y: 1.9 };
+                player.position = { x: mapWidth - 2.35, y: 1.85 };
                 break;
             case 2: // Bottom-right
-                player.position = { x: mapWidth - 2.9, y: mapHeight - 2.9 };
+                player.position = { x: mapWidth - 2.35, y: mapHeight - 2.85 };
                 break;
             case 3: // Bottom-left
-                player.position = { x: 1.9, y: mapHeight - 2.9 };
+                player.position = { x: 1.35, y: mapHeight - 2.85 };
                 break;
             default:
                 break;
