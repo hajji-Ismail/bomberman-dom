@@ -6,8 +6,6 @@ import { state } from "./main.js";
 function App() {
     const route = state.get('route') || "/"
     let currentComponent
-
-
     switch (route) {
         case "/":
             currentComponent = Joinning()
