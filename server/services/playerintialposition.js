@@ -1,48 +1,33 @@
 export function PlayerInitialPosition(data = {}, rooms = []) {
     let room = rooms.find((element) => element.id == data.room.id)
-    
 
-room.map = data.room.map
+    room.map = data.room.map
+
     room.players.forEach((player, index) => {
-        
         // Set defaults
         player.Bombs = 1;
         player.Flames = 1;
         player.Speed = 1;
 
-        // Set position based on index
+        const mapWidth = data.room.map[0].length;
+        const mapHeight = data.room.map.length;
+
+        // Set position centered on tile
         switch (index) {
-            case 0:
-                player.position = {
-                    x: 1.5,
-                    y: 1.5
-                };
-                
+            case 0: // Top-left
+                player.position = { x: 1.9, y: 1.9 };
                 break;
-            case 1:
-                player.position = {
-                    x: data.room.map[0].length - 2 + 0.5,
-                    y: 1.5
-                };
+            case 1: // Top-right
+                player.position = { x: mapWidth - 2.9, y: 1.9 };
                 break;
-            case 3:
-                player.position = {
-                    x: 1.5,
-                    y: data.room.map.length - 2 + 0.5
-                };
+            case 2: // Bottom-right
+                player.position = { x: mapWidth - 2.9, y: mapHeight - 2.9 };
                 break;
-            case 2:
-                player.position = {
-                    x: data.room.map[0].length - 2 + 0.5,
-                    y: data.room.map.length - 2 + 0.5
-                };
+            case 3: // Bottom-left
+                player.position = { x: 1.9, y: mapHeight - 2.9 };
                 break;
             default:
                 break;
         }
     });
-
-    
-    
-
 }
