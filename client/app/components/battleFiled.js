@@ -17,14 +17,6 @@ const battleField = () => {
         }))
 
     }
-    const moving = (e) => {
-        socket.send(JSON.stringify({
-            type: "move",
-            username: currrentUsername,
-            room: current,
-            action: e.key
-        }))
-    }
     const stopMoving = (e) => {
         socket.send(JSON.stringify({
             type: "stop-move",
@@ -101,7 +93,7 @@ const battleField = () => {
                 box.children.push({
                     tag: "div",
                     attrs: {
-                        class: `abilitie ${divsClasses[abilityType]}`, 
+                        class: `abilitie ${divsClasses[abilityType]}`,
                     },
                 });
             }
