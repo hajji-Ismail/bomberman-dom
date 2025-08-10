@@ -12,6 +12,8 @@ function broadCastWaittingRoom(room) {
 function brodCastMap(room, map) {
 
     room.players.forEach(element => {
+        console.log(room, element.username);
+
         element.stream.send(JSON.stringify({
             type: "getMap",
             map

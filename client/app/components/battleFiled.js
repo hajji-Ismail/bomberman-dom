@@ -34,6 +34,7 @@ const battleField = () => {
         4: "speed",
         5: "flame"
     };
+    console.log(current);
 
     for (let row = 0; row < map.length; row++) {
         let wall = [];

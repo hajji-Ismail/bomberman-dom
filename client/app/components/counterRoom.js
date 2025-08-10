@@ -3,7 +3,7 @@ import { state } from "../main.js";
 export const CounterObj = {
     isInitialized: false,
     timer: undefined,
-    cp: 2
+    cp: 5
 }
 
 const counterRoom = () => {
@@ -17,11 +17,13 @@ const counterRoom = () => {
                 if (isRestartPhase) {
                     clearInterval(CounterObj.timer);
                     return;
-                } else {
-                    state.get('ws').send(JSON.stringify({
+                } else  {
+                    const player = state.get('current_room')
+                    if(player.players[player.players.length -1].username == state.get("username")){
+                        state.get('ws').send(JSON.stringify({
                         type: "close-room",
                         id: state.get('current_room').id
-                    }))
+                    }))}
                     state.set('current_room', { ...state.get('current_room'), available: false })
                     state.set("counter", 1);
                     isRestartPhase = true;
