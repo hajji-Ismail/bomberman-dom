@@ -1,3 +1,4 @@
+import board from "../components/board.js";
 import { state } from "../main.js";
 const battleField = () => {
     const current = state.get('current_room');
@@ -5,7 +6,6 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
-    console.log(state.get('newCLass'));
 
     let divs = [];
     const moving = (e) => {
@@ -35,7 +35,6 @@ const battleField = () => {
         4: "speed",
         5: "flame"
     };
-    console.log(current);
 
     for (let row = 0; row < map.length; row++) {
         let wall = [];
@@ -109,13 +108,22 @@ const battleField = () => {
         });
     }
 
-
     return [
         {
             tag: "div",
-            attrs: { class: "battle-field" },
-            children: divs,
-        },
+            attrs: {
+                class: "game-container"
+            },
+            children: [
+                board()
+                ,
+                {
+                    tag: "div",
+                    attrs: { class: "battle-field" },
+                    children: divs,
+                },
+            ]
+        }
     ];
 };
 

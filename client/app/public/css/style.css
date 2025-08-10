@@ -4,6 +4,7 @@
 @import url("waittingRoom.css");
 @import url("battle.css");
 @import url("players.css");
+@import url("board.css");
 
 :root {
   --bg-color: #1e1e2f;
@@ -23,7 +24,6 @@
   --button-color: #3f7ff3;
 }
 
-* {
 * {
   padding: 0;
   margin: 0;

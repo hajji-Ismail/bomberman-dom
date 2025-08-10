@@ -1,4 +1,4 @@
-import battleField from "./components/battleFiled.js";
+import battleField from "./pages/battleFiled.js";
 import Joinning from "./pages/Joinning.js"
 import Waitting from "./pages/Waitting.js";
 import { state } from "./main.js";
