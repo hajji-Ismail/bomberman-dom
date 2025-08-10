@@ -14,7 +14,6 @@ const battleField = () => {
             username: currrentUsername,
             room: current,
             action: e.key
-
         }))
 
     }
@@ -61,6 +60,7 @@ const battleField = () => {
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
+                console.log(state.get("style"), currrentUsername);
 
                 box.children = [
                     playerAtCell.username === currrentUsername
@@ -70,7 +70,7 @@ const battleField = () => {
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
                                 onkeyup: moving,
-                                style: state.get("style") || ' transform: translate(0px,0px);',
+                                style: state.get("style")?.style || ' transform: translate(0px,0px);',
                                 class: state.get('newCLass') || `player char${playerIndex + 1}`,
                                 onkeydown: moving,
                                 onkeyup: stopMoving
