@@ -34,7 +34,6 @@ const battleField = () => {
         4: "speed",
         5: "flame"
     };
-
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -60,16 +59,17 @@ const battleField = () => {
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
+                const userMoved = state.get('style')
 
                 box.children = [
-                    playerAtCell.username === currrentUsername
+                    userMoved?.username === currrentUsername || playerAtCell.username === currrentUsername
                         ? {
                             tag: "div",
                             player: true,
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
                                 onkeyup: moving,
-                                style: state.get("style")?.style || ' transform: translate(0px,0px);',
+                                style: userMoved?.style || ' transform: translate(0px,0px);',
                                 class: state.get('newCLass') || `player char${playerIndex + 1}`,
                                 onkeydown: moving,
                                 onkeyup: stopMoving
