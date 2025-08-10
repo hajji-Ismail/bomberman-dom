@@ -21,10 +21,10 @@ new Router({
     '/': () => {
         renderApp();
     },
-    '/waitting': () => {
-        renderApp();
+    // '/waitting': () => {
+    //     renderApp();
 
-    }
+    // }
 });
 
 

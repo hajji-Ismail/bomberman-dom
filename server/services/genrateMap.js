@@ -30,7 +30,7 @@ function GenerateMap(size) {
         }
     }
 
-    // Add soft walls randomly in empty spaces, skipping spawn zones
+    // Function to detect if near a player's spawn
     const isNearPlayer = (x, y) => {
         return (
             (x <= 2 && y <= 2) || // Player 1
@@ -49,17 +49,41 @@ function GenerateMap(size) {
         }
     }
 
-    // randomize  empty tiles
+    // Randomize empty tiles
     emptyTiles.sort(() => Math.random() - 0.5);
 
-    // Place soft walls (20% of the map)
-    const softWallCount = Math.floor(size * size * 0.2);
-    for (let i = 0; i < softWallCount && i < emptyTiles.length; i++) {
-        const [x, y] = emptyTiles[i];
+    // Place soft walls (30% of the map)
+    const softWallCount = Math.floor(size * size * 0.3);
+    const softWallTiles = emptyTiles.slice(0, softWallCount);
+
+    // Place soft walls
+    for (const [x, y] of softWallTiles) {
         map[x][y] = 2;
     }
 
+    // Inject abilities into soft walls
+    const abilities = [];
+
+    // Power-up codes (you can define these however your game logic expects):
+    // e.g., 3 = speed, 4 = bomb, 5 = flame
+    for (let i = 0; i < 4; i++) abilities.push(3); // Speed
+    for (let i = 0; i < 4; i++) abilities.push(4); // Bomb
+    for (let i = 0; i < 4; i++) abilities.push(5); // Flame
+
+    // Shuffle and select random tiles for power-ups
+    const abilityTiles = [...softWallTiles];
+    abilityTiles.sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < abilities.length && i < abilityTiles.length; i++) {
+        const [x, y] = abilityTiles[i];
+        map[x][y] = abilities[i]; // Replace soft wall with a soft wall that contains a power-up
+    }
+
+    console.table(map);
+
     return map;
 }
+
+
 
 module.exports = { GenerateMap }

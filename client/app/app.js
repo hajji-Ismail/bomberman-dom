@@ -6,9 +6,6 @@ import { state } from "./main.js";
 function App() {
     const route = state.get('route') || "/"
     let currentComponent
-    console.log(route,"from app");
-    
-
     switch (route) {
         case "/":
             currentComponent = Joinning()
@@ -18,7 +15,6 @@ function App() {
             break
         case "/game":
             currentComponent = battleField()
-
             break
         default:
             alert("hhhhh 404")
