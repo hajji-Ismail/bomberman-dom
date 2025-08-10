@@ -1,4 +1,6 @@
-function chat(state) {
+
+import { state } from "../main.js";
+function chat() {
     const chatHandler = (e) => {
         const socket = state.get('ws');
 

@@ -1,22 +1,12 @@
-import { state } from "../main.js";
-const battleField = () => {
-    const current = state.get('current_room');
-    const map = current.map
-    const players = current.players;
-    const currrentUsername = state.get('username')
-    const socket = state.get('ws')
-    
-    let divs = [];
-const moving = (e)=>{
-   socket.send(JSON.stringify({
-    type:"move",
-    username : currrentUsername,
-    room : current,
-    action : e.key
+// client/app/components/battleField.js
 
-   }))
-    
-}
+const battleField = (state) => {
+    const map = state.get('map');
+    const current = state.get('current_room');
+    const players = current.players;
+
+    let divs = [];
+
     // Map values to base classes
     const divsClasses = {
         0: "path",
@@ -38,28 +28,13 @@ const moving = (e)=>{
 
             // Check if a player exists at this cell
             const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
-           
-            
-
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-
                 box.children = [
-                    playerAtCell.username === currrentUsername ?
-                        {
-                            tag: "div",
-                            player: true,
-                            attrs: {
-                                class: `player char${playerIndex + 1}`,
-                                onkeyup: moving,
-                                style : state.get("style") || ' transform: translate(0px,0px);'
-                            },
-                        } : {
-                            tag: "div",
-                            attrs: {
-                                class: `player char${playerIndex + 1}`,
-                            },
-                        }
+                    {
+                        tag: "div",
+                        attrs: { class: `player-${playerIndex + 1}` },
+                    },
                 ];
             }
 

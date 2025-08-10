@@ -1,7 +1,8 @@
 import { CounterObj } from "../components/counterRoom.js";
 import { HandleMovement } from "../services/HandleMovemement.js";
+import { state } from "../main.js";
 
-export const CreateWs = (state) => {
+export const CreateWs = () => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket("ws://localhost:8080/ws");
         ws.onopen = () => {
@@ -33,7 +34,7 @@ export const CreateWs = (state) => {
                     state.set("username", message.username)
                     break
                 case "getMap":
-                    
+
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
                     state.setContext('positionX', 0)
                      state.setContext('positionY', 0)
@@ -49,6 +50,7 @@ export const CreateWs = (state) => {
                     HandleMovement(message, state)
                     
                     break
+
 
                 default:
                     break;

@@ -1,20 +1,23 @@
 import battleField from "./components/battleFiled.js";
 import Joinning from "./pages/Joinning.js"
 import Waitting from "./pages/Waitting.js";
+import { state } from "./main.js";
 
-function App(state) {
+function App() {
     const route = state.get('route') || "/"
     let currentComponent
+    console.log(route,"from app");
+    
 
     switch (route) {
-        case "#/":
-            currentComponent = Joinning(state)
+        case "/":
+            currentComponent = Joinning()
             break
         case "/waitting":
-            currentComponent = Waitting(state)
+            currentComponent = Waitting()
             break
         case "/game":
-            currentComponent = battleField(state)
+            currentComponent = battleField()
 
             break
         default:

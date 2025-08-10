@@ -2,25 +2,8 @@
 
 export class Renderer {
     constructor() {
-        this.eventIdCounter = 0;
         this.oldVtree = null;
-        // this._setupGlobalListeners();
     }
-
-    // _setupGlobalListeners() {
-    //     const eventTypes = ['click', 'input', 'change', 'submit', 'keydown', 'dblclick', 'blur'];
-
-    //     eventTypes.forEach(eventType => {
-    //         const useCapture = eventType === 'blur';
-    //         document.addEventListener(eventType, (e) => {
-    //             const target = e.target;
-    //             const handlerId = target.getAttribute(`data-event-${eventType}`);
-    //             if (handlerId) {
-    //                 GlobalEvents.emit(handlerId, e);
-    //             }
-    //         }, useCapture);
-    //     });
-    // }
 
     _createElement(obj) {
         if (!obj.tag) return document.createTextNode('')
@@ -90,7 +73,6 @@ export class Renderer {
         }
 
         if (!newNode) {
-            this._cleanupEventAttributes(oldNode);
             if (oldNode.el && oldNode.el.parentNode === parent) {
                 parent.removeChild(oldNode.el);
             }
@@ -115,7 +97,6 @@ export class Renderer {
         // Replace if tag or key changed
         if (newNode.tag !== oldNode.tag || newNode.attrs?.key !== oldNode.attrs?.key) {
             const newEl = this._createElement(newNode);
-            this._cleanupEventAttributes(oldNode);
             if (oldNode.el && oldNode.el.parentNode === parent) {
                 parent.replaceChild(newEl, oldNode.el);
             } else {
@@ -206,7 +187,7 @@ export class Renderer {
 
 
     _updateAttributes(el, newAttrs, oldAttrs) {
-        if (!el) return; // ✅ SAFETY CHECK: don't crash if el is undefined
+        if (!el) return;
 
         // Ensure _listeners map exists
         el._listeners = el._listeners || {};
@@ -247,21 +228,5 @@ export class Renderer {
         }
     }
 
-    _cleanupEventAttributes(vnode) {
-        if (!vnode?.attrs) return;
-        for (const [attr, value] of Object.entries(vnode.attrs)) {
-            if (attr.startsWith('on') && typeof value === 'function') {
-                const eventType = attr.slice(2).toLowerCase();
-                const el = vnode.el;
-                if (el && el.hasAttribute(`data-event-${eventType}`)) {
-                    const handlerId = el.getAttribute(`data-event-${eventType}`);
-                    GlobalEvents.off(handlerId);
-                    el.removeAttribute(`data-event-${eventType}`);
-                }
-            }
-        }
-        if (vnode.children) {
-            vnode.children.forEach(child => this._cleanupEventAttributes(child));
-        }
-    }
+
 }
