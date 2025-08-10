@@ -47,7 +47,7 @@ export const CreateWs = () => {
                     HandleMovement(message, state)
                     break
                 case "stopMove":
-                    state.set("class", message.newCLass)
+                    state.set("newCLass", message.newCLass)
                     break
                 default:
                     break;

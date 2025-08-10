@@ -65,8 +65,8 @@ export function movePlayer(data = {}, rooms, stream) {
                 sendMessages(stream, {
                     type: "canMove",
                     y: Ystep,
-                    direction: "down"
-
+                    direction: "down",
+                    newCLass: GenerateNewClass(player) + " player-bottom"
                 })
                 player.position.y = player.position.y + Ystep
             }
