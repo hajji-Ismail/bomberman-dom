@@ -1,0 +1,56 @@
+:root {
+  --bg-color: #1e1e2f;
+  --wall-color: #2b2b40;
+  --block-color: #6b6bb5;
+
+  --player1-color: #ff7b7b;
+  --player2-color: #70e1d6;
+  --player3-color: #fff07d;
+  --player4-color: #d1b3ff;
+
+  --bomb-color: #4a4d55;
+  --explosion-color: #ff6e6e;
+  --powerup-color: #00d6a0;
+
+  --text-color: #f7f7f7;
+  --button-color: #3f7ff3;
+
+  --shadow: rgba(0, 0, 0, 0.2);
+}
+
+
+.board {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 12px 20px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow);
+    margin-bottom: -5px;
+}
+
+.board p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    gap: 6px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    min-width: 60px;
+}
+
+.board p:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.board i {
+    font-size: 1.3rem;
+    color: var(--player2-color);
+}

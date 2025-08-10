@@ -1,3 +1,4 @@
+import board from "../components/board.js";
 import { state } from "../main.js";
 const battleField = () => {
     const current = state.get('current_room');
@@ -5,7 +6,6 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
-    console.log(state.get('newCLass'));
 
     let divs = [];
     const moving = (e) => {
@@ -14,7 +14,6 @@ const battleField = () => {
             username: currrentUsername,
             room: current,
             action: e.key
-
         }))
 
     }
@@ -35,8 +34,6 @@ const battleField = () => {
         4: "speed",
         5: "flame"
     };
-    console.log(current);
-
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -62,16 +59,17 @@ const battleField = () => {
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
+                const userMoved = state.get('style')
 
                 box.children = [
-                    playerAtCell.username === currrentUsername
+                    userMoved?.username === currrentUsername || playerAtCell.username === currrentUsername
                         ? {
                             tag: "div",
                             player: true,
                             attrs: {
                                 class: `player char${playerIndex + 1}`,
                                 onkeyup: moving,
-                                style: state.get("style") || ' transform: translate(0px,0px);',
+                                style: userMoved?.style || ' transform: translate(0px,0px);',
                                 class: state.get('newCLass') || `player char${playerIndex + 1}`,
                                 onkeydown: moving,
                                 onkeyup: stopMoving
@@ -109,13 +107,22 @@ const battleField = () => {
         });
     }
 
-
     return [
         {
             tag: "div",
-            attrs: { class: "battle-field" },
-            children: divs,
-        },
+            attrs: {
+                class: "game-container"
+            },
+            children: [
+                board()
+                ,
+                {
+                    tag: "div",
+                    attrs: { class: "battle-field" },
+                    children: divs,
+                },
+            ]
+        }
     ];
 };
 

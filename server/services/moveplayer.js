@@ -4,11 +4,10 @@ export function movePlayer(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const map = room.map
 
-    const player = room.players.find((player) => player.username == data.username)
+    const player = getSafePlayer(room.players.find((player) => player.username == data.username))
 
-
-    let Xstep = 0.325 * player.Speed
-    let Ystep = 0.075 * player.Speed
+    let Xstep = 0.65 * player.Speed
+    let Ystep = 0.15 * player.Speed
     const canMove = (cellul) => {
 
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
@@ -17,14 +16,23 @@ export function movePlayer(data = {}, rooms, stream) {
     let cellul;
 
     switch (data.action) {
+        case " ": {
+            let bombPosition = map[Math.floor(player.position.x)][Math.floor(player.position.y)]
+            sendMessages(stream, {
+                type: "putBomb",
+                player: player
+            })
+        }
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
-                sendMessages(stream, {
+                BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
+                    player: player,
                     direction: "right",
-                    newCLass: GenerateNewClass(player) + " player-right"
+                    newCLass: GenerateNewClass(player) + " player-right",
+                    playerNumber: player.playerNumber
                 })
                 player.position.x = player.position.x + Xstep
             }
@@ -35,11 +43,13 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - Xstep)]
             if (canMove(cellul)) {
 
-                sendMessages(stream, {
+                BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
+                    player: player,
                     direction: "left",
-                    newCLass: GenerateNewClass(player) + " player-left"
+                    newCLass: GenerateNewClass(player) + " player-left",
+                    playerNumber: player.playerNumber
                 })
                 player.position.x = player.position.x - Xstep
             }
@@ -49,11 +59,13 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
 
 
-                sendMessages(stream, {
+                BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
+                    player: player,
                     direction: "up",
-                    newCLass: GenerateNewClass(player) + " player-top"
+                    newCLass: GenerateNewClass(player) + " player-top",
+                    playerNumber: player.playerNumber
                 })
                 player.position.y = player.position.y - Ystep
 
@@ -62,11 +74,13 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowDown":
             cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
-                sendMessages(stream, {
+                BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
-                    direction: "down"
-
+                    player: player,
+                    direction: "down",
+                    newCLass: GenerateNewClass(player) + " player-bottom",
+                    playerNumber: player.playerNumber
                 })
                 player.position.y = player.position.y + Ystep
             }
@@ -75,6 +89,7 @@ export function movePlayer(data = {}, rooms, stream) {
             break;
     }
 }
+
 export function stopMoving(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const player = room.players.find((player) => player.username == data.username)
@@ -88,18 +103,14 @@ export function stopMoving(data = {}, rooms, stream) {
         case "ArrowLeft":
             sendMessages(stream, {
                 type: "stopMove",
-
                 newCLass: GenerateNewClass(player)
             })
-
             break
         case "ArrowUp":
-
             sendMessages(stream, {
                 type: "stopMove",
                 newCLass: GenerateNewClass(player)
             })
-
             break
         case "ArrowDown":
 
@@ -114,6 +125,7 @@ export function stopMoving(data = {}, rooms, stream) {
             break;
     }
 }
+
 function GenerateNewClass(player) {
     let newCLass
     switch (player.playerNumber) {
@@ -133,4 +145,21 @@ function GenerateNewClass(player) {
             break
     }
     return newCLass
+}
+
+function BrodcastMove(players, data) {
+    for (let player of players) {
+        sendMessages(player.stream, data)
+    }
+}
+
+function getSafePlayer(player) {
+    return {
+        Bombs: player.Bombs,
+        Flames: player.Flames,
+        Speed: player.Speed,
+        playerNumber: player.playerNumber,
+        position: player.position,
+        username: player.username
+    }
 }
