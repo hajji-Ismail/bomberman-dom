@@ -45,7 +45,6 @@ const server = http.createServer((req, res) => {
 
   fs.readFile(filePath, (err, content) => {
     if (err) {
-      console.log(`File not found: ${filePath}`);
       res.writeHead(404);
       res.end('Not found');
       return;
