@@ -6,7 +6,7 @@ const { HandleChat } = require('./services/handleChating');
 const { HandleRooms } = require('./services/availableRoom');
 const { GenerateMap } = require('./services/genrateMap');
 const { setPlayerNumbers } = require('./services/setPlayerNumbers');
-const { movePlayer } = require('./services/moveplayer');
+const { movePlayer, stopMoving } = require('./services/moveplayer');
 const { PlayerInitialPosition } = require('./services/playerintialposition');
 const PORT = 8080;
 
@@ -21,8 +21,8 @@ const ws = new WebSocketServer({ server, path: '/ws' })
 ws.on('connection', (stream) => {
     stream.on('message', (message) => {
         const data = JSON.parse(message.toString())
-        
-        
+
+
         switch (data.type) {
             case "join":
                 const room = HandleRooms(rooms, stream, data.username)
@@ -44,6 +44,9 @@ ws.on('connection', (stream) => {
                 break
             case "move":
                 movePlayer(data, rooms, stream)
+                break
+            case "stop-move":
+                stopMoving(data, rooms, stream)
                 break
             case "start":
                 PlayerInitialPosition(data, rooms, stream)

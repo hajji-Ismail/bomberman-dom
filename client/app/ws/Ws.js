@@ -37,21 +37,21 @@ export const CreateWs = () => {
 
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
                     state.setContext('positionX', 0)
-                     state.setContext('positionY', 0)
-                     console.log(state.get("positionX"),state.get("positionY"), "ujiohiouhoiuhioujohjiou");
-                     
-
+                    state.setContext('positionY', 0)
                     ws.send(JSON.stringify({
-                        type : "start",
-                        room : state.get('current_room')
+                        type: "start",
+                        room: state.get('current_room')
                     }))
                     break
                 case "canMove":
                     HandleMovement(message, state)
-                    
+                    console.log(message);
                     break
+                case "stopMove":
+                    console.log(message.newCLass);
 
-
+                    state.set("class", message.newCLass)
+                    break
                 default:
                     break;
             }
