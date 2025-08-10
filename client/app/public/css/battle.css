@@ -47,6 +47,10 @@
 .box {
   width: 55px;
   height: 55px;
+  /* display: flex;
+  align-items: center;
+  justify-content:center ; */
+
   border: 0.1rem solid var(--text-color);
   box-sizing: border-box;
   position: relative;

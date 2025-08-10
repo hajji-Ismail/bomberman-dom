@@ -5,16 +5,16 @@ export function HandleMovement(data = {}, state) {
 
     switch (data.direction) {
         case "right":
-            state.setContext("positionX",X+ data.x*125)
+            state.setContext("positionX",X+ data.x*55)
             break;
         case "left":
-            state.setContext("positionX",X- data.x*125)
+            state.setContext("positionX",X- data.x*55)
             break
         case "up":
-            state.setContext("positionY",Y- data.y*125)
+            state.setContext("positionY",Y- data.y*55)
             break
         case "down":
-            state.setContext("positionY",Y+ data.y*125)
+            state.setContext("positionY",Y+ data.y*55)
             break
         default:
             break;
