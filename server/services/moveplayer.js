@@ -8,7 +8,6 @@ export function movePlayer(data = {}, rooms, stream) {
     let Xstep = 0.65 * player.Speed
     let Ystep = 0.15 * player.Speed
     const canMove = (cellul) => {
-
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
     }
 
@@ -18,6 +17,8 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
+
+                player.position.x = player.position.x + Xstep
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -26,7 +27,6 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-right",
                     playerNumber: player.playerNumber
                 })
-                player.position.x = player.position.x + Xstep
             }
 
 
@@ -34,7 +34,7 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowLeft":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - Xstep)]
             if (canMove(cellul)) {
-
+                player.position.x = player.position.x - Xstep
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -43,14 +43,14 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-left",
                     playerNumber: player.playerNumber
                 })
-                player.position.x = player.position.x - Xstep
             }
             break
         case "ArrowUp":
             cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
 
-
+                
+                player.position.y = player.position.y - Ystep
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
@@ -59,13 +59,13 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-top",
                     playerNumber: player.playerNumber
                 })
-                player.position.y = player.position.y - Ystep
 
             }
             break
         case "ArrowDown":
             cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
+                player.position.y = player.position.y + Ystep
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
@@ -74,7 +74,6 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-bottom",
                     playerNumber: player.playerNumber
                 })
-                player.position.y = player.position.y + Ystep
             }
             break
         default:
