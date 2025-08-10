@@ -25,6 +25,5 @@ export function HandleMovement(data = {}, state) {
         default:
             break;
     }
-    state.set("style", ` transform: translate(${state.get("positionX")}px, ${state.get("positionY")}px);`)
     state.set("newCLass", data.newCLass)
 }
