@@ -6,8 +6,7 @@ import { state } from "./main.js";
 function App() {
     const route = state.get('route') || "/"
     let currentComponent
-    console.log(route,"from app");
-    
+
 
     switch (route) {
         case "/":
