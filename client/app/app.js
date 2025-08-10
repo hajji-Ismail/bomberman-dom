@@ -15,7 +15,6 @@ function App() {
             break
         case "/game":
             currentComponent = battleField()
-
             break
         default:
             alert("hhhhh 404")
