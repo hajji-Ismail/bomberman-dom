@@ -72,8 +72,7 @@ const battleField = () => {
                                 style: state.get("style") || ' transform: translate(0px,0px);',
                                 class: state.get('newCLass') || `player char${playerIndex + 1}`,
                                 onkeydown: moving,
-                                onkeyup: stopMoving,
-                                style: state.get("style") || ' transform: translate(0px,0px);'
+                                onkeyup: stopMoving
                             },
                         }
                         : {

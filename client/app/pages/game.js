@@ -64,5 +64,3 @@ export function generateMap(size) {
 
 
 
-// const map = generateMap(13)
-// console.table(map, "map");

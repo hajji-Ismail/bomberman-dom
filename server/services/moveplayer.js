@@ -8,7 +8,7 @@ export function movePlayer(data = {}, rooms, stream) {
 
 
     let Xstep = 0.65 * player.Speed
-    let Ystep = 0.15*player.Speed
+    let Ystep = 0.15 * player.Speed
     const canMove = (cellul) => {
 
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
@@ -22,7 +22,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 sendMessages(stream, {
                     type: "canMove",
-                    x: step,
+                    x: Xstep,
                     direction: "right",
                     newCLass: GenerateNewClass(player) + " player-right"
                 })
@@ -37,7 +37,7 @@ export function movePlayer(data = {}, rooms, stream) {
 
                 sendMessages(stream, {
                     type: "canMove",
-                    x: step,
+                    x: Xstep,
                     direction: "left",
                     newCLass: GenerateNewClass(player) + " player-left"
                 })
@@ -51,7 +51,7 @@ export function movePlayer(data = {}, rooms, stream) {
 
                 sendMessages(stream, {
                     type: "canMove",
-                    y: step,
+                    y: Ystep,
                     direction: "up",
                     newCLass: GenerateNewClass(player) + " player-top"
                 })
@@ -70,12 +70,6 @@ export function movePlayer(data = {}, rooms, stream) {
                 })
                 player.position.y = player.position.y + Ystep
             }
-            sendMessages(stream, {
-                type: "canMove",
-                y: step,
-                direction: "down",
-                newCLass: GenerateNewClass(player) + " player-bottom"
-            })
             break
         default:
             break;
