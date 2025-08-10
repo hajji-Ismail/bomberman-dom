@@ -25,7 +25,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(current?.players?.length > 0 ? [counterRoom()] : [{
+        ...(current?.players?.length > 1 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'
