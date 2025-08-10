@@ -21,10 +21,10 @@ export function PlayerInitialPosition(data = {}, rooms = []) {
                 player.position = { x: mapWidth - 2.35, y: 1.85 };
                 break;
             case 2: // Bottom-right
-                player.position = { x: mapWidth - 2.35, y: mapHeight - 2.85 };
+                player.position = { x: mapWidth - 2.35, y: mapHeight - 2. };
                 break;
             case 3: // Bottom-left
-                player.position = { x: 1.35, y: mapHeight - 2.85 };
+                player.position = { x: 1.35, y: mapHeight - 2.9 };
                 break;
             default:
                 break;
