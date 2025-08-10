@@ -4,7 +4,8 @@ export function movePlayer(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const map = room.map
 
-    const player = room.players.find((player) => player.username == data.username)
+    const player = getSafePlayer(room.players.find((player) => player.username == data.username))
+
     let Xstep = 0.65 * player.Speed
     let Ystep = 0.15 * player.Speed
     const canMove = (cellul) => {
@@ -15,6 +16,13 @@ export function movePlayer(data = {}, rooms, stream) {
     let cellul;
 
     switch (data.action) {
+        case " ": {
+            let bombPosition = map[Math.floor(player.position.x)][Math.floor(player.position.y)]
+            sendMessages(stream, {
+                type: "putBomb",
+                player: player
+            })
+        }
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
@@ -81,6 +89,7 @@ export function movePlayer(data = {}, rooms, stream) {
             break;
     }
 }
+
 export function stopMoving(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const player = room.players.find((player) => player.username == data.username)
@@ -116,6 +125,7 @@ export function stopMoving(data = {}, rooms, stream) {
             break;
     }
 }
+
 function GenerateNewClass(player) {
     let newCLass
     switch (player.playerNumber) {
@@ -140,5 +150,16 @@ function GenerateNewClass(player) {
 function BrodcastMove(players, data) {
     for (let player of players) {
         sendMessages(player.stream, data)
+    }
+}
+
+function getSafePlayer(player) {
+    return {
+        Bombs: player.Bombs,
+        Flames: player.Flames,
+        Speed: player.Speed,
+        playerNumber: player.playerNumber,
+        position: player.position,
+        username: player.username
     }
 }

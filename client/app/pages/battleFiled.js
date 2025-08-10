@@ -60,7 +60,6 @@ const battleField = () => {
 
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                console.log(state.get("style"), currrentUsername);
 
                 box.children = [
                     playerAtCell.username === currrentUsername

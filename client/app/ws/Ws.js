@@ -49,6 +49,9 @@ export const CreateWs = () => {
                 case "stopMove":
                     state.set("newCLass", message.newCLass)
                     break
+                case "putBomb":
+                    console.log(message)
+                    break
                 default:
                     break;
             }
