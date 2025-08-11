@@ -9,6 +9,7 @@ import { GenerateMap } from './services/genrateMap.js';
 import { setPlayerNumbers } from './services/setPlayerNumbers.js';
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { PlayerInitialPosition } from './services/playerintialposition.js';
+import { log } from 'console';
 
 const PORT = 8080;
 
@@ -45,6 +46,8 @@ ws.on('connection', (stream) => {
 
                 break
             case "move":
+                console.log("HARANI");
+                
                 movePlayer(data, rooms, stream)
                 break
             case "stop-move":

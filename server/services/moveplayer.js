@@ -6,8 +6,8 @@ export function movePlayer(data = {}, rooms, stream) {
 
     const player = getSafePlayer(room.players.find((player) => player.username == data.username))
 
-    let Xstep = 0.65 * player.Speed
-    let Ystep = 0.15 * player.Speed
+    let Xstep = 0.325 * player.Speed
+    let Ystep = 0.075 * player.Speed
     const canMove = (cellul) => {
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
     }
@@ -25,8 +25,11 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
+                console.log(player, "IIO");
 
                 player.position.x = player.position.x + Xstep
+                console.log(player, "GIU");
+                
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -73,7 +76,9 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowDown":
             cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
+                   console.log(player, "IIO");
                 player.position.y = player.position.y + Ystep
+                   console.log(player, "IIO");
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,

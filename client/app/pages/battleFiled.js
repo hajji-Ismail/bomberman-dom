@@ -60,10 +60,8 @@ const battleField = () => {
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-<<<<<<< HEAD
-                const userMoved = state.get('style')
-=======
->>>>>>> bbd2a8244bd2625692cd2590693dc07fd9e3bd7f
+
+
 
                 box.children = [
                     {
