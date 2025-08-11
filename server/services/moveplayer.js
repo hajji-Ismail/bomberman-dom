@@ -16,10 +16,11 @@ export function movePlayer(data = {}, rooms, stream) {
 
     switch (data.action) {
         case " ": {
-            let bombPosition = map[Math.floor(player.position.x)][Math.floor(player.position.y)]
+            map[Math.floor(player.position.x)][Math.floor(player.position.y)] = 6
             sendMessages(stream, {
-                type: "putBomb",
-                player: player
+                type: "placeBomb",
+                player: player,
+                room: room
             })
         }
         case "ArrowRight":

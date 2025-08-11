@@ -1,9 +1,12 @@
 :root {
   /* Background & Base Colors */
   --bg-color: #1a1a2e;
-  --wall-color: #0f3460; /* Indestructible walls */
-  --block-color: #53354a; /* Destructible blocks */
-  --path-color: #2d2d44; /* Walkable path */
+  --wall-color: #0f3460;
+  /* Indestructible walls */
+  --block-color: #53354a;
+  /* Destructible blocks */
+  --path-color: #2d2d44;
+  /* Walkable path */
 
   /* Player Colors */
   --player1-color: #ff2e63;
@@ -76,10 +79,10 @@
 /* =============================
    Player Avatars
 ============================= */
-.box > .player-1,
-.box > .player-2,
-.box > .player-3,
-.box > .player-4 {
+.box>.player-1,
+.box>.player-2,
+.box>.player-3,
+.box>.player-4 {
   width: 80%;
   height: 80%;
   border-radius: 50%;
@@ -101,4 +104,23 @@
 
 .player-4 {
   background-color: var(--player4-color);
+}
+
+.path .place-bomb {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.path .place-bomb i {
+  font-size: 1.2em;
+  color: var(--bomb-color);
+  animation: bomb-pulse 0.8s infinite alternate;
+}
+
+@keyframes bomb-pulse {
+  0% { transform: scale(1);   color: var(--bomb-color); }
+  100% { transform: scale(1.2); color: var(--explosion-color); }
 }
