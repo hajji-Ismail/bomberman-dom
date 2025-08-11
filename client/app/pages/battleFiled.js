@@ -32,7 +32,8 @@ const battleField = () => {
         2: "soft-wall",
         3: "bomb",
         4: "speed",
-        5: "flame"
+        5: "flame",
+        6: "place-bomb"
     };
     for (let row = 0; row < map.length; row++) {
         let wall = [];
@@ -43,17 +44,18 @@ const battleField = () => {
             // Determine if the cell is an ability (3: speed, 4: bomb, 5: flame)
             const isAbility = [3, 4, 5].includes(cellValue);
             const abilityType = isAbility ? cellValue : null;
+            const isPlacingBomb = 6 === cellValue
 
             // If it's an ability, we treat it as a soft wall visually
             const baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || "path");
 
             const box = {
                 tag: "div",
-                attrs: { class: `${baseClass} box` },
+                attrs: { class: `${isPlacingBomb ? "path": baseClass} box`  },
             };
 
             // Add player if present
-            const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
+            const playerAtCell = players.find((_, idx) => 11 + idx == cellValue);
 
 
             const styles = state.get("playerStyles") || {};
@@ -88,6 +90,25 @@ const battleField = () => {
                     attrs: {
                         class: `abilitie ${divsClasses[abilityType]}`,
                     },
+                });
+            }
+
+            if (isPlacingBomb) {
+                if (!box.children) box.children = [];
+
+                box.children.push({
+                    tag: "div",
+                    attrs: {
+                        class: `${baseClass}`,
+                    },
+                    children: [
+                        {
+                            tag: "i",
+                            attrs: {
+                                class: "fa-solid fa-bomb"
+                            }
+                        }
+                    ]
                 });
             }
 
