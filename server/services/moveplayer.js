@@ -16,17 +16,18 @@ export function movePlayer(data = {}, rooms, stream) {
 
     switch (data.action) {
         case " ": {
-            map[Math.floor(player.position.x)][Math.floor(player.position.y)] = 6
+            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
+            Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
             sendMessages(stream, {
                 type: "placeBomb",
                 player: player,
                 room: room
             })
+            break
         }
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
-
                 player.position.x = player.position.x + Xstep
                 BrodcastMove(room.players, {
                     type: "canMove",
@@ -37,7 +38,6 @@ export function movePlayer(data = {}, rooms, stream) {
                     playerNumber: player.playerNumber
                 })
             }
-
 
             break;
         case "ArrowLeft":
@@ -58,7 +58,7 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
 
-                
+
                 player.position.y = player.position.y - Ystep
                 BrodcastMove(room.players, {
                     type: "canMove",
