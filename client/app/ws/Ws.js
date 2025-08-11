@@ -34,6 +34,8 @@ export const CreateWs = () => {
                     state.set("username", message.username)
                     break
                 case "getMap":
+                    console.log(data);
+                    
 
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
                     state.setContext('positionX', 0)
