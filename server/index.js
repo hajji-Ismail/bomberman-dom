@@ -46,7 +46,6 @@ ws.on('connection', (stream) => {
 
                 break
             case "move":
-                console.log("HARANI");
                 
                 movePlayer(data, rooms, stream)
                 break

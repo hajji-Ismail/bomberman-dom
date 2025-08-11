@@ -60,7 +60,6 @@ const battleField = () => {
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                console.log( styles[playerAtCell.username] || 'transform: translate(0px,0px);',);
                 
 
 

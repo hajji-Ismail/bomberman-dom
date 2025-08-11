@@ -1,27 +1,26 @@
 export function HandleMovement(data = {}, state) {
     const username = data.player.username;
     let style;
-    console.log(data);
-    console.log(data.player.position.y );
-    
-    
-const xinitial =1.35
-const yinitial =1.85 
+
+
+
+
+
     switch (data.direction) {
         case "right":
-            style = `transform: translate(${(data.player.position.x-xinitial)*55}px, ${data.player.position.y-yinitial}px)`;
+            style = `transform: translate(${data.player.position.xstep * 55}px, ${data.player.position.ystep * 55}px)`;
             break;
         case "left":
-            style = `transform: translate(${(data.player.position.x-xinitial) *55}px, ${data.player.position.y-yinitial}px)`;
+            style = `transform: translate(${data.player.position.xstep * 55}px, ${data.player.position.ystep * 55}px)`;
             break;
         case "up":
-            style = `transform: translate(${data.player.position.x-xinitial}px, ${(data.player.position.y-yinitial )*55}px)`;
+            style = `transform: translate(${data.player.position.xstep}px, ${data.player.position.ystep* 55}px)`;
             break;
         case "down":
-            style = `transform: translate(${data.player.position.x-xinitial}px, ${data.player.position.y+yinitial *55}px)`;
+            style = `transform: translate(${data.player.position.xstep}px, ${data.player.position.ystep * 55}px)`;
             break;
         default:
-            style = `transform: translate(${data.player.position.x}px, ${data.player.position.y}px)`;
+            style = `transform: translate(${data.player.position.xstep}px, ${data.player.position.ystep * 55}px)`;
     }
 
     // store style per player

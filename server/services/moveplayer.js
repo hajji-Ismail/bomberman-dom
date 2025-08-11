@@ -3,8 +3,10 @@ import { sendMessages } from "./stream.js"
 export function movePlayer(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const map = room.map
-
+    
+    
     const player = getSafePlayer(room.players.find((player) => player.username == data.username))
+    console.log(player);
 
     let Xstep = 0.325 * player.Speed
     let Ystep = 0.075 * player.Speed
@@ -25,11 +27,11 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
-                console.log(player, "IIO");
+
 
                 player.position.x = player.position.x + Xstep
-                console.log(player, "GIU");
-                
+                player.position.xstep = player.position.xstep + Xstep
+
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -46,6 +48,8 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - Xstep)]
             if (canMove(cellul)) {
                 player.position.x = player.position.x - Xstep
+                player.position.xstep = player.position.xstep - Xstep
+
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -60,8 +64,10 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
 
-                
-                player.position.y = player.position.y - Ystep
+
+                player.position.y = player.position.y - Ystep 
+                player.position.ystep = player.position.ystep - Ystep
+
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
@@ -76,9 +82,9 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowDown":
             cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
-                   console.log(player, "IIO");
                 player.position.y = player.position.y + Ystep
-                   console.log(player, "IIO");
+                 player.position.ystep = player.position.ystep + Ystep
+              
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
