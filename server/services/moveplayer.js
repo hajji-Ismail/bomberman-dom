@@ -3,10 +3,9 @@ import { sendMessages } from "./stream.js"
 export function movePlayer(data = {}, rooms, stream) {
     let room = rooms.find((element) => element.id == data.room.id)
     const map = room.map
-    
-    
+
+
     const player = getSafePlayer(room.players.find((player) => player.username == data.username))
-    console.log(player);
 
     let Xstep = 0.325 * player.Speed
     let Ystep = 0.075 * player.Speed
@@ -28,8 +27,6 @@ export function movePlayer(data = {}, rooms, stream) {
         case "ArrowRight":
             cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
             if (canMove(cellul)) {
-
-
                 player.position.x = player.position.x + Xstep
                 player.position.xstep = player.position.xstep + Xstep
 
@@ -66,7 +63,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
 
 
-                player.position.y = player.position.y - Ystep 
+                player.position.y = player.position.y - Ystep
                 player.position.ystep = player.position.ystep - Ystep
 
                 BrodcastMove(room.players, {
@@ -84,8 +81,8 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
                 player.position.y = player.position.y + Ystep
-                 player.position.ystep = player.position.ystep + Ystep
-              
+                player.position.ystep = player.position.ystep + Ystep
+
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
@@ -101,33 +98,36 @@ export function movePlayer(data = {}, rooms, stream) {
     }
 }
 
-export function stopMoving(data = {}, rooms, stream) {
+export function stopMoving(data = {}, rooms) {
     let room = rooms.find((element) => element.id == data.room.id)
     const player = room.players.find((player) => player.username == data.username)
     switch (data.action) {
         case "ArrowRight":
-            sendMessages(stream, {
+            BrodcastMove(room.players, {
                 type: "stopMove",
+                player,
                 newCLass: GenerateNewClass(player)
             })
             break;
         case "ArrowLeft":
-            sendMessages(stream, {
+            BrodcastMove(room.players, {
                 type: "stopMove",
+                player,
                 newCLass: GenerateNewClass(player)
             })
             break
         case "ArrowUp":
-            sendMessages(stream, {
+            BrodcastMove(room.players, {
                 type: "stopMove",
+                player,
                 newCLass: GenerateNewClass(player)
             })
             break
         case "ArrowDown":
 
-            sendMessages(stream, {
+            BrodcastMove(room.players, {
                 type: "stopMove",
-
+                player,
                 newCLass: GenerateNewClass(player)
             })
 
