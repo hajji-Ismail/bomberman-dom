@@ -1,4 +1,4 @@
-function broadCastWaittingRoom(room) {
+export function broadCastWaittingRoom(room) {
     const safeRoom = getSafeRoom(room);
 
     room.players.forEach(element => {
@@ -9,7 +9,7 @@ function broadCastWaittingRoom(room) {
     });
 }
 
-function brodCastMap(room, map) {
+export function brodCastMap(room, map) {
 
     room.players.forEach(element => {
 
@@ -28,5 +28,3 @@ function getSafeRoom(room) {
         }))
     };
 }
-
-module.exports = { broadCastWaittingRoom, brodCastMap }

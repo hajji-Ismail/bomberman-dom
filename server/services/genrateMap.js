@@ -1,5 +1,4 @@
-
-function GenerateMap(size) {
+export function GenerateMap(size) {
     const map = [];
 
     // Setup the empty map with borders and players
@@ -82,7 +81,3 @@ function GenerateMap(size) {
 
     return map;
 }
-
-
-
-module.exports = { GenerateMap }

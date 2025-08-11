@@ -1,4 +1,4 @@
-function HandleChat(data = {}, rooms = []) {
+export function HandleChat(data = {}, rooms = []) {
     const room = rooms.find((element) => {
         return element.id == data.chating_room.id
     })
@@ -17,5 +17,3 @@ function HandleChat(data = {}, rooms = []) {
 
 
 }
-
-module.exports = { HandleChat }

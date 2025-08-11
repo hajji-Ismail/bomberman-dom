@@ -1,13 +1,15 @@
-const http = require('http');
-const { WebSocketServer } = require('ws');
-const { RemovePlayer } = require('./services/RemovePlayer');
-const { broadCastWaittingRoom, brodCastMap } = require('./services/broadCast');
-const { HandleChat } = require('./services/handleChating');
-const { HandleRooms } = require('./services/availableRoom');
-const { GenerateMap } = require('./services/genrateMap');
-const { setPlayerNumbers } = require('./services/setPlayerNumbers');
-const { movePlayer, stopMoving } = require('./services/moveplayer');
-const { PlayerInitialPosition } = require('./services/playerintialposition');
+import http from 'http';
+import { WebSocketServer } from 'ws';
+
+import { RemovePlayer } from './services/RemovePlayer.js';
+import { broadCastWaittingRoom, brodCastMap } from './services/broadCast.js';
+import { HandleChat } from './services/handleChating.js';
+import { HandleRooms } from './services/availableRoom.js';
+import { GenerateMap } from './services/genrateMap.js';
+import { setPlayerNumbers } from './services/setPlayerNumbers.js';
+import { movePlayer, stopMoving } from './services/moveplayer.js';
+import { PlayerInitialPosition } from './services/playerintialposition.js';
+
 const PORT = 8080;
 
 const rooms = []
