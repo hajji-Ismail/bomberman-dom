@@ -1,29 +1,31 @@
 export function HandleMovement(data = {}, state) {
-    const X = state.get("positionX") || 0
-    const Y = state.get("positionY") || 0
+    const username = data.player.username;
+    let style;
 
-    const username = data.player.username
-    let style
     switch (data.direction) {
         case "right":
-            style = ` transform: translate(${data.player.position.x + data.x}px, ${data.player.position.y}px)`
-            state.set("style", { username, style })
+            style = `transform: translate(${data.player.position.x + data.x*55}px, ${data.player.position.y}px)`;
             break;
         case "left":
-
-            style = ` transform: translate(${data.player.position.x - data.x}px, ${data.player.position.y}px)`
-            state.set("style", { username, style })
-            break
-        case "up":
-            style = ` transform: translate(${data.player.position.x}px, ${data.player.position.y - data.y}px)`
-            state.set("style", { username, style })
-            break
-        case "down":
-            style = ` transform: translate(${data.player.position.x}px, ${data.player.position.y + data.y}px)`
-            state.set("style", { username, style })
-            break
-        default:
+            style = `transform: translate(${data.player.position.x - data.x*55}px, ${data.player.position.y}px)`;
             break;
+        case "up":
+            style = `transform: translate(${data.player.position.x}px, ${data.player.position.y - data.y*55}px)`;
+            break;
+        case "down":
+            style = `transform: translate(${data.player.position.x}px, ${data.player.position.y + data.y*55}px)`;
+            break;
+        default:
+            style = `transform: translate(${data.player.position.x}px, ${data.player.position.y}px)`;
     }
-    state.set("newCLass", data.newCLass)
+
+    // store style per player
+    const styles = state.get("playerStyles") || {};
+    styles[username] = style;
+    state.set("playerStyles", styles);
+
+    // store newCLass per player
+    const classes = state.get("playerClasses") || {};
+    classes[username] = data.newCLass;
+    state.set("playerClasses", classes);
 }

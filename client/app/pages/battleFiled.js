@@ -56,31 +56,26 @@ const battleField = () => {
             const playerAtCell = players.find((p, idx) => 11 + idx == cellValue);
 
 
-
+            const styles = state.get("playerStyles") || {};
+            const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
+<<<<<<< HEAD
                 const userMoved = state.get('style')
+=======
+>>>>>>> bbd2a8244bd2625692cd2590693dc07fd9e3bd7f
 
                 box.children = [
-                    userMoved?.username === currrentUsername || playerAtCell.username === currrentUsername
-                        ? {
-                            tag: "div",
-                            player: true,
-                            attrs: {
-                                class: `player char${playerIndex + 1}`,
-                                onkeyup: moving,
-                                style: userMoved?.style || ' transform: translate(0px,0px);',
-                                class: state.get('newCLass') || `player char${playerIndex + 1}`,
-                                onkeydown: moving,
-                                onkeyup: stopMoving
-                            },
-                        }
-                        : {
-                            tag: "div",
-                            attrs: {
-                                class: `player char${playerIndex + 1}`,
-                            },
-                        }
+                    {
+                        tag: "div",
+                        player: true,
+                        attrs: {
+                            style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
+                            class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
+                            onkeydown: moving,
+                            onkeyup: stopMoving
+                        },
+                    }
                 ];
             }
 

@@ -36,6 +36,13 @@ ws.on('connection', (stream) => {
                 const c_room = rooms.find((element) => {
                     return element.id == data.id
                 })
+<<<<<<< HEAD
+=======
+                
+                    c_room.available = false
+                    brodCastMap(c_room, GenerateMap(13))
+                
+>>>>>>> bbd2a8244bd2625692cd2590693dc07fd9e3bd7f
 
                 c_room.available = false
                 brodCastMap(c_room, GenerateMap(13))
