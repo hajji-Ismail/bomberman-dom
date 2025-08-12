@@ -6,6 +6,7 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
+    const player = players.find((player) => (player.username === currrentUsername))
     let divs = [];
     const moving = (e) => {
         socket.send(JSON.stringify({
@@ -147,7 +148,7 @@ const battleField = () => {
                 class: "game-container"
             },
             children: [
-                board()
+                board(player)
                 ,
                 {
                     tag: "div",

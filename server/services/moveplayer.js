@@ -7,22 +7,41 @@ export function movePlayer(data = {}, rooms, stream) {
 
 
     const player = room.players.find((player) => player.username == data.username)
+    console.log(player, "?????????");
+
 
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
     const canMove = (cellul) => {
-        // zid 7 and 8 and 9
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14 || cellul == 7 || cellul == 8 || cellul == 9 || cellul == 6
     }
-    const creatCellul = (playerPos) => {
 
 
+    const earnAbility = (cellul) => {
+        switch (cellul) {
+            case 7:
+                player.Bombs++
+                // room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
+                break;
 
+            case 8:
+                player.Speed++
+                // room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
+
+                break;
+            case 9:
+                player.Flames++
+                // room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
+
+                break;
+
+            default:
+                break;
+        }
 
     }
 
     let cellul;
-    // let smouthMOve = null ;
 
     switch (data.action) {
         case " ": {
@@ -45,7 +64,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.x = player.position.x + Xstep
                 player.position.xstep = player.position.xstep + Xstep
-
+                earnAbility(cellul)
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -54,6 +73,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-right",
                     playerNumber: player.playerNumber
                 })
+
             } else {
                 if ((player.position.y % 1) < 0.2) {
                     cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + Xstep)]
@@ -109,7 +129,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.x = player.position.x - Xstep
                 player.position.xstep = player.position.xstep - Xstep
-
+                earnAbility(cellul)
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
@@ -127,7 +147,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         let oldY = player.position.y;
                         player.position.y = Math.floor(player.position.y);
                         player.position.ystep -= player.position.y - oldY;
-
+                        earnAbility(cellul)
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -151,7 +171,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         let oldY = player.position.y;
                         player.position.y = Math.ceil(player.position.y);
                         player.position.ystep += player.position.y - oldY;
-
+                        earnAbility(cellul)
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
@@ -172,7 +192,7 @@ export function movePlayer(data = {}, rooms, stream) {
             cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
             if (canMove(cellul)) {
 
-
+                earnAbility(cellul)
                 player.position.y = player.position.y - Ystep
                 player.position.ystep = player.position.ystep - Ystep
 
@@ -196,7 +216,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         let oldx = player.position.x;
                         player.position.x = Math.floor(player.position.x);
                         player.position.xstep -= player.position.x - oldx;
-
+                        earnAbility(cellul)
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -221,7 +241,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         let oldx = player.position.x;
                         player.position.x = Math.floor(player.position.x);
                         player.position.xstep += player.position.x - oldx;
-
+                        earnAbility(cellul)
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -246,7 +266,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 player.position.ystep = player.position.ystep + Ystep
 
 
-
+                earnAbility(cellul)
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
@@ -265,7 +285,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         let oldx = player.position.x;
                         player.position.x = Math.floor(player.position.x);
                         player.position.xstep -= player.position.x - oldx;
-
+                        earnAbility(cellul)
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -290,7 +310,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         player.position.x = Math.floor(player.position.x);
                         player.position.xstep += player.position.x - oldx;
 
-
+                        earnAbility(cellul)
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,

@@ -1,8 +1,10 @@
-const board = () => {
+const board = (player) => {
+    console.log(player,"jjjj");
+    
     const iconClasses = [
-        { icon: "fa-solid fa-bomb", text: "Bombs" },
-        { icon: "fa-solid fa-fire", text: "Flame" },
-        { icon: "fa-solid fa-bolt-lightning", text: "Speed" },
+        { icon: "fa-solid fa-bomb", text: `Bombs ${player.Bombs}` },
+        { icon: "fa-solid fa-fire", text: `Flame ${player.Flames}` },
+        { icon: "fa-solid fa-bolt-lightning", text: `Speed ${player.Speed}` },
         { icon: "fa-solid fa-heart", text: "Lives" }
     ]
 
