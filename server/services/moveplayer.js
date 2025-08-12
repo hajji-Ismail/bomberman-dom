@@ -12,12 +12,7 @@ export function movePlayer(data = {}, rooms, stream) {
     const canMove = (cellul) => {
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
     }
-    const creatCellul = (playerPos) => {
 
-
-
-
-    }
 
     let cellul;
     // let smouthMOve = null ;
@@ -53,9 +48,10 @@ export function movePlayer(data = {}, rooms, stream) {
                     if (canMove(cellul)) {
                         player.position.x = player.position.x + Xstep
                         player.position.xstep = player.position.xstep + Xstep
-                        let oldY = player.position.y;
-                        player.position.y = Math.floor(player.position.y);
-                        player.position.ystep += player.position.y - oldY;
+                        const oldy = player.position.y
+                        player.position.y = Math.floor(player.position.y) 
+                        player.position.ystep -= (oldy - Math.floor(player.position.y))
+
 
 
                         BrodcastMove(room.players, {
@@ -76,9 +72,10 @@ export function movePlayer(data = {}, rooms, stream) {
                     if (canMove(cellul)) {
                         player.position.x = player.position.x + Xstep
                         player.position.xstep = player.position.xstep + Xstep
-                        let oldY = player.position.y;
-                        player.position.y = Math.ceil(player.position.y);
-                        player.position.ystep -= player.position.y - oldY;
+
+                        const oldy = player.position.y
+                        player.position.y = Math.ceil(player.position.y)
+                        player.position.ystep += (Math.ceil(player.position.y)-oldy)
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -117,9 +114,9 @@ export function movePlayer(data = {}, rooms, stream) {
                     if (canMove(cellul)) {
                         player.position.x = player.position.x - Xstep
                         player.position.xstep = player.position.xstep - Xstep
-                        let oldY = player.position.y;
-                        player.position.y = Math.floor(player.position.y);
-                        player.position.ystep -= player.position.y - oldY;
+                        const oldy = player.position.y
+                        player.position.y = Math.floor(player.position.y) 
+                        player.position.ystep -= (oldy - Math.floor(player.position.y))
 
 
                         BrodcastMove(room.players, {
@@ -136,13 +133,14 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.y % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x -Xstep)]
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
                     if (canMove(cellul)) {
                         player.position.x = player.position.x - Xstep
                         player.position.xstep = player.position.xstep - Xstep
-                        let oldY = player.position.y;
-                        player.position.y = Math.ceil(player.position.y);
-                        player.position.ystep += player.position.y - oldY;
+                        const oldy = player.position.y
+                        player.position.y = Math.ceil(player.position.y)
+                        player.position.ystep += ( Math.ceil(player.position.y)-oldy)
+
 
                         BrodcastMove(room.players, {
                             type: "canMove",
@@ -179,15 +177,17 @@ export function movePlayer(data = {}, rooms, stream) {
 
             } else {
                 if ((player.position.x % 1) < 0.2) {
-                    map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
+                   
                     cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
 
                     if (canMove(cellul)) {
                         player.position.y = player.position.y - Ystep
                         player.position.ystep = player.position.ystep - Ystep
-                        let oldx = player.position.x;
-                        player.position.x = Math.floor(player.position.x);
-                        player.position.xstep -= player.position.x - oldx;
+                        const oldx = player.position.x
+                        player.position.x = Math.floor(player.position.x) 
+                        player.position.xstep -= (oldx - Math.floor(player.position.x) )
+
+
 
 
                         BrodcastMove(room.players, {
@@ -210,9 +210,9 @@ export function movePlayer(data = {}, rooms, stream) {
                     if (canMove(cellul)) {
                         player.position.y = player.position.y - Ystep
                         player.position.ystep = player.position.ystep - Ystep
-                        let oldx = player.position.x;
-                        player.position.x = Math.floor(player.position.x);
-                        player.position.xstep += player.position.x - oldx;
+                        const oldx = player.position.x
+                        player.position.x = Math.ceil(player.position.x)
+                        player.position.xstep += ( Math.ceil(player.position.x)-oldx)
 
 
                         BrodcastMove(room.players, {
@@ -236,7 +236,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.y = player.position.y + Ystep
                 player.position.ystep = player.position.ystep + Ystep
-              
+
 
                 BrodcastMove(room.players, {
                     type: "canMove",
@@ -253,9 +253,9 @@ export function movePlayer(data = {}, rooms, stream) {
                     if (canMove(cellul)) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
-                        let oldx = player.position.x;
-                        player.position.x = Math.floor(player.position.x);
-                        player.position.xstep -= player.position.x - oldx;
+                        const oldx = player.position.x
+                        player.position.x = Math.floor(player.position.x) 
+                        player.position.xstep -= (oldx -  Math.floor(player.position.x) )
 
 
                         BrodcastMove(room.players, {
@@ -272,13 +272,14 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.x % 1) > 0.8) {
-                    cellul = map[Math.h(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.ceil(player.position.x)]
                     if (canMove(cellul)) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
-                        let oldx = player.position.x;
-                        player.position.x = Math.floor(player.position.x);
-                        player.position.xstep += player.position.x - oldx;
+                        const oldx = player.position.x
+                        player.position.x = Math.floor(player.position.x)
+                        player.position.xstep += ( Math.ceil(player.position.x)-oldx)
+
 
 
                         BrodcastMove(room.players, {
