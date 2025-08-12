@@ -7,10 +7,10 @@ export function HandleMovement(data = {}, state) {
     styles[username] = style;
     state.set("playerStyles", styles);
 
-    // store newCLass per player
-    // const classes = state.get("playerClasses") || {};
-    // classes[username] = data.newCLass;
-    // state.set("playerClasses", classes);
+    // store newCLass per player    
+    const classes = state.get("playerClasses") || {};
+    classes[username] = data.newCLass;
+    state.set("playerClasses", classes);
 }
 
 export function StopMove(data = {}, state) {
