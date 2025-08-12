@@ -277,7 +277,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
                         const oldx = player.position.x
-                        player.position.x = Math.floor(player.position.x)
+                        player.position.x = Math.ceil(player.position.x)
                         player.position.xstep += ( Math.ceil(player.position.x)-oldx)
 
 
