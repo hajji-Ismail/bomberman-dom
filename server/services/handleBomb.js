@@ -45,5 +45,5 @@ export function HandleBomb(stream, player, room, y ,x) {
 
         player.Bombs++
 
-    }, 5000)
+    }, 3000)
 }
