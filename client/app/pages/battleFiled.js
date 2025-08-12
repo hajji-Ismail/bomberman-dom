@@ -6,7 +6,7 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
-
+    console.log(".")
     let divs = [];
     const moving = (e) => {
         socket.send(JSON.stringify({
@@ -15,7 +15,6 @@ const battleField = () => {
             room: current,
             action: e.key
         }))
-
     }
     const stopMoving = (e) => {
         socket.send(JSON.stringify({
@@ -73,7 +72,7 @@ const battleField = () => {
                         attrs: {
                             style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
                             class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
-                            onkeydown: moving,
+                            onkeydown: moving ,
                             onkeyup: stopMoving
                         },
                     }

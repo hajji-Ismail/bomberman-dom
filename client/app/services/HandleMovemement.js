@@ -8,14 +8,14 @@ export function HandleMovement(data = {}, state) {
     state.set("playerStyles", styles);
 
     // store newCLass per player
-    const classes = state.get("playerClasses") || {};
-    classes[username] = data.newCLass;
-    state.set("playerClasses", classes);
+    // const classes = state.get("playerClasses") || {};
+    // classes[username] = data.newCLass;
+    // state.set("playerClasses", classes);
 }
 
 export function StopMove(data = {}, state) {
-    const username = data.player.username;
-    const classes = state.get("playerClasses") || {};
-    classes[username] = data.newCLass;
-    state.set("playerClasses", classes);
+    // const username = data.player.username;
+    // const classes = state.get("playerClasses") || {};
+    // classes[username] = data.newCLass;
+    // state.set("playerClasses", classes);
 }
