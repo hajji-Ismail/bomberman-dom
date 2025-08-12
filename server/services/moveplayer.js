@@ -9,9 +9,75 @@ export function movePlayer(data = {}, rooms, stream) {
 
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
-    const canMove = (cellul) => {
-        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
+    const walkableCells = new Set([0, 7, 8, 9, 11, 12, 13, 14]);
+
+    const canMove = (cellul) => walkableCells.has(cellul);
+    const tryMove = (player, axis, step, direction, room, map) => {
+        let otherAxis = axis === "x" ? "y" : "x";
+
+        let checkCell = axis === "x"
+            ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
+            : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
+
+        if (canMove(checkCell)) {
+            player.position[axis] += step;
+            player.position[axis + "step"] += step;
+
+            BrodcastMove(room.players, {
+                type: "canMove",
+
+                player,
+                direction,
+                newCLass: GenerateNewClass(player) + " player-" + direction,
+                playerNumber: player.playerNumber
+            });
+            return;
+        }
+
+        // Handle small alignment movement
+        if ((player.position[otherAxis] % 1) < 0.2) {
+            let checkAligned = axis === "x"
+                ? map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + step)]
+                : map[Math.floor(player.position.y + step)][Math.floor(player.position.x) - 1];
+
+            if (canMove(checkAligned)) {
+                let oldVal = player.position[otherAxis];
+                player.position[axis] += step;
+                player.position[axis + "step"] += step;
+                player.position[otherAxis] = Math.floor(player.position[otherAxis]);
+                player.position[otherAxis + "step"] -= (oldVal - Math.floor(oldVal));
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    player,
+                    direction,
+                    newCLass: GenerateNewClass(player) + " player-" + direction,
+                    playerNumber: player.playerNumber
+                });
+            }
+        } else if ((player.position[otherAxis] % 1) > 0.8) {
+            let checkAligned = axis === "x"
+                ? map[Math.ceil(player.position.y)][Math.floor(player.position.x + step)]
+                : map[Math.floor(player.position.y + step)][Math.ceil(player.position.x)];
+
+            if (canMove(checkAligned)) {
+                let oldVal = player.position[otherAxis];
+                player.position[axis + "step"] += step;
+                player.position[otherAxis] = Math.ceil(player.position[otherAxis]);
+                player.position[otherAxis + "step"] += (Math.ceil(player.position[otherAxis]) - oldVal);
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    player,
+                    direction,
+                    newCLass: GenerateNewClass(player) + " player-" + direction,
+                    playerNumber: player.playerNumber
+                });
+            }
+        }
     }
+
+
 
 
     let cellul;
@@ -29,274 +95,17 @@ export function movePlayer(data = {}, rooms, stream) {
             break
         }
         case "ArrowRight":
-            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
-            if (canMove(cellul)) {
-                player.position.x = player.position.x + Xstep
-                player.position.xstep = player.position.xstep + Xstep
-
-                BrodcastMove(room.players, {
-                    type: "canMove",
-                    x: Xstep,
-                    player: player,
-                    direction: "right",
-                    newCLass: GenerateNewClass(player) + " player-right",
-                    playerNumber: player.playerNumber
-                })
-            } else {
-                if ((player.position.y % 1) < 0.2) {
-                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + Xstep)]
-                    if (canMove(cellul)) {
-                        player.position.x = player.position.x + Xstep
-                        player.position.xstep = player.position.xstep + Xstep
-                        const oldy = player.position.y
-                        player.position.y = Math.floor(player.position.y) 
-                        player.position.ystep -= (oldy - Math.floor(player.position.y))
-
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "right",
-                            newCLass: GenerateNewClass(player) + " player-right",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                } else if ((player.position.y % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x + Xstep)]
-                    if (canMove(cellul)) {
-                        player.position.x = player.position.x + Xstep
-                        player.position.xstep = player.position.xstep + Xstep
-
-                        const oldy = player.position.y
-                        player.position.y = Math.ceil(player.position.y)
-                        player.position.ystep += (Math.ceil(player.position.y)-oldy)
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "right",
-                            newCLass: GenerateNewClass(player) + " player-right",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                }
-            }
-
+            tryMove(player, "x", Xstep, "right", room, map);
             break;
         case "ArrowLeft":
-            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - Xstep)]
-            if (canMove(cellul)) {
-                player.position.x = player.position.x - Xstep
-                player.position.xstep = player.position.xstep - Xstep
+            tryMove(player, "x", -Xstep, "left", room, map);
 
-                BrodcastMove(room.players, {
-                    type: "canMove",
-                    x: Xstep,
-                    player: player,
-                    direction: "left",
-                    newCLass: GenerateNewClass(player) + " player-left",
-                    playerNumber: player.playerNumber
-                })
-            } else {
-                if ((player.position.y % 1) < 0.2) {
-                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x - Xstep)]
-                    if (canMove(cellul)) {
-                        player.position.x = player.position.x - Xstep
-                        player.position.xstep = player.position.xstep - Xstep
-                        const oldy = player.position.y
-                        player.position.y = Math.floor(player.position.y) 
-                        player.position.ystep -= (oldy - Math.floor(player.position.y))
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-left",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                } else if ((player.position.y % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
-                    if (canMove(cellul)) {
-                        player.position.x = player.position.x - Xstep
-                        player.position.xstep = player.position.xstep - Xstep
-                        const oldy = player.position.y
-                        player.position.y = Math.ceil(player.position.y)
-                        player.position.ystep += ( Math.ceil(player.position.y)-oldy)
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-left",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                }
-            }
             break
         case "ArrowUp":
-            cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
-            if (canMove(cellul)) {
-
-
-                player.position.y = player.position.y - Ystep
-                player.position.ystep = player.position.ystep - Ystep
-
-                BrodcastMove(room.players, {
-                    type: "canMove",
-                    y: Ystep,
-                    player: player,
-                    direction: "up",
-                    newCLass: GenerateNewClass(player) + " player-top",
-                    playerNumber: player.playerNumber
-                })
-
-            } else {
-                if ((player.position.x % 1) < 0.2) {
-                   
-                    cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
-
-                    if (canMove(cellul)) {
-                        player.position.y = player.position.y - Ystep
-                        player.position.ystep = player.position.ystep - Ystep
-                        const oldx = player.position.x
-                        player.position.x = Math.floor(player.position.x) 
-                        player.position.xstep -= (oldx - Math.floor(player.position.x) )
-
-
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-top",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                } else if ((player.position.x % 1) > 0.8) {
-
-
-                    cellul = map[Math.floor(player.position.y - Ystep)][Math.ceil(player.position.x)]
-                    if (canMove(cellul)) {
-                        player.position.y = player.position.y - Ystep
-                        player.position.ystep = player.position.ystep - Ystep
-                        const oldx = player.position.x
-                        player.position.x = Math.ceil(player.position.x)
-                        player.position.xstep += ( Math.ceil(player.position.x)-oldx)
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-top",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                }
-            }
+            tryMove(player, "y", -Ystep, "top", room, map);
             break
         case "ArrowDown":
-            cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
-            if (canMove(cellul)) {
-                player.position.y = player.position.y + Ystep
-                player.position.ystep = player.position.ystep + Ystep
-
-
-                BrodcastMove(room.players, {
-                    type: "canMove",
-                    y: Ystep,
-                    player: player,
-                    direction: "down",
-                    newCLass: GenerateNewClass(player) + " player-bottom",
-                    playerNumber: player.playerNumber
-                })
-            } else {
-                if ((player.position.x % 1) < 0.2) {
-
-                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x) - 1]
-                    if (canMove(cellul)) {
-                        player.position.y = player.position.y + Ystep
-                        player.position.ystep = player.position.ystep + Ystep
-                        const oldx = player.position.x
-                        player.position.x = Math.floor(player.position.x) 
-                        player.position.xstep -= (oldx -  Math.floor(player.position.x) )
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-bottom",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                } else if ((player.position.x % 1) > 0.8) {
-                    cellul = map[Math.floor(player.position.y + Ystep)][Math.ceil(player.position.x)]
-                    if (canMove(cellul)) {
-                        player.position.y = player.position.y + Ystep
-                        player.position.ystep = player.position.ystep + Ystep
-                        const oldx = player.position.x
-                        player.position.x = Math.ceil(player.position.x)
-                        player.position.xstep += ( Math.ceil(player.position.x)-oldx)
-
-
-
-                        BrodcastMove(room.players, {
-                            type: "canMove",
-                            x: Xstep,
-                            player: player,
-                            direction: "left",
-                            newCLass: GenerateNewClass(player) + " player-bottom",
-                            playerNumber: player.playerNumber
-                        })
-
-
-
-                    }
-
-                }
-            }
+            tryMove(player, "y", Ystep, "bottom", room, map)
             break
         default:
             break;
