@@ -1,5 +1,5 @@
 const board = (player) => {
-    console.log(player,"jjjj");
+    console.log(player);
     
     const iconClasses = [
         { icon: "fa-solid fa-bomb", text: `Bombs ${player.Bombs}` },
