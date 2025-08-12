@@ -272,7 +272,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.x % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    cellul = map[Math.h(player.position.y + Ystep)][Math.floor(player.position.x)]
                     if (canMove(cellul)) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
