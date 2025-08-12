@@ -6,7 +6,6 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
-    console.log(".")
     let divs = [];
     const moving = (e) => {
         socket.send(JSON.stringify({
