@@ -6,7 +6,6 @@ const battleField = () => {
     const players = current.players;
     const currrentUsername = state.get('username')
     const socket = state.get('ws')
-    console.log(".")
     let divs = [];
     const moving = (e) => {
         socket.send(JSON.stringify({
@@ -50,12 +49,11 @@ const battleField = () => {
 
             const box = {
                 tag: "div",
-                attrs: { class: `${isPlacingBomb ? "path": baseClass} box`  },
+                attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },
             };
 
             // Add player if present
-            const playerAtCell = players.find((_, idx) => 11 + idx == cellValue);
-
+            const playerAtCell = players.find((_, idx) => (11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0]));
 
             const styles = state.get("playerStyles") || {};
             const classes = state.get("playerClasses") || {};
@@ -92,13 +90,13 @@ const battleField = () => {
                 });
             }
 
-            if (isPlacingBomb) {
-                if (!box.children) box.children = [];
+            if (isPlacingBomb || cellValue.length > 1) {
+                if (!box.children) box.children = []
 
                 box.children.push({
                     tag: "div",
                     attrs: {
-                        class: `${baseClass}`,
+                        class: `${Array.isArray(cellValue) ? divsClasses[cellValue[1]] : baseClass}`,
                     },
                     children: [
                         {

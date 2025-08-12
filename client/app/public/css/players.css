@@ -11,7 +11,7 @@ body{
     background-position: var(--pos-x, 0px) var(--pos-y, 0px);
     border-bottom: 2px solid rgba(0, 0, 0, 0);
     position: relative;
-    z-index: 999;
+    z-index: 99999;
 }
 
 /* Character variations (only the image changes) */

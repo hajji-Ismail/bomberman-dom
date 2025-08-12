@@ -12,10 +12,10 @@ export function GenerateMap(size) {
             }
 
             // Player positions
-            if (i === 1 && j === 1) { row.push(11); continue; } // Player 1
-            if (i === 1 && j === size - 2) { row.push(12); continue; } // Player 2
-            if (i === size - 2 && j === 1) { row.push(14); continue; } // Player 3
-            if (i === size - 2 && j === size - 2) { row.push(13); continue; } // Player 4
+            if (i === 1 && j === 1) { row.push([11]); continue; } // Player 1
+            if (i === 1 && j === size - 2) { row.push([12]); continue; } // Player 2
+            if (i === size - 2 && j === 1) { row.push([14]); continue; } // Player 3
+            if (i === size - 2 && j === size - 2) { row.push([13]); continue; } // Player 4
 
             row.push(0); // Path for now
         }
