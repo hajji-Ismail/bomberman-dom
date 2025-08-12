@@ -19,13 +19,14 @@ export function movePlayer(data = {}, rooms, stream) {
             ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
             : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
 
+
+
         if (canMove(checkCell)) {
             player.position[axis] += step;
             player.position[axis + "step"] += step;
 
             BrodcastMove(room.players, {
                 type: "canMove",
-
                 player,
                 direction,
                 newCLass: GenerateNewClass(player) + " player-" + direction,
@@ -81,7 +82,7 @@ export function movePlayer(data = {}, rooms, stream) {
 
 
     let cellul;
-    // let smouthMOve = null ;
+
 
     switch (data.action) {
         case " ": {
