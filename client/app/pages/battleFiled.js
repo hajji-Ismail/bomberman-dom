@@ -2,8 +2,6 @@ import board from "../components/board.js";
 import { state } from "../main.js";
 const battleField = () => {
     const current = state.get('current_room');
-    console.log(current);
-
     const map = current.map
     const players = current.players;
     const currrentUsername = state.get('username')
@@ -56,16 +54,12 @@ const battleField = () => {
             };
 
             // Add player if present
-            const playerAtCell = players.find((_, idx) => (11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0]));
+            const playerAtCell = players.find((player, idx) => (player?.isDeath != true) && ((11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0])));
 
             const styles = state.get("playerStyles") || {};
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-
-
-
-
                 box.children = [
                     {
                         tag: "div",

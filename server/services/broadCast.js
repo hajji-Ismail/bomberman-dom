@@ -1,6 +1,8 @@
 export function broadCastWaittingRoom(room) {
 
     const safeRoom = getSafeRoom(room);
+    console.log(safeRoom);
+
     room.players.forEach(element => {
         if (element.stream) {
             element.stream.send(JSON.stringify({
@@ -27,9 +29,11 @@ function getSafeRoom(room) {
         id: room.id,
         players: room.players.map(p => ({
             username: p.username,
-            playerNumber: p.playerNumber
+            playerNumber: p.playerNumber,
+            isDeath: p.isDeath
         })),
         available: room.available,
-        map: room.map
+        map: room.map,
+
     };
 }
