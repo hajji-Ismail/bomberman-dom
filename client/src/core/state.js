@@ -13,7 +13,7 @@ export class State {
                 cb(value)
             };
         }
-
+        this.unsubscribe(key, this.callack)
     }
 
     setContext(key, value) {
@@ -30,12 +30,20 @@ export class State {
         return { ...this.state };
     }
 
-
     subscribe(key, callback) {
 
         if (!this.listeners.has(key)) {
             this.listeners.set(key, []);
         }
         this.listeners.get(key).push(callback);
+    }
+
+    unsubscribe(key, callback) {
+        if (this.listeners.has(key)) {
+            const index = this.listeners.get(key).indexOf(callback);
+            if (index !== -1) {
+                this.listeners.get(key).splice(index, 1);
+            }
+        }
     }
 }
