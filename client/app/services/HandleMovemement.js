@@ -1,4 +1,6 @@
 export function HandleMovement(data = {}, state) {
+    console.log(data);
+    
     const username = data.player.username;
     let style = `transform: translate(${data.player.position.xstep * 55}px, ${data.player.position.ystep * 55}px)`;
 

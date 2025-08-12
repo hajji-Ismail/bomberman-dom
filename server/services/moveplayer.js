@@ -12,8 +12,15 @@ export function movePlayer(data = {}, rooms, stream) {
     const canMove = (cellul) => {
         return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
     }
+    const creatCellul = (playerPos) => {
+
+
+
+
+    }
 
     let cellul;
+    // let smouthMOve = null ;
 
     switch (data.action) {
         case " ": {
@@ -40,6 +47,53 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-right",
                     playerNumber: player.playerNumber
                 })
+            } else {
+                if ((player.position.y % 1) < 0.2) {
+                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x + Xstep
+                        player.position.xstep = player.position.xstep + Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.floor(player.position.y);
+                        player.position.ystep += player.position.y - oldY;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "right",
+                            newCLass: GenerateNewClass(player) + " player-right",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.y % 1) > 0.8) {
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x + Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x + Xstep
+                        player.position.xstep = player.position.xstep + Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.ceil(player.position.y);
+                        player.position.ystep -= player.position.y - oldY;
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "right",
+                            newCLass: GenerateNewClass(player) + " player-right",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
             }
 
             break;
@@ -57,6 +111,53 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-left",
                     playerNumber: player.playerNumber
                 })
+            } else {
+                if ((player.position.y % 1) < 0.2) {
+                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x - Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x - Xstep
+                        player.position.xstep = player.position.xstep - Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.floor(player.position.y);
+                        player.position.ystep -= player.position.y - oldY;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-left",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.y % 1) > 0.8) {
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x -Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x - Xstep
+                        player.position.xstep = player.position.xstep - Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.ceil(player.position.y);
+                        player.position.ystep += player.position.y - oldY;
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-left",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
             }
             break
         case "ArrowUp":
@@ -76,6 +177,58 @@ export function movePlayer(data = {}, rooms, stream) {
                     playerNumber: player.playerNumber
                 })
 
+            } else {
+                if ((player.position.x % 1) < 0.2) {
+                    map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
+                    cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
+
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y - Ystep
+                        player.position.ystep = player.position.ystep - Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep -= player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-top",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.x % 1) > 0.8) {
+
+
+                    cellul = map[Math.floor(player.position.y - Ystep)][Math.ceil(player.position.x)]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y - Ystep
+                        player.position.ystep = player.position.ystep - Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep += player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-top",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
             }
             break
         case "ArrowDown":
@@ -83,6 +236,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.y = player.position.y + Ystep
                 player.position.ystep = player.position.ystep + Ystep
+              
 
                 BrodcastMove(room.players, {
                     type: "canMove",
@@ -92,6 +246,55 @@ export function movePlayer(data = {}, rooms, stream) {
                     newCLass: GenerateNewClass(player) + " player-bottom",
                     playerNumber: player.playerNumber
                 })
+            } else {
+                if ((player.position.x % 1) < 0.2) {
+
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x) - 1]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y + Ystep
+                        player.position.ystep = player.position.ystep + Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep -= player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-bottom",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.x % 1) > 0.8) {
+                    cellul = map[Math.ceil(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y + Ystep
+                        player.position.ystep = player.position.ystep + Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep += player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: player,
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-bottom",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
             }
             break
         default:
