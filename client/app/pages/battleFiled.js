@@ -45,8 +45,10 @@ const battleField = () => {
             const isPlacingBomb = 6 === cellValue
 
             // If it's an ability, we treat it as a soft wall visually
-            const baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || "path");
-
+            let baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || `path`);
+            // if ((!isAbility && row == 1 && baseClass == "path") || (!isAbility && row == map.length-2 && baseClass == "path")) {
+            //     baseClass += " horiz"
+            // }
             const box = {
                 tag: "div",
                 attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },
@@ -59,7 +61,7 @@ const battleField = () => {
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                
+
 
 
 
@@ -70,7 +72,7 @@ const battleField = () => {
                         attrs: {
                             style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
                             class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
-                            onkeydown: moving ,
+                            onkeydown: moving,
                             onkeyup: stopMoving
                         },
                     }
