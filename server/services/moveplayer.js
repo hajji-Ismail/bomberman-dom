@@ -11,7 +11,8 @@ export function movePlayer(data = {}, rooms, stream) {
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
     const canMove = (cellul) => {
-        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14
+        // zid 7 and 8 and 9
+        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14 || cellul == 7 || cellul == 8 || cellul == 9
     }
 
     let cellul;

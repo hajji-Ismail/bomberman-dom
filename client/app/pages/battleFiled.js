@@ -32,10 +32,11 @@ const battleField = () => {
         4: "speed",
         5: "flame",
         6: "place-bomb",
-        7: "earn-bomb",
-        8: "earn-speed",
-        9: "earn-flame"
+        7: "earn-bomb fa-solid fa-bomb",
+        8: "earn-speed fa-solid fa-person-running",
+        9: "earn-flame fa-solid fa-bolt"
     };
+
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -99,14 +100,11 @@ const battleField = () => {
 
                 box.children.push({
                     tag: "div",
-                    attrs: {
-                        class: `hassan`,
-                    },
                     children: [
                         {
                             tag: "i",
                             attrs: {
-                                class: "fa-solid fa-bolt"
+                                class: `${divsClasses[cellValue]}`
                             }
                         }
                     ]
