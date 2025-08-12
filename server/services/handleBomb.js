@@ -1,44 +1,34 @@
 import { sendMessages } from "./stream.js"
 
-export function HandleBomb(stream, player, room) {
+export function HandleBomb(stream, player, room, y ,x) {
     setTimeout(() => {
-        const row = Math.floor(player.position.y)
-        const col = Math.floor(player.position.x)
+        const row = Math.floor(y)
+        const col = Math.floor(x)
 
-        const up = room.map[row - 1][col]
-        const down = room.map[row + 1][col]
-        const left = room.map[row][col - 1]
-        const right = room.map[row][col + 1]
-        // const range = [up, down, left, right]
+        const getTile = (r, c) => room.map[r][c]
 
-        if (up === 2) {
-            room.map[row - 1][col] = 0
+        const destroyBlock = (r, c) => {
+            if (getTile(r, c) === 2) {
+                room.map[r][c] = 0
+            }
         }
 
-        if (down === 2) {
-            room.map[row + 1][col] = 0
+        const damagePlayer = (r, c) => {
+            if ([3, 4, 5].includes(getTile(r, c))) {
+                room.map[r][c] += 4
+            }
         }
 
-        if (left === 2) {
-            room.map[row][col - 1] = 0
-        }
+        const directions = [
+            { r: row - 1, c: col },
+            { r: row + 1, c: col },
+            { r: row, c: col - 1 },
+            { r: row, c: col + 1 }
+        ]
 
-        if (right === 2) {
-            room.map[row][col + 1] = 0
-        }
+        directions.forEach(({ r, c }) => destroyBlock(r, c))
 
-        if ([3, 4, 5].includes(up)) {
-            room.map[row - 1][col] = room.map[row - 1][col] + 4
-        }
-        if ([3, 4, 5].includes(down)) {
-            room.map[row + 1][col] = room.map[row + 1][col] + 4
-        }
-        if ([3, 4, 5].includes(left)) {
-            room.map[row][col - 1] = room.map[row][col - 1] + 4
-        }
-        if ([3, 4, 5].includes(right)) {
-            room.map[row][col + 1] = room.map[row][col + 1] + 4
-        }
+        directions.forEach(({ r, c }) => damagePlayer(r, c))
 
         if (Array.isArray(room.map[row][col])) {
             room.map[row][col] = [11]
@@ -48,10 +38,12 @@ export function HandleBomb(stream, player, room) {
 
         sendMessages(stream, {
             type: "placeBomb",
-            player: player,
-            room: room,
+            player,
+            room,
             class: "explosion"
         })
 
-    }, 1000)
+        player.Bombs++
+
+    }, 5000)
 }

@@ -6,13 +6,13 @@ export function movePlayer(data = {}, rooms, stream) {
     const map = room.map
 
 
-    const player = getSafePlayer(room.players.find((player) => player.username == data.username))
+    const player = room.players.find((player) => player.username == data.username)
 
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
     const canMove = (cellul) => {
         // zid 7 and 8 and 9
-        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14 || cellul == 7 || cellul == 8 || cellul == 9
+        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14 || cellul == 7 || cellul == 8 || cellul == 9 || cellul == 6
     }
     const creatCellul = (playerPos) => {
 
@@ -26,15 +26,17 @@ export function movePlayer(data = {}, rooms, stream) {
 
     switch (data.action) {
         case " ": {
-            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
-            Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
-            sendMessages(stream, {
-                type: "placeBomb",
-                player: player,
-                room: room
-            })
-
-            HandleBomb(stream,player, room)
+            if (player.Bombs > 0) {
+                player.Bombs--
+                cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
+                Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
+                sendMessages(stream, {
+                    type: "placeBomb",
+                    player: getSafePlayer(player),
+                    room: room
+                })
+                HandleBomb(stream, player, room, player.position.y, player.position.x)
+            }
 
             break
         }
@@ -47,7 +49,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
-                    player: player,
+                    player: getSafePlayer(player),
                     direction: "right",
                     newCLass: GenerateNewClass(player) + " player-right",
                     playerNumber: player.playerNumber
@@ -66,7 +68,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "right",
                             newCLass: GenerateNewClass(player) + " player-right",
                             playerNumber: player.playerNumber
@@ -88,7 +90,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "right",
                             newCLass: GenerateNewClass(player) + " player-right",
                             playerNumber: player.playerNumber
@@ -111,7 +113,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 BrodcastMove(room.players, {
                     type: "canMove",
                     x: Xstep,
-                    player: player,
+                    player: getSafePlayer(player),
                     direction: "left",
                     newCLass: GenerateNewClass(player) + " player-left",
                     playerNumber: player.playerNumber
@@ -130,7 +132,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-left",
                             playerNumber: player.playerNumber
@@ -141,7 +143,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.y % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x -Xstep)]
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
                     if (canMove(cellul)) {
                         player.position.x = player.position.x - Xstep
                         player.position.xstep = player.position.xstep - Xstep
@@ -152,7 +154,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-left",
                             playerNumber: player.playerNumber
@@ -176,7 +178,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
-                    player: player,
+                    player: getSafePlayer(player),
                     direction: "up",
                     newCLass: GenerateNewClass(player) + " player-top",
                     playerNumber: player.playerNumber
@@ -198,7 +200,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-top",
                             playerNumber: player.playerNumber
@@ -223,7 +225,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-top",
                             playerNumber: player.playerNumber
@@ -241,12 +243,12 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.y = player.position.y + Ystep
                 player.position.ystep = player.position.ystep + Ystep
-              
+
 
                 BrodcastMove(room.players, {
                     type: "canMove",
                     y: Ystep,
-                    player: player,
+                    player: getSafePlayer(player),
                     direction: "down",
                     newCLass: GenerateNewClass(player) + " player-bottom",
                     playerNumber: player.playerNumber
@@ -266,7 +268,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-bottom",
                             playerNumber: player.playerNumber
@@ -277,7 +279,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.x % 1) > 0.8) {
-                    cellul = map[Math.h(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
                     if (canMove(cellul)) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
@@ -289,7 +291,7 @@ export function movePlayer(data = {}, rooms, stream) {
                         BrodcastMove(room.players, {
                             type: "canMove",
                             x: Xstep,
-                            player: player,
+                            player: getSafePlayer(player),
                             direction: "left",
                             newCLass: GenerateNewClass(player) + " player-bottom",
                             playerNumber: player.playerNumber
