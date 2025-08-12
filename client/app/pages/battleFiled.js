@@ -31,8 +31,12 @@ const battleField = () => {
         3: "bomb",
         4: "speed",
         5: "flame",
-        6: "place-bomb"
+        6: "place-bomb",
+        7: "earn-bomb fa-solid fa-bomb",
+        8: "earn-speed fa-solid fa-person-running",
+        9: "earn-flame fa-solid fa-bolt"
     };
+
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -41,11 +45,12 @@ const battleField = () => {
 
             // Determine if the cell is an ability (3: speed, 4: bomb, 5: flame)
             const isAbility = [3, 4, 5].includes(cellValue);
+            const isEarnAbility = [7, 8, 9].includes(cellValue)
             const abilityType = isAbility ? cellValue : null;
             const isPlacingBomb = 6 === cellValue
 
             // If it's an ability, we treat it as a soft wall visually
-            const baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || "path");
+            const baseClass = isAbility ? "soft-wall" : (!isEarnAbility ? divsClasses[cellValue] || "path" : "path");
 
             const box = {
                 tag: "div",
@@ -59,7 +64,7 @@ const battleField = () => {
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                
+
 
 
 
@@ -70,7 +75,7 @@ const battleField = () => {
                         attrs: {
                             style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
                             class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
-                            onkeydown: moving ,
+                            onkeydown: moving,
                             onkeyup: stopMoving
                         },
                     }
@@ -87,6 +92,22 @@ const battleField = () => {
                     attrs: {
                         class: `abilitie ${divsClasses[abilityType]}`,
                     },
+                });
+            }
+
+            if (isEarnAbility) {
+                if (!box.children) box.children = [];
+
+                box.children.push({
+                    tag: "div",
+                    children: [
+                        {
+                            tag: "i",
+                            attrs: {
+                                class: `${divsClasses[cellValue]}`
+                            }
+                        }
+                    ]
                 });
             }
 

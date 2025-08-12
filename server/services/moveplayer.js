@@ -1,3 +1,4 @@
+import { HandleBomb } from "./handleBomb.js"
 import { sendMessages } from "./stream.js"
 
 export function movePlayer(data = {}, rooms, stream) {
@@ -5,7 +6,7 @@ export function movePlayer(data = {}, rooms, stream) {
     const map = room.map
 
 
-    const player = getSafePlayer(room.players.find((player) => player.username == data.username))
+    const player = room.players.find((player) => player.username == data.username)
 
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
@@ -80,33 +81,307 @@ export function movePlayer(data = {}, rooms, stream) {
 
 
 
+    const canMove = (cellul) => {
+        // zid 7 and 8 and 9
+        return cellul == 0 || cellul == 11 || cellul == 12 || cellul == 13 || cellul == 14 || cellul == 7 || cellul == 8 || cellul == 9 || cellul == 6
+    }
+    const creatCellul = (playerPos) => {
+
+
+
+
+    }
 
     let cellul;
 
 
     switch (data.action) {
         case " ": {
-            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
-            Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
-            sendMessages(stream, {
-                type: "placeBomb",
-                player: player,
-                room: room
-            })
+            if (player.Bombs > 0) {
+                player.Bombs--
+                cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
+                Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
+                sendMessages(stream, {
+                    type: "placeBomb",
+                    player: getSafePlayer(player),
+                    room: room
+                })
+                HandleBomb(stream, player, room, player.position.y, player.position.x)
+            }
+
             break
         }
         case "ArrowRight":
             tryMove(player, "x", Xstep, "right", room, map);
+            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x + Xstep)]
+            if (canMove(cellul)) {
+                player.position.x = player.position.x + Xstep
+                player.position.xstep = player.position.xstep + Xstep
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    x: Xstep,
+                    player: getSafePlayer(player),
+                    direction: "right",
+                    newCLass: GenerateNewClass(player) + " player-right",
+                    playerNumber: player.playerNumber
+                })
+            } else {
+                if ((player.position.y % 1) < 0.2) {
+                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x + Xstep
+                        player.position.xstep = player.position.xstep + Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.floor(player.position.y);
+                        player.position.ystep += player.position.y - oldY;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "right",
+                            newCLass: GenerateNewClass(player) + " player-right",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.y % 1) > 0.8) {
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x + Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x + Xstep
+                        player.position.xstep = player.position.xstep + Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.ceil(player.position.y);
+                        player.position.ystep -= player.position.y - oldY;
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "right",
+                            newCLass: GenerateNewClass(player) + " player-right",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
+            }
+
             break;
         case "ArrowLeft":
             tryMove(player, "x", -Xstep, "left", room, map);
 
+            cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x - Xstep)]
+            if (canMove(cellul)) {
+                player.position.x = player.position.x - Xstep
+                player.position.xstep = player.position.xstep - Xstep
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    x: Xstep,
+                    player: getSafePlayer(player),
+                    direction: "left",
+                    newCLass: GenerateNewClass(player) + " player-left",
+                    playerNumber: player.playerNumber
+                })
+            } else {
+                if ((player.position.y % 1) < 0.2) {
+                    cellul = map[Math.floor(player.position.y) - 1][Math.floor(player.position.x - Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x - Xstep
+                        player.position.xstep = player.position.xstep - Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.floor(player.position.y);
+                        player.position.ystep -= player.position.y - oldY;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-left",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.y % 1) > 0.8) {
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
+                    if (canMove(cellul)) {
+                        player.position.x = player.position.x - Xstep
+                        player.position.xstep = player.position.xstep - Xstep
+                        let oldY = player.position.y;
+                        player.position.y = Math.ceil(player.position.y);
+                        player.position.ystep += player.position.y - oldY;
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-left",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
+            }
             break
         case "ArrowUp":
             tryMove(player, "y", -Ystep, "top", room, map);
+            cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x)]
+            if (canMove(cellul)) {
+
+
+                player.position.y = player.position.y - Ystep
+                player.position.ystep = player.position.ystep - Ystep
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    y: Ystep,
+                    player: getSafePlayer(player),
+                    direction: "up",
+                    newCLass: GenerateNewClass(player) + " player-top",
+                    playerNumber: player.playerNumber
+                })
+
+            } else {
+                if ((player.position.x % 1) < 0.2) {
+                    map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
+                    cellul = map[Math.floor(player.position.y - Ystep)][Math.floor(player.position.x) - 1]
+
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y - Ystep
+                        player.position.ystep = player.position.ystep - Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep -= player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-top",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.x % 1) > 0.8) {
+
+
+                    cellul = map[Math.floor(player.position.y - Ystep)][Math.ceil(player.position.x)]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y - Ystep
+                        player.position.ystep = player.position.ystep - Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep += player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-top",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
+            }
             break
         case "ArrowDown":
             tryMove(player, "y", Ystep, "bottom", room, map)
+            cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
+            if (canMove(cellul)) {
+                player.position.y = player.position.y + Ystep
+                player.position.ystep = player.position.ystep + Ystep
+
+
+
+                BrodcastMove(room.players, {
+                    type: "canMove",
+                    y: Ystep,
+                    player: getSafePlayer(player),
+                    direction: "down",
+                    newCLass: GenerateNewClass(player) + " player-bottom",
+                    playerNumber: player.playerNumber
+                })
+            } else {
+                if ((player.position.x % 1) < 0.2) {
+
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x) - 1]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y + Ystep
+                        player.position.ystep = player.position.ystep + Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep -= player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-bottom",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                } else if ((player.position.x % 1) > 0.8) {
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    if (canMove(cellul)) {
+                        player.position.y = player.position.y + Ystep
+                        player.position.ystep = player.position.ystep + Ystep
+                        let oldx = player.position.x;
+                        player.position.x = Math.floor(player.position.x);
+                        player.position.xstep += player.position.x - oldx;
+
+
+                        BrodcastMove(room.players, {
+                            type: "canMove",
+                            x: Xstep,
+                            player: getSafePlayer(player),
+                            direction: "left",
+                            newCLass: GenerateNewClass(player) + " player-bottom",
+                            playerNumber: player.playerNumber
+                        })
+
+
+
+                    }
+
+                }
+            }
             break
         default:
             break;
