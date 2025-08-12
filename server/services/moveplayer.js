@@ -1,3 +1,4 @@
+import { HandleBomb } from "./handleBomb.js"
 import { sendMessages } from "./stream.js"
 
 export function movePlayer(data = {}, rooms, stream) {
@@ -24,6 +25,9 @@ export function movePlayer(data = {}, rooms, stream) {
                 player: player,
                 room: room
             })
+
+            HandleBomb(stream,player, room)
+
             break
         }
         case "ArrowRight":

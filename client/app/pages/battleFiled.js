@@ -59,7 +59,7 @@ const battleField = () => {
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                
+
 
 
 
@@ -70,7 +70,7 @@ const battleField = () => {
                         attrs: {
                             style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
                             class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
-                            onkeydown: moving ,
+                            onkeydown: moving,
                             onkeyup: stopMoving
                         },
                     }
