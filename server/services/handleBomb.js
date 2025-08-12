@@ -11,20 +11,33 @@ export function HandleBomb(stream, player, room) {
         const right = room.map[row][col + 1]
         // const range = [up, down, left, right]
 
-        if (up === 2 || [3, 4, 5].includes(up)) {
+        if (up === 2) {
             room.map[row - 1][col] = 0
         }
 
-        if (down === 2 || [3, 4, 5].includes(down)) {
+        if (down === 2) {
             room.map[row + 1][col] = 0
         }
 
-        if (left === 2 || [3, 4, 5].includes(left)) {
+        if (left === 2) {
             room.map[row][col - 1] = 0
         }
 
-        if (right === 2 || [3, 4, 5].includes(right)) {
+        if (right === 2) {
             room.map[row][col + 1] = 0
+        }
+
+        if ([3, 4, 5].includes(up)) {
+            room.map[row - 1][col] = room.map[row - 1][col] + 4
+        }
+        if ([3, 4, 5].includes(down)) {
+            room.map[row + 1][col] = room.map[row + 1][col] + 4
+        }
+        if ([3, 4, 5].includes(left)) {
+            room.map[row][col - 1] = room.map[row][col - 1] + 4
+        }
+        if ([3, 4, 5].includes(right)) {
+            room.map[row][col + 1] = room.map[row][col + 1] + 4
         }
 
         if (Array.isArray(room.map[row][col])) {
@@ -39,5 +52,6 @@ export function HandleBomb(stream, player, room) {
             room: room,
             class: "explosion"
         })
-    }, 30000)
+
+    }, 1000)
 }
