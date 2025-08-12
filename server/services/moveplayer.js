@@ -34,7 +34,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 room: room
             })
 
-            HandleBomb(stream,player, room)
+            HandleBomb(stream, player, room)
 
             break
         }
@@ -141,7 +141,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.y % 1) > 0.8) {
-                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x -Xstep)]
+                    cellul = map[Math.ceil(player.position.y)][Math.floor(player.position.x - Xstep)]
                     if (canMove(cellul)) {
                         player.position.x = player.position.x - Xstep
                         player.position.xstep = player.position.xstep - Xstep
@@ -241,7 +241,7 @@ export function movePlayer(data = {}, rooms, stream) {
             if (canMove(cellul)) {
                 player.position.y = player.position.y + Ystep
                 player.position.ystep = player.position.ystep + Ystep
-              
+
 
                 BrodcastMove(room.players, {
                     type: "canMove",
@@ -277,7 +277,7 @@ export function movePlayer(data = {}, rooms, stream) {
                     }
 
                 } else if ((player.position.x % 1) > 0.8) {
-                    cellul = map[Math.h(player.position.y + Ystep)][Math.floor(player.position.x)]
+                    cellul = map[Math.floor(player.position.y + Ystep)][Math.floor(player.position.x)]
                     if (canMove(cellul)) {
                         player.position.y = player.position.y + Ystep
                         player.position.ystep = player.position.ystep + Ystep
