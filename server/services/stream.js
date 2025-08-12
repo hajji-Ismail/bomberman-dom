@@ -1,3 +1,5 @@
 export function sendMessages(strem, response) {
-    strem.send(JSON.stringify(response))
+    if (strem) {
+        strem.send(JSON.stringify(response))
+    }
 }

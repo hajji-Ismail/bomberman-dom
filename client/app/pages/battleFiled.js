@@ -2,6 +2,8 @@ import board from "../components/board.js";
 import { state } from "../main.js";
 const battleField = () => {
     const current = state.get('current_room');
+    console.log(current);
+
     const map = current.map
     const players = current.players;
     const currrentUsername = state.get('username')
@@ -33,6 +35,8 @@ const battleField = () => {
         5: "flame",
         6: "place-bomb"
     };
+
+
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -46,9 +50,6 @@ const battleField = () => {
 
             // If it's an ability, we treat it as a soft wall visually
             let baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || `path`);
-            // if ((!isAbility && row == 1 && baseClass == "path") || (!isAbility && row == map.length-2 && baseClass == "path")) {
-            //     baseClass += " horiz"
-            // }
             const box = {
                 tag: "div",
                 attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },

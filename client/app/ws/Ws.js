@@ -21,6 +21,8 @@ export const CreateWs = () => {
 
             switch (message.type) {
                 case "waitting_room":
+                  
+
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
                     state.set('current_room', message.room)
@@ -45,7 +47,7 @@ export const CreateWs = () => {
                     HandleMovement(message, state)
                     break
                 case "stopMove":
-                    StopMove(message,state)
+                    StopMove(message, state)
                     break
                 case "placeBomb":
                     state.set('current_room', message.room)

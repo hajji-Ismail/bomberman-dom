@@ -58,6 +58,7 @@ ws.on('connection', (stream) => {
 
     stream.on('close', () => {
         let room = RemovePlayer(rooms, stream)
+        
         broadCastWaittingRoom(room)
     })
 })
