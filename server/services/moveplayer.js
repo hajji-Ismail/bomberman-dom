@@ -12,12 +12,12 @@ export function movePlayer(data = {}, rooms, stream) {
     let Ystep = 0.075 * player.Speed
     const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14]
     console.log(walkableCells);
-    
+
 
     const canMove = (cellul) => {
         console.log(walkableCells.includes(cellul));
-        
-     return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
+
+        return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
     };
     const tryMove = (player, axis, step, direction, room, map) => {
@@ -26,14 +26,13 @@ export function movePlayer(data = {}, rooms, stream) {
         let checkCell = axis === "x"
             ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
             : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
-            console.log(checkCell);
-            
+        console.log(checkCell);
+
 
 
 
         if (canMove(checkCell)) {
-            console.log("hi");
-            
+
             player.position[axis] += step;
             player.position[axis + "step"] += step;
 
@@ -48,13 +47,16 @@ export function movePlayer(data = {}, rooms, stream) {
         }
 
         // Handle small alignment movement
-        if ((player.position[otherAxis] % 1) < 0.2) {
+        if ((player.position[otherAxis] % 1) < 0.3) {
             let checkAligned = axis === "x"
                 ? map[Math.floor(player.position.y) - 1][Math.floor(player.position.x + step)]
                 : map[Math.floor(player.position.y + step)][Math.floor(player.position.x) - 1];
+            let checkcorner = axis == "x"
+                ? map[Math.floor(player.position.y) - 1][Math.floor(player.position.x)]
+                : map[Math.floor(player.position.y)][Math.floor(player.position.x) - 1];
 
-            if (canMove(checkAligned)) {
-                console.log("hi0.2");
+
+            if (canMove(checkAligned) && canMove(checkcorner)) {
                 let oldVal = player.position[otherAxis];
                 player.position[axis] += step;
                 player.position[axis + "step"] += step;
@@ -69,13 +71,16 @@ export function movePlayer(data = {}, rooms, stream) {
                     playerNumber: player.playerNumber
                 });
             }
-        } else if ((player.position[otherAxis] % 1) > 0.8) {
+        } else if ((player.position[otherAxis] % 1) > 0.7) {
             let checkAligned = axis === "x"
                 ? map[Math.ceil(player.position.y)][Math.floor(player.position.x + step)]
                 : map[Math.floor(player.position.y + step)][Math.ceil(player.position.x)];
+            let checkcorner = axis == "x"
+                ? map[Math.ceil(player.position.y)][Math.floor(player.position.x )]
+                : map[Math.floor(player.position.y )][Math.ceil(player.position.x)];
 
-            if (canMove(checkAligned)) {
-                console.log("hi0.8");
+
+            if (canMove(checkAligned) && canMove(checkcorner)) {
                 let oldVal = player.position[otherAxis];
                 player.position[axis + "step"] += step;
                 player.position[otherAxis] = Math.ceil(player.position[otherAxis]);
