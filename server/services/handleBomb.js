@@ -80,6 +80,7 @@ export function HandleBomb(player, room) {
     });
     console.table(room.map);
 
-    player.Bombstries++;
-  }, 5000);
+        player.Bombstries++
+
+    }, 1000)
 }
