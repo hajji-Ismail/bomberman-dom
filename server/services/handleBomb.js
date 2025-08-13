@@ -10,6 +10,7 @@ export function HandleBomb(stream, player, room, y ,x) {
         const destroyBlock = (r, c) => {
             if (getTile(r, c) === 2) {
                 room.map[r][c] = 0
+                
             }
         }
 
@@ -44,6 +45,6 @@ export function HandleBomb(stream, player, room, y ,x) {
         })
 
         player.Bombs++
-
+        
     }, 3000)
 }
