@@ -1,9 +1,9 @@
-import { sendMessages } from "./stream.js"
+import { broadCastRoom } from "./broadCast.js"
 
-export function HandleBomb(stream, player, room, y ,x) {
+export function HandleBomb(player, room) {
+    const row = Math.floor(player.position.y)
+    const col = Math.floor(player.position.x)
     setTimeout(() => {
-        const row = Math.floor(y)
-        const col = Math.floor(x)
 
         const getTile = (r, c) => room.map[r][c]
 
@@ -36,14 +36,14 @@ export function HandleBomb(stream, player, room, y ,x) {
             room.map[row][col] = 0
         }
 
-        sendMessages(stream, {
+        broadCastRoom(room, {
             type: "placeBomb",
             player,
             room,
             class: "explosion"
         })
 
-        player.Bombs++
+        player.Bombstries++
 
     }, 5000)
 }

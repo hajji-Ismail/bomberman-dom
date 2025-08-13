@@ -1,16 +1,17 @@
-export function setUpplayerNumbers(room) {
+export function setUpPlayers(room) {
+
     room.players.forEach((player, i) => {
         player["playerNumber"] = `player${i + 1}`
 
         player.Bombs = 1;
         player.Flames = 1;
         player.Speed = 1;
-        player.xstep = 0;
-        player.ystep = 0;
+        player.Bombstries = player.Bombs
 
 
-        const mapWidth = data.room.map[0].length;
-        const mapHeight = data.room.map.length;
+
+        const mapWidth = room.map[0].length;
+        const mapHeight = room.map.length;
 
         // Set position centered on tile
         switch (i) {

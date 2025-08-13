@@ -1,19 +1,12 @@
-export function HandleChat(data = {}, rooms = []) {
-    const room = rooms.find((element) => {
-        return element.id == data.chating_room.id
+import { broadCastRoom } from "./broadCast.js";
+import { getRoom } from "./getData.js";
+
+export function HandleChat(data = {}) {    
+    const room = getRoom(data.room.id)
+    broadCastRoom(room, {
+        type: "chating",
+        message: data.message,
+        username: data.username,
+        playerNumber: data.playerNumber
     })
-
-    room.players.forEach(player => {
-        player.stream.send(JSON.stringify({
-            type : "chating",
-            message : data.message,
-            username : data.username,
-            playerNumber: data.playerNumber
-        }))
-
-
-    });
-
-
-
 }

@@ -1,9 +1,11 @@
 // This function helps us search for an available room to join; otherwise, it creates a new one.
-export function HandleRooms(rooms = [], stream, username = "") {
+import { GenerateMap } from "./genrateMap.js"
+import { rooms } from "../index.js"
+export function HandleRooms(stream, username = "") {
     // case of no room available
     const player = { username, stream }
     if (rooms.length == 0) {
-        return NewRoom(rooms, player)
+        return NewRoom(player)
     }
     const emptyRooms = rooms.filter(room => !room.available && room.players.length == 0)
     emptyRooms.forEach(ele => {
@@ -32,16 +34,16 @@ export function HandleRooms(rooms = [], stream, username = "") {
         }
         return availableRoom
     } else {
-        return NewRoom(rooms, player)
+        return NewRoom(player)
     }
 }
 
-function NewRoom(rooms = [], player = {}) {
+function NewRoom(player = {}) {
     const room = {
         id: Date.now(),
         players: [player],
         available: true,
-        map: null
+        map: GenerateMap(13)
     }
     rooms.push(room)
     return room

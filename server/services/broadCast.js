@@ -1,30 +1,21 @@
-export function broadCastWaittingRoom(room) {
-    const safeRoom = getSafeRoom(room);
+export function broadCastRoom(room, message) {
+    // const safeRoom = getSafeRoom(room);
+    // room.
+    // const safeRoom = {...room}
+    // safeRoom.
 
-    room.players.forEach(element => {
-        element.stream.send(JSON.stringify({
-            type: "waitting_room",
-            room: safeRoom
-        }));
+    room.players.forEach(player => {
+        player.stream.send(JSON.stringify(message));
     });
 }
 
-export function brodCastMap(room, map) {
-
-    room.players.forEach(element => {
-
-        element.stream.send(JSON.stringify({
-            type: "getMap",
-            map
-        }));
-    });
-}
 function getSafeRoom(room) {
     return {
         id: room.id,
         players: room.players.map(p => ({
             username: p.username,
-            playerNumber: p.playerNumber
+            playerNumber: p.playerNumber,
+            isDeath: p.isDeath
         }))
     };
 }

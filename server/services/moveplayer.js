@@ -1,21 +1,16 @@
+import { broadCastRoom } from "./broadCast.js"
+import { getPlayer, getRoom } from "./getData.js"
 import { HandleBomb } from "./handleBomb.js"
-import { sendMessages } from "./stream.js"
 
-export function movePlayer(data = {}, rooms, stream) {
-    let room = rooms.find((element) => element.id == data.room.id)
+export function movePlayer(data = {}) {
+    let room = getRoom(data.room.id)
     const map = room.map
 
-
-    const player = room.players.find((player) => player.username == data.username)
-    console.log(player, "?????????");
-
+    const player = getPlayer(room.id, data.username)
 
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
     const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
-    console.log(walkableCells);
-
-
     const earnAbility = (cellul) => {
         switch (cellul) {
             case 7:
@@ -38,9 +33,8 @@ export function movePlayer(data = {}, rooms, stream) {
         }
 
     }
-    const canMove = (cellul) => {
-        console.log(walkableCells.includes(cellul));
 
+    const canMove = (cellul) => {
         return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
     };
@@ -49,7 +43,6 @@ export function movePlayer(data = {}, rooms, stream) {
         let checkCell = axis === "x"
             ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
             : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
-        console.log(checkCell);
 
 
 
@@ -59,7 +52,7 @@ export function movePlayer(data = {}, rooms, stream) {
             player.position[axis] += step;
             player.position[axis + "step"] += step;
 
-            BrodcastMove(room.players, {
+            broadCastRoom(room, {
                 type: "canMove",
                 player: getSafePlayer(player),
                 direction,
@@ -84,7 +77,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 player.position[otherAxis] = Math.floor(player.position[otherAxis]);
                 player.position[otherAxis + "step"] -= (oldVal - Math.floor(oldVal));
 
-                BrodcastMove(room.players, {
+                broadCastRoom(room, {
                     type: "canMove",
                     player: getSafePlayer(player),
                     direction,
@@ -106,7 +99,7 @@ export function movePlayer(data = {}, rooms, stream) {
                 player.position[otherAxis] = Math.ceil(player.position[otherAxis]);
                 player.position[otherAxis + "step"] += (Math.ceil(player.position[otherAxis]) - oldVal);
 
-                BrodcastMove(room.players, {
+                broadCastRoom(room, {
                     type: "canMove",
                     player: getSafePlayer(player),
                     direction,
@@ -122,16 +115,16 @@ export function movePlayer(data = {}, rooms, stream) {
 
     switch (data.action) {
         case " ": {
-            if (player.Bombs > 0) {
-                player.Bombs--
+            if (player.Bombstries > 0) {
+                player.Bombstries--
                 cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
                 Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
-                sendMessages(stream, {
+                broadCastRoom(room, {
                     type: "placeBomb",
                     player: getSafePlayer(player),
                     room: room
                 })
-                HandleBomb(stream, player, room, player.position.y, player.position.x)
+                HandleBomb(player, room)
             }
 
             break
@@ -160,26 +153,26 @@ export function movePlayer(data = {}, rooms, stream) {
     }
 }
 
-export function stopMoving(data = {}, rooms) {
-    let room = rooms.find((element) => element.id == data.room.id)
-    const player = room.players.find((player) => player.username == data.username)
+export function stopMoving(data = {}) {
+    const room = getRoom(data.room.id)
+    const player = getPlayer(room.id, data.username)
     switch (data.action) {
         case "ArrowRight":
-            BrodcastMove(room.players, {
+            broadCastRoom(room, {
                 type: "stopMove",
                 player,
                 newCLass: GenerateNewClass(player)
             })
             break;
         case "ArrowLeft":
-            BrodcastMove(room.players, {
+            broadCastRoom(room, {
                 type: "stopMove",
                 player,
                 newCLass: GenerateNewClass(player)
             })
             break
         case "ArrowUp":
-            BrodcastMove(room.players, {
+            broadCastRoom(room, {
                 type: "stopMove",
                 player,
                 newCLass: GenerateNewClass(player)
@@ -187,7 +180,7 @@ export function stopMoving(data = {}, rooms) {
             break
         case "ArrowDown":
 
-            BrodcastMove(room.players, {
+            broadCastRoom(room, {
                 type: "stopMove",
                 player,
                 newCLass: GenerateNewClass(player)
@@ -218,12 +211,6 @@ function GenerateNewClass(player) {
             break
     }
     return newCLass
-}
-
-function BrodcastMove(players, data) {
-    for (let player of players) {
-        sendMessages(player.stream, data)
-    }
 }
 
 function getSafePlayer(player) {

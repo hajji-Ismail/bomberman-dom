@@ -24,6 +24,8 @@ export const CreateWs = () => {
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
                     state.set('current_room', message.room)
+                    console.log(message, "message");
+
                     break;
                 case "chating":
                     const messages = state.get('messages') || [];
@@ -32,20 +34,15 @@ export const CreateWs = () => {
                 case "userhange":
                     state.set("username", message.username)
                     break
-                case "getMap":
-                    state.set('current_room', { ...state.get('current_room'), map: message.map })
-                    state.setContext('positionX', 0)
-                    state.setContext('positionY', 0)
-                    // ws.send(JSON.stringify({
-                    //     type: "start",
-                    //     room: state.get('current_room')
-                    // }))
+                case "newRoom":
+                    state.set('current_room', message.room)
+
                     break
                 case "canMove":
                     HandleMovement(message, state)
                     break
                 case "stopMove":
-                    StopMove(message,state)
+                    StopMove(message, state)
                     break
                 case "placeBomb":
                     state.set('current_room', message.room)

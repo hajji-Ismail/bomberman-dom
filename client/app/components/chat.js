@@ -13,7 +13,7 @@ function chat() {
             if (e.target.value.trim().length > 0) {
                 socket.send(JSON.stringify({
                     type: 'chating',
-                    chating_room: currentRoom,
+                    room: currentRoom,
                     message: e.target.value.trim(),
                     playerNumber: player.playerNumber,
                     username: player.username
