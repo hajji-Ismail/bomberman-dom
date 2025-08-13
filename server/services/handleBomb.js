@@ -18,20 +18,20 @@ export function HandleBomb(player, room) {
       }
     };
     const placeFlames = (r, c) => {
-      if (
-        getTile(r, c) != 2 &&
-        ![3, 4, 5].includes(getTile(r, c)) &&
-        getTile(r, c) != 1
-      ) {
-        const oldTile = getTile(r, c);
-
-        room.map[r][c] = 10;
-
-        setTimeout(() => {
-          room.map[r][c] = oldTile;
-          console.table(room.map);
-        }, 1000);
+      let oldTile = getTile(r, c);
+      if (oldTile == 2) {
+        oldTile = 0;
       }
+      if ([3, 4, 5].includes(oldTile)) {
+        oldTile += 4;
+      }
+
+      room.map[r][c] = 10;
+
+      setTimeout(() => {
+        room.map[r][c] = oldTile;
+        console.table(room.map);
+      }, 1000);
     };
 
     const directions = [[], [], [], []];
@@ -45,7 +45,7 @@ export function HandleBomb(player, room) {
     }
 
     // Include the bomb’s own tile
-    placeFlames(row, col);
+
     destroyBlock(row, col);
     damagePlayer(row, col);
 
@@ -56,11 +56,8 @@ export function HandleBomb(player, room) {
 
         if (tile === 1) break; // stop at solid wall
         placeFlames(r, c);
-
         destroyBlock(r, c);
         damagePlayer(r, c);
-
-        if (tile === 2) break; // breakable block stops flames too
       }
     });
 
@@ -69,7 +66,7 @@ export function HandleBomb(player, room) {
     } else {
       room.map[row][col] = 0;
     }
-
+    placeFlames(row, col);
     broadCastRoom(room, {
       type: "placeBomb",
       player,
