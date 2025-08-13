@@ -18,8 +18,6 @@ export function HandleBomb(player, room) {
       }
     };
     const placeFlames = (r, c) => {
-      console.log(getTile(r, c));
-
       if (
         getTile(r, c) != 2 &&
         ![3, 4, 5].includes(getTile(r, c)) &&
@@ -36,21 +34,35 @@ export function HandleBomb(player, room) {
       }
     };
 
-    const directions = [];
-for (let index = 1; index <= player.Flames; index++) {
-  directions.push(
-    { r: row - index, c: col },
-    { r: row + index, c: col },
-    { r: row, c: col - index },
-    { r: row, c: col + index }
-  );
-}
+    const directions = [[], [], [], []];
 
-    directions.forEach(({ r, c }) => placeFlames(r, c));
+    // Fill each direction until flames reach limit
+    for (let index = 1; index <= player.Flames; index++) {
+      directions[0].push({ r: row - index, c: col }); // up
+      directions[1].push({ r: row + index, c: col }); // down
+      directions[2].push({ r: row, c: col - index }); // left
+      directions[3].push({ r: row, c: col + index }); // right
+    }
 
-    directions.forEach(({ r, c }) => destroyBlock(r, c));
+    // Include the bomb’s own tile
+    placeFlames(row, col);
+    destroyBlock(row, col);
+    damagePlayer(row, col);
 
-    directions.forEach(({ r, c }) => damagePlayer(r, c));
+    // Loop through each direction
+    directions.forEach((direction) => {
+      for (const { r, c } of direction) {
+        const tile = getTile(r, c);
+
+        if (tile === 1) break; // stop at solid wall
+        placeFlames(r, c);
+
+        destroyBlock(r, c);
+        damagePlayer(r, c);
+
+        if (tile === 2) break; // breakable block stops flames too
+      }
+    });
 
     if (Array.isArray(room.map[row][col])) {
       room.map[row][col] = [11];
