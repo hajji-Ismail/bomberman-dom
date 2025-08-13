@@ -46,5 +46,5 @@ export function HandleBomb(player, room) {
 
         player.Bombstries++
 
-    }, 5000)
+    }, 1000)
 }
