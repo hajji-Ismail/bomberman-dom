@@ -1,5 +1,4 @@
 const board = (player) => {
-    
     const iconClasses = [
         { icon: "fa-solid fa-bomb", text: `Bombs ${player.Bombs}` },
         { icon: "fa-solid fa-fire", text: `Flame ${player.Flames}` },
