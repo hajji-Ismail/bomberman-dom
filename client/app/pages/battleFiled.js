@@ -53,7 +53,7 @@ const battleField = () => {
 
             let baseClass = "path";
             if (isAbility) baseClass = "soft";
-            else if (isEarnAbility) baseClass = "path";  
+            else if (isEarnAbility) baseClass = "path";
             else baseClass = divsClasses[cellValue] || "path";
 
             const box = {
@@ -91,7 +91,7 @@ const battleField = () => {
             } else if (isEarnAbility) {
                 box.children.push({
                     tag: "div",
-                    attrs : {class : "ability-container"},
+                    attrs: { class: "ability-container" },
                     children: [
                         {
                             tag: "i",

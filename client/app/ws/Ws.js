@@ -46,6 +46,7 @@ export const CreateWs = () => {
                     break
                 case "placeBomb":
                     state.set('current_room', message.room)
+                    HandleMovement(message, state)
                     break
                 default:
                     break;

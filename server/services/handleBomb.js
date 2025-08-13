@@ -38,10 +38,31 @@ export function HandleBomb(player, room) {
 
         directions.forEach(({ r, c }) => destroyAbilityBlock(r, c))
 
-        room.players.forEach(currentPlayer => {
+        room.players.forEach((currentPlayer, idx) => {
             currentRow = Math.floor(currentPlayer.position.y)
             currentCol = Math.floor(currentPlayer.position.x)
-            directions.forEach(({ r, c }) => damagePlayer(r, c, currentPlayer))
+            if (currentRow === row && currentCol === col) {
+                console.log(`player ${currentPlayer.playerNumber} tfrgee3`)
+                currentPlayer.isDamaged = true
+                switch (idx) {
+                    case 0: // Top-left
+                        currentPlayer.position = { x: 1.35, y: 1.85, xstep: 0, ystep: 0 };
+                        break;
+                    case 1: // Top-right
+                        currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: 1.85, xstep: 0, ystep: 0 };
+                        break;
+                    case 2:
+                        currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
+                        break;
+                    case 3: // Bottom-left
+                        currentPlayer.position = { x: 1.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                directions.forEach(({ r, c }) => damagePlayer(r, c, currentPlayer))
+            }
         })
 
         if (Array.isArray(room.map[row][col])) {

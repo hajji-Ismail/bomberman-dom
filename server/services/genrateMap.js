@@ -76,10 +76,7 @@ export function GenerateMap(size) {
     for (let i = 0; i < abilities.length && i < abilityTiles.length; i++) {
         const [x, y] = abilityTiles[i];
         map[x][y] = abilities[i]; // Replace soft wall with a soft wall that contains a power-up
-    }
-
-    console.table(map);
-    
+    }    
 
     return map;
 }
