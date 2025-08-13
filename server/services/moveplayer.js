@@ -40,7 +40,7 @@ export function movePlayer(data = {}) {
 
   };
   const tryMove = (player, axis, step, direction, room, map) => {
-    let otherAxis = axis === "x" ? "y" : "x";
+
     let checkCell = axis === "x"
       ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
       : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
