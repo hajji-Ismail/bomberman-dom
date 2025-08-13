@@ -14,7 +14,6 @@ export function RemovePlayer(rooms = [], stream) {
             }
             else {
                 room.players[index]["isDeath"] = true
-                //console.log(room.players[index]);
                 
             }
             if (room.players.length === 0) {

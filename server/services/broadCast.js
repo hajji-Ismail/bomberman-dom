@@ -1,7 +1,6 @@
 export function broadCastWaittingRoom(room) {
 
     const safeRoom = getSafeRoom(room);
-    console.log(safeRoom);
 
     room.players.forEach(element => {
         if (element.stream) {

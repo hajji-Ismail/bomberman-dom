@@ -11,11 +11,9 @@ export function movePlayer(data = {}, rooms, stream) {
     let Xstep = 0.075 * player.Speed
     let Ystep = 0.075 * player.Speed
     const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14]
-    console.log(walkableCells);
     
 
     const canMove = (cellul) => {
-        console.log(walkableCells.includes(cellul));
         
      return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
@@ -26,13 +24,11 @@ export function movePlayer(data = {}, rooms, stream) {
         let checkCell = axis === "x"
             ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
             : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
-            console.log(checkCell);
             
 
 
 
         if (canMove(checkCell)) {
-            console.log("hi");
             
             player.position[axis] += step;
             player.position[axis + "step"] += step;
@@ -54,7 +50,6 @@ export function movePlayer(data = {}, rooms, stream) {
                 : map[Math.floor(player.position.y + step)][Math.floor(player.position.x) - 1];
 
             if (canMove(checkAligned)) {
-                console.log("hi0.2");
                 let oldVal = player.position[otherAxis];
                 player.position[axis] += step;
                 player.position[axis + "step"] += step;
@@ -75,7 +70,6 @@ export function movePlayer(data = {}, rooms, stream) {
                 : map[Math.floor(player.position.y + step)][Math.ceil(player.position.x)];
 
             if (canMove(checkAligned)) {
-                console.log("hi0.8");
                 let oldVal = player.position[otherAxis];
                 player.position[axis + "step"] += step;
                 player.position[otherAxis] = Math.ceil(player.position[otherAxis]);
