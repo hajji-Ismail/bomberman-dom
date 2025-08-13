@@ -37,6 +37,9 @@
   margin: 20px auto;
   max-width: max-content;
 }
+.flames{
+  background-color: #f32424;
+}
 
 .wall {
   display: flex;

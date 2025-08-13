@@ -35,7 +35,9 @@ const battleField = () => {
         6: "place-bomb",
         7: "earn-bomb fa-solid fa-bomb",
         8: "earn-speed fa-solid fa-person-running",
-        9: "earn-flame fa-solid fa-bolt"
+        9: "earn-flame fa-solid fa-bolt",
+        10 : "flames fa-solid"
+    
     };
 
 
