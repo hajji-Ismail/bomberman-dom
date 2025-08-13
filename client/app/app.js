@@ -2,6 +2,7 @@ import battleField from "./pages/battleFiled.js";
 import Joinning from "./pages/Joinning.js"
 import Waitting from "./pages/Waitting.js";
 import { state } from "./main.js";
+import resultPage from "./pages/resultPage.js";
 
 function App() {
     const route = state.get('route') || "/"
@@ -15,6 +16,9 @@ function App() {
             break
         case "/game":
             currentComponent = battleField()
+            break
+        case "/resultPage":
+            currentComponent = resultPage()
             break
         default:
             alert("hhhhh 404")

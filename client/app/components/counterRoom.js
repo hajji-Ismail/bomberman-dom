@@ -3,7 +3,7 @@ import { state } from "../main.js";
 export const CounterObj = {
     isInitialized: false,
     timer: undefined,
-    cp: 10
+    cp: 5
 }
 
 const counterRoom = () => {
@@ -25,7 +25,7 @@ const counterRoom = () => {
                         id: state.get('current_room').id
                     }))}
                     state.set('current_room', { ...state.get('current_room'), available: false })
-                    state.set("counter", CounterObj.cp / 2);
+                    state.set("counter", 2);
                     isRestartPhase = true;
                     return;
                 }
