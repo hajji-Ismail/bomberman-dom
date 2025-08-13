@@ -39,6 +39,7 @@ export const CreateWs = () => {
 
                     break
                 case "canMove":
+                    state.setContext('current_room', message.room)
                     HandleMovement(message, state)
                     break
                 case "stopMove":

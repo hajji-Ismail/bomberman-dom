@@ -108,7 +108,17 @@
   align-items: center;
 }
 
+i.earn-bomb.fa-bomb{
+  position: relative;
+}
 
+i.earn-bomb.fa-bomb::after{
+  content: '+';
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 0.8em;
+}
 
 @keyframes bomb-pulse {
   0% {

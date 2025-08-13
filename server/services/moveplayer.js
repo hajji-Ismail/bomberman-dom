@@ -12,62 +12,55 @@ export function movePlayer(data = {}) {
   let Xstep = 0.075 * player.Speed
   let Ystep = 0.075 * player.Speed
   const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
-  const earnAbility = (cellul) => {
-    switch (cellul) {
+
+  const earnAbility = (cellValue, y, x) => {
+    switch (cellValue) {
       case 7:
-        room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
-        player.Bombs++
+        room.map[y][x] = 0;
+        player.Bombs++;
         break;
-
       case 8:
-
-        room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
-        player.Speed++
+        room.map[y][x] = 0;
+        player.Speed++;
         break;
       case 9:
-        room.map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 0
-        player.Flames++
+        room.map[y][x] = 0;
+        player.Flames++;
         break;
-
       default:
         break;
     }
+  };
 
-  }
 
   const canMove = (cellul) => {
     return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
   };
   const tryMove = (player, axis, step, direction, room, map) => {
+    let targetX = axis === "x" ? Math.floor(player.position.x + step) : Math.floor(player.position.x);
+    let targetY = axis === "y" ? Math.floor(player.position.y + step) : Math.floor(player.position.y);
 
-    let checkCell = axis === "x"
-      ? map[Math.floor(player.position.y)][Math.floor(player.position.x + step)]
-      : map[Math.floor(player.position.y + step)][Math.floor(player.position.x)];
-
-
-
-
+    let checkCell = map[targetY][targetX];
 
     if (canMove(checkCell)) {
-      earnAbility(checkCell)
+      earnAbility(checkCell, targetY, targetX);  
+
       player.position[axis] += step;
       player.position[axis + "step"] += step;
-
 
       broadCastRoom(room, {
         type: "canMove",
         player: getSafePlayer(player),
         direction,
         newCLass: GenerateNewClass(player) + " player-" + direction,
-        playerNumber: player.playerNumber
+        playerNumber: player.playerNumber,
+        room : room
       });
       return;
     }
-
-   
-
   }
+
 
 
   let cellul;

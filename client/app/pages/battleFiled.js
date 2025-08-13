@@ -13,6 +13,7 @@ const divsClasses = {
     8: "earn-speed fa-solid fa-bolt-lightning",
     9: "earn-flame fa-solid fa-fire"
 };
+{/* <i class="fa-solid fa-plus"></i>// */}
 
 const earnAbilityWrapperClasses = {
     7: "earn-bomb",
@@ -68,13 +69,14 @@ const battleField = () => {
                     ((11 + idx === cellValue) ||
                         (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
             );
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
                 box.children.push({
                     tag: "div",
                     player: true,
                     attrs: {
+                        key :`${playerIndex + 1}`,
                         style: styles[playerAtCell.username] || "transform: translate(0px,0px);",
                         class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
                         onkeydown: moving,
