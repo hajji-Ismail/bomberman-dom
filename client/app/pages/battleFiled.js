@@ -70,7 +70,7 @@ const battleField = () => {
                     ((11 + idx === cellValue) ||
                         (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
             );
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
                 box.children.push({
