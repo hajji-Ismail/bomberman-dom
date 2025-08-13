@@ -16,7 +16,7 @@ function Waitting() {
             }
         })
     }
- 
+
     return [
         {
             tag: "h1",
@@ -25,13 +25,13 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(current?.players?.length > 1 ? [counterRoom()] : [{
+        ...(current?.players?.length > 0 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'
             },
             text: "waitt for others to join"
-        }]) ,
+        }]),
         {
             tag: "div",
             attrs: {

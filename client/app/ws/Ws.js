@@ -4,7 +4,7 @@ import { state } from "../main.js";
 
 export const CreateWs = () => {
     return new Promise((resolve, reject) => {
-        const ws = new WebSocket("ws://10.1.12.3:8080/ws");
+        const ws = new WebSocket("ws://localhost:8080/ws");
         ws.onopen = () => {
             console.log("🔗 WebSocket connection opened");
             state.set("ws", ws);
@@ -21,7 +21,7 @@ export const CreateWs = () => {
 
             switch (message.type) {
                 case "waitting_room":
-                  
+
 
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
