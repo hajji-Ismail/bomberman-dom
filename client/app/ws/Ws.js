@@ -36,10 +36,10 @@ export const CreateWs = () => {
                     state.set('current_room', { ...state.get('current_room'), map: message.map })
                     state.setContext('positionX', 0)
                     state.setContext('positionY', 0)
-                    ws.send(JSON.stringify({
-                        type: "start",
-                        room: state.get('current_room')
-                    }))
+                    // ws.send(JSON.stringify({
+                    //     type: "start",
+                    //     room: state.get('current_room')
+                    // }))
                     break
                 case "canMove":
                     HandleMovement(message, state)

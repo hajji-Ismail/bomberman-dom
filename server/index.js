@@ -28,7 +28,7 @@ ws.on('connection', (stream) => {
         switch (data.type) {
             case "join":
                 const room = HandleRooms(rooms, stream, data.username)
-                setPlayerNumbers(room)
+                setPlayerNumbers(data ,room)
                 broadCastWaittingRoom(room)
                 break
             case "chating":
@@ -39,6 +39,7 @@ ws.on('connection', (stream) => {
                     return element.id == data.id
                 })
                 
+
                     c_room.available = false
                     brodCastMap(c_room, GenerateMap(13))
                 
