@@ -14,6 +14,7 @@ const divsClasses = {
     9: "earn-flame fa-solid fa-fire",
     10 : "flames "
 };
+{/* <i class="fa-solid fa-plus"></i>// */}
 
 const earnAbilityWrapperClasses = {
     7: "earn-bomb",
@@ -76,6 +77,7 @@ const battleField = () => {
                     tag: "div",
                     player: true,
                     attrs: {
+                        key :`${playerIndex + 1}`,
                         style: styles[playerAtCell.username] || "transform: translate(0px,0px);",
                         class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
                         onkeydown: moving,
