@@ -24,8 +24,6 @@ export const CreateWs = () => {
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
                     state.set('current_room', message.room)
-                    console.log(message, "message");
-
                     break;
                 case "chating":
                     const messages = state.get('messages') || [];

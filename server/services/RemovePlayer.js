@@ -9,15 +9,15 @@ export function RemovePlayer(stream) {
                 return true
             }
         })
+        room
         if (index !== -1) {
-            room.players.splice(index, 1)
-            if (room.players.length === 0) {
-                room.available = true
+            if (room.available) {
+                room.players.splice(index, 1)
+                if (room.players.length === 0) {
+                    room.available = true
+                }
             } else {
-                console.log("beffoore", room.players.length);
                 room.players[index]['isDeath'] = true
-                console.log("afterr", room.players.length);
-
             }
         }
     })

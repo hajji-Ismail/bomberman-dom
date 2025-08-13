@@ -59,7 +59,7 @@ const battleField = () => {
             };
 
             // Add player if present
-            const playerAtCell = players.find((ele, idx) => (ele?.isDeath != true) && (11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0]));
+            const playerAtCell = players.find((ele, idx) => (ele?.isDeath != true) && ((11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0])));
 
             const styles = state.get("playerStyles") || {};
             const classes = state.get("playerClasses") || {};
