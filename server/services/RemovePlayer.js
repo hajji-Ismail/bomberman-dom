@@ -7,8 +7,15 @@ export function RemovePlayer(rooms = [], stream) {
                 return true
             }
         })
+
         if (index !== -1) {
-            room.players.splice(index, 1)
+            if (room.available) {
+                room.players.splice(index, 1)
+            }
+            else {
+                room.players[index]["isDeath"] = true
+                
+            }
             if (room.players.length === 0) {
                 room.available = true
             }

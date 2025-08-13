@@ -197,7 +197,9 @@ function GenerateNewClass(player) {
 
 function BrodcastMove(players, data) {
     for (let player of players) {
-        sendMessages(player.stream, data)
+        if (player.stream) {
+            sendMessages(player.stream, data)
+        }
     }
 }
 
