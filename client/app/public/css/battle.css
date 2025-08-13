@@ -30,7 +30,7 @@
 .battle-field {
   display: inline-grid;
   gap: 0;
-  border: 2px solid var(--wall-color);
+  border: 1px solid var(--wall-color);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
@@ -50,11 +50,6 @@
 .box {
   width: 55px;
   height: 55px;
-  /* display: flex;
-  align-items: center;
-  justify-content:center ; */
-
-  border: 0.1rem solid var(--text-color);
   box-sizing: border-box;
   position: relative;
 }
@@ -63,17 +58,25 @@
    Tile Types
 ============================= */
 .path {
-  background-color: var(--path-color);
+  background-image: url('../blocks/road.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform-origin: center;
 }
 
 .solid-wall {
-  background-color: var(--bg-color);
-  background-size: 50px 50px;
+  background-image: url('../blocks/wall.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .soft-wall {
-  background-color: var(--block-color);
-  background-size: 50px 50px;
+  background-image: url('../blocks/myster.jpg');
+   background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .path .place-bomb {
@@ -96,6 +99,13 @@
 }
 
 @keyframes bomb-pulse {
-  0% { transform: scale(1);   color: var(--bomb-color); }
-  100% { transform: scale(1.2); color: var(--explosion-color); }
+  0% {
+    transform: scale(1);
+    color: var(--bomb-color);
+  }
+
+  100% {
+    transform: scale(1.2);
+    color: var(--explosion-color);
+  }
 }

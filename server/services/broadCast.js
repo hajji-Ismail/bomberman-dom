@@ -10,6 +10,7 @@ export function broadCastRoom(room, message) {
 }
 
 function getSafeRoom(room) {
+
     return {
         id: room.id,
         players: room.players.map(p => ({

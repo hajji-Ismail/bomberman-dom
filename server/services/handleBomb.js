@@ -10,6 +10,7 @@ export function HandleBomb(player, room) {
         const destroyBlock = (r, c) => {
             if (getTile(r, c) === 2) {
                 room.map[r][c] = 0
+                
             }
         }
 

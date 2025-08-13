@@ -16,7 +16,7 @@ function Waitting() {
             }
         })
     }
- 
+
     return [
         {
             tag: "h1",
@@ -31,7 +31,7 @@ function Waitting() {
                 class: 'title'
             },
             text: "waitt for others to join"
-        }]) ,
+        }]),
         {
             tag: "div",
             attrs: {
