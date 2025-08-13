@@ -1,11 +1,15 @@
 export function broadCastWaittingRoom(room) {
+
     const safeRoom = getSafeRoom(room);
+    console.log(safeRoom);
 
     room.players.forEach(element => {
-        element.stream.send(JSON.stringify({
-            type: "waitting_room",
-            room: safeRoom
-        }));
+        if (element.stream) {
+            element.stream.send(JSON.stringify({
+                type: "waitting_room",
+                room: safeRoom
+            }));
+        }
     });
 }
 
@@ -20,11 +24,16 @@ export function brodCastMap(room, map) {
     });
 }
 function getSafeRoom(room) {
+
     return {
         id: room.id,
         players: room.players.map(p => ({
             username: p.username,
-            playerNumber: p.playerNumber
-        }))
+            playerNumber: p.playerNumber,
+            isDeath: p.isDeath
+        })),
+        available: room.available,
+        map: room.map,
+
     };
 }

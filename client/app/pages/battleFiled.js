@@ -37,6 +37,7 @@ const battleField = () => {
         9: "earn-flame fa-solid fa-bolt"
     };
 
+
     for (let row = 0; row < map.length; row++) {
         let wall = [];
 
@@ -50,24 +51,19 @@ const battleField = () => {
             const isPlacingBomb = 6 === cellValue
 
             // If it's an ability, we treat it as a soft wall visually
-            const baseClass = isAbility ? "soft-wall" : (!isEarnAbility ? divsClasses[cellValue] || "path" : "path");
-
+            let baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || `path`);
             const box = {
                 tag: "div",
                 attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },
             };
 
             // Add player if present
-            const playerAtCell = players.find((_, idx) => (11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0]));
+            const playerAtCell = players.find((player, idx) => (player?.isDeath != true) && ((11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0])));
 
             const styles = state.get("playerStyles") || {};
             const classes = state.get("playerClasses") || {};
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-
-
-
-
                 box.children = [
                     {
                         tag: "div",

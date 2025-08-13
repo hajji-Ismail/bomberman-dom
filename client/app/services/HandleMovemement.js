@@ -14,8 +14,8 @@ export function HandleMovement(data = {}, state) {
 }
 
 export function StopMove(data = {}, state) {
-    // const username = data.player.username;
-    // const classes = state.get("playerClasses") || {};
-    // classes[username] = data.newCLass;
-    // state.set("playerClasses", classes);
+    const username = data.player.username;
+    const classes = state.get("playerClasses") || {};
+    classes[username] = data.newCLass;
+    state.set("playerClasses", classes);
 }
