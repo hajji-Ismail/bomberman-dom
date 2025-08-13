@@ -1,161 +1,147 @@
 import board from "../components/board.js";
 import { state } from "../main.js";
+
+const divsClasses = {
+    0: "path",
+    1: "solid",
+    2: "soft",
+    3: "bomb",
+    4: "speed",
+    5: "flame",
+    6: "place-bomb",
+    7: "earn-bomb fa-solid fa-bomb",
+    8: "earn-speed fa-solid fa-bolt-lightning",
+    9: "earn-flame fa-solid fa-fire"
+};
+{/* <i class="fa-solid fa-plus"></i>// */}
+
+const earnAbilityWrapperClasses = {
+    7: "earn-bomb",
+    8: "earn-speed",
+    9: "earn-flame"
+};
+
 const battleField = () => {
-    const current = state.get('current_room');
-    const map = current.map
+    const current = state.get("current_room");
+    const map = current.map;
     const players = current.players;
-    const currrentUsername = state.get('username')
-    const socket = state.get('ws')
-    const player = players.find((player) => (player.username === currrentUsername))
-    let divs = [];
-    const moving = (e) => {
-        socket.send(JSON.stringify({
-            type: "move",
-            username: currrentUsername,
-            room: current,
-            action: e.key
-        }))
-    }
-    const stopMoving = (e) => {
-        socket.send(JSON.stringify({
-            type: "stop-move",
-            username: currrentUsername,
-            room: current,
-            action: e.key
-        }))
-    }
-    // Map values to base classes
-    const divsClasses = {
-        0: "path",
-        1: "solid-wall",
-        2: "soft-wall",
-        3: "bomb",
-        4: "speed",
-        5: "flame",
-        6: "place-bomb",
-        7: "earn-bomb fa-solid fa-bomb",
-        8: "earn-speed fa-solid fa-person-running",
-        9: "earn-flame fa-solid fa-bolt"
+    const currentUsername = state.get("username");
+    const socket = state.get("ws");
+    const player = players.find((p) => p.username === currentUsername);
+
+    const styles = state.get("playerStyles") || {};
+    const classes = state.get("playerClasses") || {};
+
+    const sendAction = (type) => (e) => {
+        socket.send(
+            JSON.stringify({
+                type,
+                username: currentUsername,
+                room: current,
+                action: e.key
+            })
+        );
     };
 
+    const moving = sendAction("move");
+    const stopMoving = sendAction("stop-move");
 
-    for (let row = 0; row < map.length; row++) {
-        let wall = [];
-
-        for (let col = 0; col < map[row].length; col++) {
-            const cellValue = map[row][col];
-
-            // Determine if the cell is an ability (3: speed, 4: bomb, 5: flame)
+    const divs = map.map((row) => {
+        const wall = row.map((cellValue) => {
             const isAbility = [3, 4, 5].includes(cellValue);
-            const isEarnAbility = [7, 8, 9].includes(cellValue)
-            const abilityType = isAbility ? cellValue : null;
-            const isPlacingBomb = 6 === cellValue
+            const isEarnAbility = [7, 8, 9].includes(cellValue);
+            const isPlacingBomb = cellValue === 6;
 
-            // If it's an ability, we treat it as a soft wall visually
-            let baseClass = isAbility ? "soft-wall" : (divsClasses[cellValue] || `path`);
+            let baseClass = "path";
+            if (isAbility) baseClass = "soft";
+            else if (isEarnAbility) baseClass = "path";  
+            else baseClass = divsClasses[cellValue] || "path";
+
             const box = {
                 tag: "div",
                 attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },
+                children: []
             };
 
-            // Add player if present
-            const playerAtCell = players.find((ele, idx) => (ele?.isDeath != true) && ((11 + idx === cellValue) || (Array.isArray(cellValue) && 11 + idx === cellValue[0])));
-
-            const styles = state.get("playerStyles") || {};
-            const classes = state.get("playerClasses") || {};
+            const playerAtCell = players.find(
+                (p, idx) =>
+                    !p.isDeath &&
+                    ((11 + idx === cellValue) ||
+                        (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
+            );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
-                box.children = [
-                    {
-                        tag: "div",
-                        player: true,
-                        attrs: {
-                            style: styles[playerAtCell.username] || 'transform: translate(0px,0px);',
-                            class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
-                            onkeydown: moving,
-                            onkeyup: stopMoving
-                        },
+                box.children.push({
+                    tag: "div",
+                    player: true,
+                    attrs: {
+                        key :`${playerIndex + 1}`,
+                        style: styles[playerAtCell.username] || "transform: translate(0px,0px);",
+                        class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
+                        onkeydown: moving,
+                        onkeyup: stopMoving
                     }
-                ];
+                });
             }
 
-            // If it's an ability cell, add it as a child to the soft wall
             if (isAbility) {
-                // Ensure `children` exists before pushing
-                if (!box.children) box.children = [];
-
                 box.children.push({
                     tag: "div",
-                    attrs: {
-                        class: `abilitie ${divsClasses[abilityType]}`,
-                    },
+                    attrs: { class: `abilitie ${divsClasses[cellValue]}` }
                 });
-            }
-
-            if (isEarnAbility) {
-                if (!box.children) box.children = [];
-
+            } else if (isEarnAbility) {
                 box.children.push({
                     tag: "div",
+                    attrs : {class : "ability-container"},
                     children: [
                         {
                             tag: "i",
-                            attrs: {
-                                class: `${divsClasses[cellValue]}`
-                            }
+                            attrs: { class: divsClasses[cellValue] }
                         }
                     ]
                 });
             }
 
-            if (isPlacingBomb || cellValue.length > 1) {
-                if (!box.children) box.children = []
-
+            if (isPlacingBomb || (Array.isArray(cellValue) && cellValue.length > 1)) {
                 box.children.push({
                     tag: "div",
                     attrs: {
-                        class: `${Array.isArray(cellValue) ? divsClasses[cellValue[1]] : baseClass}`,
+                        class: Array.isArray(cellValue) ? divsClasses[cellValue[1]] : baseClass
                     },
                     children: [
                         {
                             tag: "i",
-                            attrs: {
-                                class: "fa-solid fa-bomb"
-                            }
+                            attrs: { class: "fa-solid fa-bomb" }
                         }
                     ]
                 });
             }
 
-            wall.push(box);
-        }
+            return box;
+        });
 
-        divs.push({
+        return {
             tag: "div",
             attrs: { class: "wall" },
-            children: wall,
-        });
-    }
+            children: wall
+        };
+    });
 
     return [
         {
             tag: "div",
-            attrs: {
-                class: "game-container"
-            },
+            attrs: { class: "game-container" },
             children: [
-                board(player)
-                ,
+                board(player),
                 {
                     tag: "div",
                     attrs: { class: "battle-field" },
-                    children: divs,
-                },
+                    children: divs
+                }
             ]
         }
     ];
 };
 
-
-
-export default battleField
+export default battleField;

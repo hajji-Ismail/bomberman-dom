@@ -1,10 +1,11 @@
 const board = (player) => {
-    
+    console.log(player,"insode bord");
+
     const iconClasses = [
         { icon: "fa-solid fa-bomb", text: `Bombs ${player.Bombs}` },
         { icon: "fa-solid fa-fire", text: `Flame ${player.Flames}` },
         { icon: "fa-solid fa-bolt-lightning", text: `Speed ${player.Speed}` },
-        { icon: "fa-solid fa-heart", text: "Lives" }
+        { icon: "fa-solid fa-heart", text: `Lives ${player.Lives}`}
     ]
 
     const displayAbilities = () => {
