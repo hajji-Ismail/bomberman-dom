@@ -11,7 +11,8 @@ const divsClasses = {
     6: "place-bomb",
     7: "earn-bomb fa-solid fa-bomb",
     8: "earn-speed fa-solid fa-bolt-lightning",
-    9: "earn-flame fa-solid fa-fire"
+    9: "earn-flame fa-solid fa-fire",
+    10 : "flames "
 };
 
 const earnAbilityWrapperClasses = {

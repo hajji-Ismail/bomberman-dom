@@ -18,48 +18,34 @@ export function HandleBomb(player, room) {
       }
     };
     const placeFlames = (r, c) => {
-        console.log(  getTile(r, c));
-        
+      console.log(getTile(r, c));
+
       if (
         getTile(r, c) != 2 &&
         ![3, 4, 5].includes(getTile(r, c)) &&
         getTile(r, c) != 1
       ) {
-          const oldTile = getTile(r, c);
-        if (Array.isArray(getTile(r,c))) {
-            console.log(getTile(r,c));
-            
+        const oldTile = getTile(r, c);
 
-            room.map[r][c].push(10)
-        } else{
-            room.map[r][c] = 10;
+        room.map[r][c] = 10;
 
-        }
-      
-
-        
         setTimeout(() => {
-            
-        room.map[r][c] =oldTile ;
-        if (Array.isArray(getTile(r,c))) {
-            console.log(getTile(r,c));
-            
-
-            room.map[r][c].pop()
-        } 
-         console.table(room.map);
-        
+          room.map[r][c] = oldTile;
+          console.table(room.map);
         }, 1000);
       }
     };
 
-    const directions = [
-      { r: row - 1, c: col },
-      { r: row + 1, c: col },
-      { r: row, c: col - 1 },
-      { r: row, c: col + 1 },
-    ];
-    placeFlames(row, col);
+    const directions = [];
+for (let index = 1; index <= player.Flames; index++) {
+  directions.push(
+    { r: row - index, c: col },
+    { r: row + index, c: col },
+    { r: row, c: col - index },
+    { r: row, c: col + index }
+  );
+}
+
     directions.forEach(({ r, c }) => placeFlames(r, c));
 
     directions.forEach(({ r, c }) => destroyBlock(r, c));
@@ -80,7 +66,6 @@ export function HandleBomb(player, room) {
     });
     console.table(room.map);
 
-        player.Bombstries++
-
-    }, 1000)
+    player.Bombstries++;
+  }, 2000);
 }
