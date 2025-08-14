@@ -19,10 +19,18 @@ export function HandleBomb(player, room) {
     //   }
     // };
 
-    const damagePlayer = (r, c, currentPlayer, idx) => {
-      if (r === currentRow && c === currentCol) {
-        verifyPlayerDamage(room, currentPlayer, idx);
-      }
+    const damagePlayer = (r, c) => {
+      room.players.forEach((currentPlayer, idx) => {
+        currentRow = Math.floor(currentPlayer.position.y);
+        currentCol = Math.floor(currentPlayer.position.x);
+        if (currentRow === row && currentCol === col) {
+          verifyPlayerDamage(room, currentPlayer, idx);
+        } else {
+            if (r === currentRow && c === currentCol) {
+              verifyPlayerDamage(room, currentPlayer, idx);
+            }
+        }
+      });
     };
 
     const placeFlames = (r, c) => {
@@ -43,7 +51,6 @@ export function HandleBomb(player, room) {
       } else {
         room.map[r][c] = 10;
       }
-
 
       // Restore old tile after 1 second
 
@@ -68,8 +75,6 @@ export function HandleBomb(player, room) {
 
     // Include the bomb’s own tile
 
-    
-
     // Loop through each direction
     directions.forEach((direction) => {
       for (const { r, c } of direction) {
@@ -79,7 +84,6 @@ export function HandleBomb(player, room) {
         if (tile == 2) {
           placeFlames(r, c);
           destroyBlock(r, c);
-          damagePlayer(r, c);
           break;
         } // stop at solid wall
         placeFlames(r, c);
@@ -87,15 +91,6 @@ export function HandleBomb(player, room) {
         damagePlayer(r, c);
       }
     });
-      room.players.forEach((currentPlayer, idx) => {
-            currentRow = Math.floor(currentPlayer.position.y)
-            currentCol = Math.floor(currentPlayer.position.x)
-            if (currentRow === row && currentCol === col) {
-                verifyPlayerDamage(room, currentPlayer, idx)
-            } else {
-                directions.forEach(({ r, c }) => damagePlayer(r, c, currentPlayer, idx))
-            }
-        })
 
     if (Array.isArray(room.map[row][col])) {
       room.map[row][col] = [room.map[row][col][0]];
