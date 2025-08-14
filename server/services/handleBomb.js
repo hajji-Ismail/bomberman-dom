@@ -13,11 +13,7 @@ export function HandleBomb(player, room) {
       }
     };
 
-    // const destroyAbilityBlock = (r, c) => {
-    //   if ([3, 4, 5].includes(getTile(r, c))) {
-    //     room.map[r][c] += 4;
-    //   }
-    // };
+
 
     const damagePlayer = (r, c) => {
       room.players.forEach((currentPlayer, idx) => {
@@ -81,7 +77,7 @@ export function HandleBomb(player, room) {
         const tile = getTile(r, c);
 
         if (tile === 1) break;
-        if (tile == 2) {
+        if ([2, 3, 4, 5].includes(tile)) {
           placeFlames(r, c);
           destroyBlock(r, c);
           break;
