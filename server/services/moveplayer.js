@@ -71,9 +71,7 @@ export function movePlayer(data = {}) {
 
 
     switch (data.action) {
-        case " ": {
-            console.log(player.Bombstries);
-            
+        case " ": {            
             if (player.Bombstries > 0) {
                 player.Bombstries--
                 cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
