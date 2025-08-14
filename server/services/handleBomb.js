@@ -73,26 +73,26 @@ function verifyPlayerDamage(room, currentPlayer, idx) {
 
     if (currentPlayer.Lives <= 0) {
         currentPlayer.isLosed = true
-        console.log(currentPlayer.username);
-        const result = checkVictory(room)
+        const win = checkVictory(room)
         currentPlayer.stream.send(JSON.stringify({
             type: "result",
             result: "lose"
         }))
-        if (result.win.length == 1) {
-            result.win[0].stream.send(JSON.stringify({
+        if (win.length == 1) {
+            win[0].stream.send(JSON.stringify({
                 type: "result",
                 result: "win"
             }))
             room.players = []
             room.available = true
+            win[0].stream.close()
             return
         }
-
         broadCastRoom(room, {
             type: "newRoom",
             room
         })
+        currentPlayer.stream.close()
         return
     }
 

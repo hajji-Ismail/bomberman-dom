@@ -56,14 +56,18 @@ ws.on('connection', (stream) => {
 
     stream.on('close', () => {
         const room = RemovePlayer(stream)
-        const result = checkVictory(room)
-        if (result.win.length == 1) {
-            result.win[0].stream.send(JSON.stringify({
+        const win = checkVictory(room)
+        if (!win) {
+            return
+        }
+        if (win.length == 1) {
+            win[0].send(JSON.stringify({
                 type: "result",
                 result: "win"
             }))
             room.players = []
             room.available = true
+            stream.close()
             return
         }
 
