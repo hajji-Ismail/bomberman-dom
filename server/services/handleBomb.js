@@ -1,15 +1,14 @@
 import { broadCastRoom } from "./broadCast.js";
 
 export function HandleBomb(player, room) {
-    const row = Math.floor(player.position.y)
-    const col = Math.floor(player.position.x)
-    setTimeout(() => {
-        let currentRow, currentCol;
-        const getTile = (r, c) => room.map[r][c]
+
   const row = Math.floor(player.position.y);
   const col = Math.floor(player.position.x);
   setTimeout(() => {
+
+        let currentRow, currentCol;
     const getTile = (r, c) => room.map[r][c];
+
 
         const destroyBlock = (r, c) => {
             if (getTile(r, c) === 2) {
@@ -17,11 +16,7 @@ export function HandleBomb(player, room) {
 
             }
         }
-    const destroyBlock = (r, c) => {
-      if (getTile(r, c) === 2) {
-        room.map[r][c] = 0;
-      }
-    };
+
 
         const destroyAbilityBlock = (r, c) => {
             if ([3, 4, 5].includes(getTile(r, c))) {
@@ -34,11 +29,7 @@ export function HandleBomb(player, room) {
                 verifyPlayerDamage(room, currentPlayer, idx)
             }
         }
-    const damagePlayer = (r, c) => {
-      if ([3, 4, 5].includes(getTile(r, c))) {
-        room.map[r][c] += 4;
-      }
-    };
+
    const placeFlames = (r, c) => {
   let oldTile = getTile(r, c);
 
@@ -178,6 +169,5 @@ function verifyPlayerDamage(room, currentPlayer, idx) {
             break;
     }
 }
-    player.Bombstries++;
-  }, 2000);
-}
+    
+ 
