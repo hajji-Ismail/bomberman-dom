@@ -3,7 +3,7 @@ import { broadCastRoom } from "./broadCast.js"
 import { getPlayer, getRoom } from "./getData.js"
 
 
-export function movePlayer(data = {}, stream) {
+export function movePlayer(data = {}) {
     let room = getRoom(data.room.id)
     const map = room.map
 
@@ -80,7 +80,7 @@ export function movePlayer(data = {}, stream) {
                     player: getSafePlayer(player),
                     room: room
                 })
-                HandleBomb(player, room,stream)
+                HandleBomb(player, room)
             }
 
             break

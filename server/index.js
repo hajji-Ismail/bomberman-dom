@@ -45,7 +45,7 @@ ws.on('connection', (stream) => {
                 c_room.available = false
                 break
             case "move":
-                movePlayer(data, stream)
+                movePlayer(data)
                 break
             case "stop-move":
                 stopMoving(data, rooms)

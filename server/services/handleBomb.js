@@ -1,7 +1,6 @@
 import { broadCastRoom } from "./broadCast.js"
 import { RemovePlayer } from "./RemovePlayer.js";
-import { globalStream } from "../index.js";
-export function HandleBomb(player, room, stream) {
+export function HandleBomb(player, room) {
     const row = Math.floor(player.position.y)
     const col = Math.floor(player.position.x)
     setTimeout(() => {
@@ -23,7 +22,7 @@ export function HandleBomb(player, room, stream) {
 
         const damagePlayer = (r, c, currentPlayer, idx) => {
             if (r === currentRow && c === currentCol) {
-                verifyPlayerDamage(room, currentPlayer, idx, stream)
+                verifyPlayerDamage(room, currentPlayer, idx)
             }
         }
 
@@ -67,18 +66,15 @@ export function HandleBomb(player, room, stream) {
     }, 3000)
 }
 
-function verifyPlayerDamage(room, currentPlayer, idx, stream) {
+function verifyPlayerDamage(room, currentPlayer, idx) {
     const mapWidth = room.map[0].length;
     const mapHeight = room.map.length;
     currentPlayer.Lives--
 
     if (currentPlayer.Lives <= 0) {
-        // remove player
-        // console.log(stream, "stern");
-        RemovePlayer(currentPlayer.stream)
-        // console.log(globalStream, "global ");
 
-        console.log("is dead");
+        currentPlayer.isLosed = true
+        RemovePlayer(currentPlayer.stream)
         broadCastRoom(room, {
             type: "newRoom",
             room
