@@ -71,10 +71,11 @@ export function movePlayer(data = {}) {
 
 
     switch (data.action) {
-        case " ": {            
+        case " ": {
             if (player.Bombstries > 0) {
-                player.Bombstries--
                 cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
+                if (cellul == 6 || (Array.isArray(cellul) && cellul[1] == 6)) return
+                player.Bombstries--
                 Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
                 broadCastRoom(room, {
                     type: "placeBomb",
