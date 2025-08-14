@@ -7,6 +7,8 @@ export function setUpPlayers(room) {
         player.Bombstries = player.Bombs
         player.Lives = 3
         player.isDamaged = false
+        player.isMoving = false
+        player.boostFrames = 0
 
         ResetPositions(room, player, i)
     });
