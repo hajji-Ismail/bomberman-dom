@@ -28,8 +28,6 @@ export function HandleBomb(player, room) {
             return;
           }
 
-          currentPlayer.isDamaged = true;
-
           ResetPositions(room, currentPlayer, idx)
         }
       });
@@ -105,6 +103,7 @@ export function HandleBomb(player, room) {
       player,
       room,
       class: "explosion",
+      isExplosion: true
     });
 
     player.Bombstries++;
