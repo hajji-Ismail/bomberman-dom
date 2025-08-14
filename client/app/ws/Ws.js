@@ -46,6 +46,10 @@ export const CreateWs = () => {
                 case "placeBomb":
                     state.set('current_room', message.room)
                     break
+                case "result":
+                    state.set('result', message.result)
+                    state.set('route', '/resultPage')
+                    break
                 default:
                     break;
             }

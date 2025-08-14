@@ -5,6 +5,7 @@
 @import url("battle.css");
 @import url("players.css");
 @import url("board.css");
+@import url("result.css");
 
 :root {
   --bg-color: #1e1e2f;
