@@ -4,11 +4,13 @@ import { getPlayer, getRoom } from "./getData.js"
 
 
 export function movePlayer(data = {}) {
-  let room = getRoom(data.room.id)
-  const map = room.map
+    let room = getRoom(data.room.id)
+    const map = room.map
 
   const player = getPlayer(room.id, data.username)
-
+if (!player) {
+        return
+    }
   let Xstep = 0.075 * player.Speed
   let Ystep = 0.075 * player.Speed
   const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
@@ -33,8 +35,8 @@ export function movePlayer(data = {}) {
   };
 
 
-  const canMove = (cellul) => {
-    return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
+    const canMove = (cellul) => {
+        return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
   };
   const tryMove = (player, axis, step, direction, room, map) => {
@@ -63,127 +65,130 @@ export function movePlayer(data = {}) {
 
 
 
-  let cellul;
+    let cellul;
 
 
 
-  switch (data.action) {
-    case " ": {
-      if (player.Bombstries > 0) {
-        player.Bombstries--
-        cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
-        Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
-        broadCastRoom(room, {
-          type: "placeBomb",
-          player: getSafePlayer(player),
-          room: room
-        })
-        HandleBomb(player, room)
-      }
+    switch (data.action) {
+        case " ": {
+            if (player.Bombstries > 0) {
+                player.Bombstries--
+                cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
+                Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
+                broadCastRoom(room, {
+                    type: "placeBomb",
+                    player: getSafePlayer(player),
+                    room: room
+                })
+                HandleBomb(player, room)
+            }
 
-      break
+            break
+        }
+        case "ArrowRight":
+            tryMove(player, "x", Xstep, "right", room, map);
+
+            break;
+        case "ArrowLeft":
+            tryMove(player, "x", -Xstep, "left", room, map);
+            break;
+
+
+        case "ArrowUp":
+            tryMove(player, "y", -Ystep, "top", room, map);
+
+
+            break;
+        case "ArrowDown":
+            tryMove(player, "y", Ystep, "bottom", room, map);
+            break
+
+        default:
+            break;
     }
-    case "ArrowRight":
-      tryMove(player, "x", Xstep, "right", room, map);
-
-      break;
-    case "ArrowLeft":
-      tryMove(player, "x", -Xstep, "left", room, map);
-      break;
-
-
-    case "ArrowUp":
-      tryMove(player, "y", -Ystep, "top", room, map);
-
-
-      break;
-    case "ArrowDown":
-      tryMove(player, "y", Ystep, "bottom", room, map);
-      break
-
-    default:
-      break;
-  }
 }
 
 
 
 export function stopMoving(data = {}) {
-  const room = getRoom(data.room.id)
-  const player = getPlayer(room.id, data.username)
-  switch (data.action) {
-    case "ArrowRight":
-      broadCastRoom(room, {
-        type: "stopMove",
-        player,
-        newCLass: GenerateNewClass(player)
-      })
-      break;
-    case "ArrowLeft":
-      broadCastRoom(room, {
-        type: "stopMove",
-        player,
-        newCLass: GenerateNewClass(player)
-      })
-      break
-    case "ArrowUp":
-      broadCastRoom(room, {
-        type: "stopMove",
-        player,
-        newCLass: GenerateNewClass(player)
-      })
-      break
-    case "ArrowDown":
+    const room = getRoom(data.room.id)
+    const player = getPlayer(room.id, data.username)
+    switch (data.action) {
+        case "ArrowRight":
+            broadCastRoom(room, {
+                type: "stopMove",
+                player,
+                newCLass: GenerateNewClass(player)
+            })
+            break;
+        case "ArrowLeft":
+            broadCastRoom(room, {
+                type: "stopMove",
+                player,
+                newCLass: GenerateNewClass(player)
+            })
+            break
+        case "ArrowUp":
+            broadCastRoom(room, {
+                type: "stopMove",
+                player,
+                newCLass: GenerateNewClass(player)
+            })
+            break
+        case "ArrowDown":
 
-      broadCastRoom(room, {
-        type: "stopMove",
-        player,
-        newCLass: GenerateNewClass(player)
-      })
+            broadCastRoom(room, {
+                type: "stopMove",
+                player,
+                newCLass: GenerateNewClass(player)
+            })
 
-      break;
-    default:
-      break;
-  }
+            break;
+        default:
+            break;
+    }
 }
 
 function GenerateNewClass(player) {
-  let newCLass;
-  switch (player.playerNumber) {
-    case "player1":
-      newCLass = "player char1";
-      break;
-    case "player2":
-      newCLass = "player char2";
-      break;
-    case "player3":
-      newCLass = "player char3";
-      break;
-    case "player4":
-      newCLass = "player char4";
-      break;
-    default:
-      break;
-  }
-  return newCLass;
+    if (!player) {
+        return
+    }
+    let newCLass;
+    switch (player.playerNumber) {
+        case "player1":
+            newCLass = "player char1";
+            break;
+        case "player2":
+            newCLass = "player char2";
+            break;
+        case "player3":
+            newCLass = "player char3";
+            break;
+        case "player4":
+            newCLass = "player char4";
+            break;
+        default:
+            break;
+    }
+    return newCLass;
 }
 
 
 function BrodcastMove(players, data) {
-  for (let player of players) {
-    if (player.stream) {
-      sendMessages(player.stream, data);
+    for (let player of players) {
+        if (player.stream) {
+            sendMessages(player.stream, data);
+        }
     }
-  }
 }
 
 function getSafePlayer(player) {
-  return {
-    Bombs: player.Bombs,
-    Flames: player.Flames,
-    Speed: player.Speed,
-    playerNumber: player.playerNumber,
-    position: player.position,
-    username: player.username,
-  }
+    return {
+        Bombs: player.Bombs,
+        Flames: player.Flames,
+        Speed: player.Speed,
+        playerNumber: player.playerNumber,
+        position: player.position,
+        username: player.username,
+    }
 }

@@ -9,6 +9,7 @@ import { setUpPlayers } from './services/setUpPlayers.js';
 
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
+import { checkVictory } from './services/checkVictory.js';
 
 const PORT = 8080;
 
@@ -52,7 +53,18 @@ ws.on('connection', (stream) => {
     })
 
     stream.on('close', () => {
-        let room = RemovePlayer(stream)
+        const room = RemovePlayer(stream)
+        const result = checkVictory(room)
+        if (result.win.length == 1) {
+            result.win[0].send(JSON.stringify({
+                type: "result",
+                result: "win"
+            }))
+            room.players = []
+            room.available = true
+            return
+        }
+
         broadCastRoom(room, {
             type: "newRoom",
             room

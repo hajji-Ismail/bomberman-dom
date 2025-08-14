@@ -1,5 +1,4 @@
 const board = (player) => {
-    console.log(player,"insode bord");
 
     const iconClasses = [
         { icon: "fa-solid fa-bomb", text: `Bombs ${player.Bombs}` },
