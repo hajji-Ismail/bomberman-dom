@@ -1,8 +1,8 @@
 export function setUpPlayers(room) {
     room.players.forEach((player, i) => {
         player["playerNumber"] = `player${i + 1}`
-        player.Bombs = 1;
-        player.Flames = 1;
+        player.Bombs = 2;
+        player.Flames = 2;
         player.Speed = 1;
         player.Bombstries = player.Bombs
         player.Lives = 50
