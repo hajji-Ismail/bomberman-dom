@@ -20,6 +20,7 @@ export function movePlayer(data = {}) {
             case 7:
                 room.map[y][x] = 0;
                 player.Bombs++;
+                player.Bombstries++
                 break;
             case 8:
                 room.map[y][x] = 0;
@@ -71,6 +72,8 @@ export function movePlayer(data = {}) {
 
     switch (data.action) {
         case " ": {
+            console.log(player.Bombstries);
+            
             if (player.Bombstries > 0) {
                 player.Bombstries--
                 cellul = map[Math.floor(player.position.y)][Math.floor(player.position.x)]
