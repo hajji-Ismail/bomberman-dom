@@ -9,7 +9,7 @@ import { setUpPlayers } from './services/setUpPlayers.js';
 
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
-import { checkVictory } from './services/checkVictory.js';
+import { CheckVictory } from './services/checkVictory.js';
 
 const PORT = 8080;
 
@@ -56,7 +56,7 @@ ws.on('connection', (stream) => {
 
     stream.on('close', () => {
         const room = RemovePlayer(stream)
-        const win = checkVictory(room)
+        const win = CheckVictory(room)
         if (!win) {
             return
         }

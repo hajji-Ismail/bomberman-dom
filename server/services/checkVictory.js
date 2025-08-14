@@ -1,4 +1,4 @@
-export function checkVictory(room) {
+export function CheckVictory(room) {
     const win = []
     if (!room?.players) return
     room.players.forEach(player => {
