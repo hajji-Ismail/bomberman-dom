@@ -11,8 +11,9 @@ export function movePlayer(data = {}) {
     if (!player) {
         return
     }
-    let Xstep = 0.075 * player.Speed
-    let Ystep = 0.075 * player.Speed
+    let step = 0.04375 + (player.Speed/32)
+    
+  
     const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
 
     const earnAbility = (cellValue, y, x) => {
@@ -43,6 +44,7 @@ export function movePlayer(data = {}) {
     const tryMove = (player, axis, step, direction, room, map) => {
         let targetX = axis === "x" ? Math.floor(player.position.x + step) : Math.floor(player.position.x);
         let targetY = axis === "y" ? Math.floor(player.position.y + step) : Math.floor(player.position.y);
+        
 
         let checkCell = map[targetY][targetX];
 
@@ -87,21 +89,21 @@ export function movePlayer(data = {}) {
             break
         }
         case "ArrowRight":
-            tryMove(player, "x", Xstep, "right", room, map);
+            tryMove(player, "x", step, "right", room, map);
 
             break;
         case "ArrowLeft":
-            tryMove(player, "x", -Xstep, "left", room, map);
+            tryMove(player, "x", -step, "left", room, map);
             break;
 
 
         case "ArrowUp":
-            tryMove(player, "y", -Ystep, "top", room, map);
+            tryMove(player, "y", -step, "top", room, map);
 
 
             break;
         case "ArrowDown":
-            tryMove(player, "y", Ystep, "bottom", room, map);
+            tryMove(player, "y", step, "bottom", room, map);
             break
 
         default:
@@ -175,13 +177,7 @@ function GenerateNewClass(player) {
 }
 
 
-function BrodcastMove(players, data) {
-    for (let player of players) {
-        if (player.stream) {
-            sendMessages(player.stream, data);
-        }
-    }
-}
+
 
 function getSafePlayer(player) {
     return {
