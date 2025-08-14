@@ -1,6 +1,6 @@
 import board from "../components/board.js";
 import { state } from "../main.js";
-                            
+
 const divsClasses = {
     0: "path",
     1: "solid",
@@ -14,8 +14,13 @@ const divsClasses = {
     9: "earn-flame fa-solid fa-fire",
     10 : "flames "
 };
+{/* <i class="fa-solid fa-plus"></i>// */}
 
-
+const earnAbilityWrapperClasses = {
+    7: "earn-bomb",
+    8: "earn-speed",
+    9: "earn-flame"
+};
 
 const battleField = () => {
     const current = state.get("current_room");
@@ -50,7 +55,7 @@ const battleField = () => {
 
             let baseClass = "path";
             if (isAbility) baseClass = "soft";
-            else if (isEarnAbility) baseClass = "path";
+            else if (isEarnAbility) baseClass = "path";  
             else baseClass = divsClasses[cellValue] || "path";
 
             const box = {
@@ -65,14 +70,14 @@ const battleField = () => {
                     ((11 + idx === cellValue) ||
                         (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
             );
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             if (playerAtCell) {
                 const playerIndex = players.indexOf(playerAtCell);
                 box.children.push({
                     tag: "div",
                     player: true,
                     attrs: {
-                        key: `${playerIndex + 1}`,
+                        key :`${playerIndex + 1}`,
                         style: styles[playerAtCell.username] || "transform: translate(0px,0px);",
                         class: classes[playerAtCell.username] || `player char${playerIndex + 1}`,
                         onkeydown: moving,
@@ -89,7 +94,7 @@ const battleField = () => {
             } else if (isEarnAbility) {
                 box.children.push({
                     tag: "div",
-                    attrs: { class: "ability-container" },
+                    attrs : {class : "ability-container"},
                     children: [
                         {
                             tag: "i",
@@ -99,20 +104,28 @@ const battleField = () => {
                 });
             }
 
-            if (isPlacingBomb || (Array.isArray(cellValue) && cellValue.length > 1)) {
-                box.children.push({
-                    tag: "div",
-                    attrs: {
-                        class: Array.isArray(cellValue) ? divsClasses[cellValue[1]] : baseClass
-                    },
-                    children: [
-                        {
-                            tag: "i",
-                            attrs: { class: "fa-solid fa-bomb" }
-                        }
-                    ]
-                });
-            }
+if (isPlacingBomb || (Array.isArray(cellValue) && cellValue.length > 1)) {
+  const isbomb = Array.isArray(cellValue) ? cellValue[1] === 6 : false;
+
+  box.children.push({
+    tag: "div",
+    attrs: {
+      class: Array.isArray(cellValue) 
+        ? divsClasses[cellValue[1]] 
+        : baseClass,
+      isbomb: isbomb
+    },
+    children: isbomb
+      ? [
+          {
+            tag: "i",
+            attrs: { class: "fa-solid fa-bomb" }
+          }
+        ]
+      : []
+  });
+}
+
 
             return box;
         });

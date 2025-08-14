@@ -17,22 +17,37 @@ export function HandleBomb(player, room) {
         room.map[r][c] += 4;
       }
     };
-    const placeFlames = (r, c) => {
-      let oldTile = getTile(r, c);
-      if (oldTile == 2) {
-        oldTile = 0;
-      }
-      if ([3, 4, 5].includes(oldTile)) {
-        oldTile += 4;
-      }
+   const placeFlames = (r, c) => {
+  let oldTile = getTile(r, c);
 
-      room.map[r][c] = 10;
+  // Normalize the old tile
+  if (oldTile === 2) {
+    oldTile = 0; // destroyed block becomes empty
+  }
+  if ([3, 4, 5].includes(oldTile) && !Array.isArray(room.map[r][c]) ) {
+    oldTile += 4; // damaged state
+  }
 
-      setTimeout(() => {
-        room.map[r][c] = oldTile;
-        console.table(room.map);
-      }, 1000);
-    };
+  // Place flame
+  if (Array.isArray(room.map[r][c])) {
+    oldTile = oldTile[0]
+    room.map[r][c] = [...room.map[r][c], 10];
+  } else {
+    room.map[r][c] = 10;
+  }
+
+  // Restore old tile after 1 second
+  
+  setTimeout(() => {
+    if (Array.isArray(oldTile)) {
+      room.map[r][c] = [...oldTile ];
+    } else {
+      room.map[r][c] = oldTile;
+    }
+  }, 1000);
+
+};
+
 
     const directions = [[], [], [], []];
 
@@ -54,7 +69,13 @@ export function HandleBomb(player, room) {
       for (const { r, c } of direction) {
         const tile = getTile(r, c);
 
-        if (tile === 1) break; // stop at solid wall
+        if (tile === 1) break;
+        if (tile == 2) {
+          placeFlames(r, c);
+          destroyBlock(r, c);
+          damagePlayer(r, c);
+          break;
+        } // stop at solid wall
         placeFlames(r, c);
         destroyBlock(r, c);
         damagePlayer(r, c);
@@ -62,7 +83,7 @@ export function HandleBomb(player, room) {
     });
 
     if (Array.isArray(room.map[row][col])) {
-      room.map[row][col] = [11];
+      room.map[row][col] = [room.map[row][col][0]];
     } else {
       room.map[row][col] = 0;
     }
@@ -73,7 +94,6 @@ export function HandleBomb(player, room) {
       room,
       class: "explosion",
     });
-    console.table(room.map);
 
     player.Bombstries++;
   }, 2000);
