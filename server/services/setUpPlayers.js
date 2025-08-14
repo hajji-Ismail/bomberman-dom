@@ -8,6 +8,7 @@ export function setUpPlayers(room) {
         player.Speed = 1;
         player.Bombstries = player.Bombs
         player.Lives = 3
+        player.isDamaged = false
 
 
 

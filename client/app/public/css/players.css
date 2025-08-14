@@ -1,6 +1,7 @@
-body{
+body {
     background-color: black;
 }
+
 /* Common player styles */
 .player {
     width: 40px;
@@ -15,19 +16,98 @@ body{
 }
 
 /* Character variations (only the image changes) */
-.player.char1 { background-image: url("../players/player1.png"); }
-.player.char2 { background-image: url("../players/player2.png"); }
-.player.char3 { background-image: url("../players/player3.png"); }
-.player.char4 { background-image: url("../players/player4.png"); }
+.player.char1 {
+    background-image: url("../players/player1.png");
+}
+
+.player.char2 {
+    background-image: url("../players/player2.png");
+}
+
+.player.char3 {
+    background-image: url("../players/player3.png");
+}
+
+.player.char4 {
+    background-image: url("../players/player4.png");
+}
 
 /* Directions */
-.player-bottom { --pos-x: 0px; --pos-y: 0px; --anim: run-bottom; }
-.player-left   { --pos-x: 0px; --pos-y: -75px; --anim: run-left; }
-.player-right  { --pos-x: 0px; --pos-y: -150px; --anim: run-right; }
-.player-top    { --pos-x: 0px; --pos-y: -225.5px; --anim: run-top; }
+.player-bottom {
+    --pos-x: 0px;
+    --pos-y: 0px;
+    --anim: run-bottom;
+}
+
+.player-left {
+    --pos-x: 0px;
+    --pos-y: -75px;
+    --anim: run-left;
+}
+
+.player-right {
+    --pos-x: 0px;
+    --pos-y: -150px;
+    --anim: run-right;
+}
+
+.player-top {
+    --pos-x: 0px;
+    --pos-y: -225.5px;
+    --anim: run-top;
+}
 
 /* Animations */
-@keyframes run-bottom { from { background-position: 0px 0px; } to { background-position: -152px 0px; } }
-@keyframes run-left   { from { background-position: 0px -50px; } to { background-position: -152px -50px; } }
-@keyframes run-right  { from { background-position: 0px -100px; } to { background-position: -152px -100px; } }
-@keyframes run-top    { from { background-position: 0px -150px; } to { background-position: -152px -150px; } }
+@keyframes run-bottom {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: -152px 0px;
+    }
+}
+
+@keyframes run-left {
+    from {
+        background-position: 0px -50px;
+    }
+
+    to {
+        background-position: -152px -50px;
+    }
+}
+
+@keyframes run-right {
+    from {
+        background-position: 0px -100px;
+    }
+
+    to {
+        background-position: -152px -100px;
+    }
+}
+
+@keyframes run-top {
+    from {
+        background-position: 0px -150px;
+    }
+
+    to {
+        background-position: -152px -150px;
+    }
+}
+
+.damage {
+    animation: damageBlink 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes damageBlink {
+    from {
+        opacity: .3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
