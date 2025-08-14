@@ -11,7 +11,7 @@ export function movePlayer(data = {}) {
     if (!player) {
         return
     }
-    let step = 0.04375 + (player.Speed/32)
+    let step = 0.035 + (player.Speed/32)
     
   
     const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
