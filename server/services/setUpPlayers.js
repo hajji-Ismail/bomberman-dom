@@ -4,7 +4,7 @@ export function setUpPlayers(room) {
         player["playerNumber"] = `player${i + 1}`
 
         player.Bombs = 1;
-        player.Flames = 2;
+        player.Flames = 1;
         player.Speed = 1;
         player.Bombstries = player.Bombs
         player.Lives = 3
