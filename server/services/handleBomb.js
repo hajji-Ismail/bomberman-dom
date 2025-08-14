@@ -20,10 +20,9 @@ export function HandleBomb(player, room) {
             }
         }
 
-        const damagePlayer = (r, c, currentPlayer) => {
+        const damagePlayer = (r, c, currentPlayer, idx) => {
             if (r === currentRow && c === currentCol) {
-                console.log(`player ${currentPlayer.playerNumber} tfrgee3`)
-                currentPlayer.isDamaged = true
+                verifyPlayerDamage(room, currentPlayer, idx)
             }
         }
 
@@ -42,26 +41,9 @@ export function HandleBomb(player, room) {
             currentRow = Math.floor(currentPlayer.position.y)
             currentCol = Math.floor(currentPlayer.position.x)
             if (currentRow === row && currentCol === col) {
-                console.log(`player ${currentPlayer.playerNumber} tfrgee3`)
-                currentPlayer.isDamaged = true
-                switch (idx) {
-                    case 0: // Top-left
-                        currentPlayer.position = { x: 1.35, y: 1.85, xstep: 0, ystep: 0 };
-                        break;
-                    case 1: // Top-right
-                        currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: 1.85, xstep: 0, ystep: 0 };
-                        break;
-                    case 2:
-                        currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
-                        break;
-                    case 3: // Bottom-left
-                        currentPlayer.position = { x: 1.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
-                        break;
-                    default:
-                        break;
-                }
+                verifyPlayerDamage(room, currentPlayer, idx)
             } else {
-                directions.forEach(({ r, c }) => damagePlayer(r, c, currentPlayer))
+                directions.forEach(({ r, c }) => damagePlayer(r, c, currentPlayer, idx))
             }
         })
 
@@ -75,10 +57,35 @@ export function HandleBomb(player, room) {
             type: "placeBomb",
             player,
             room,
-            class: "explosion"
+            class: "explosion",
+            isExplosion: true
         })
 
         player.Bombstries++
 
     }, 3000)
+}
+
+function verifyPlayerDamage(room, currentPlayer, idx) {
+    const mapWidth = room.map[0].length;
+    const mapHeight = room.map.length;
+
+    currentPlayer.isDamaged = true
+
+    switch (idx) {
+        case 0: // Top-left
+            currentPlayer.position = { x: 1.35, y: 1.85, xstep: 0, ystep: 0 };
+            break;
+        case 1: // Top-right 
+            currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: 1.85, xstep: 0, ystep: 0 };
+            break;
+        case 2:
+            currentPlayer.position = { x: (mapWidth - 2) + 0.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
+            break;
+        case 3: // Bottom-left
+            currentPlayer.position = { x: 1.35, y: (mapHeight - 2) + 0.85, xstep: 0, ystep: 0 };
+            break;
+        default:
+            break;
+    }
 }
