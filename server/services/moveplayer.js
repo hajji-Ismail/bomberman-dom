@@ -45,14 +45,15 @@ export function movePlayer(data = {}) {
   const canMove = (cellul) => {
     return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
   };
-  const tryMove = (player, axis, step, direction, room, map) => {
+  const tryMove = (player, axis, step, signe, direction, room, map) => {
+    let margin = 0.15;
     let targetX =
       axis === "x"
-        ? Math.floor(player.position.x + step)
+        ? Math.floor(player.position.x + signe * (step + margin))
         : Math.floor(player.position.x);
     let targetY =
       axis === "y"
-        ? Math.floor(player.position.y + step)
+        ? Math.floor(player.position.y + signe * (step + margin))
         : Math.floor(player.position.y);
 
     let checkCell = map[targetY][targetX];
@@ -60,8 +61,8 @@ export function movePlayer(data = {}) {
     if (canMove(checkCell)) {
       earnAbility(checkCell, targetY, targetX);
 
-      player.position[axis] += step;
-      player.position[axis + "step"] += step;
+      player.position[axis] += signe * step;
+      player.position[axis + "step"] += signe * step;
 
       broadCastRoom(room, {
         type: "canMove",
@@ -95,19 +96,19 @@ export function movePlayer(data = {}) {
       break;
     }
     case "ArrowRight":
-      tryMove(player, "x", step, "right", room, map);
+      tryMove(player, "x", step, 1, "right", room, map);
 
       break;
     case "ArrowLeft":
-      tryMove(player, "x", -step, "left", room, map);
+      tryMove(player, "x", step, -1, "left", room, map);
       break;
 
     case "ArrowUp":
-      tryMove(player, "y", -step, "top", room, map);
+      tryMove(player, "y", step, -1, "top", room, map);
 
       break;
     case "ArrowDown":
-      tryMove(player, "y", step, "bottom", room, map);
+      tryMove(player, "y", step, 1, "bottom", room, map);
       break;
 
     default:
