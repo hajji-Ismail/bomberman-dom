@@ -1,7 +1,4 @@
 export function setUpPlayers(room) {
-    const mapWidth = room.map[0].length;
-    const mapHeight = room.map.length;
-
     room.players.forEach((player, i) => {
         player["playerNumber"] = `player${i + 1}`
         player.Bombs = 1;
@@ -11,11 +8,14 @@ export function setUpPlayers(room) {
         player.Lives = 3
         player.isDamaged = false
 
-        ResetPositions(mapWidth, mapHeight, player,i)
+        ResetPositions(room, player, i)
     });
 }
 
-export function ResetPositions(mapWidth, mapHeight, player, idx) {
+export function ResetPositions(room, player, idx) {
+    const mapWidth = room.map[0].length;
+    const mapHeight = room.map.length;
+
     // Set position centered on tile
     switch (idx) {
         case 0: // Top-left

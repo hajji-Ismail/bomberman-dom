@@ -20,12 +20,17 @@ export function HandleBomb(player, room) {
       room.players.forEach((currentPlayer, idx) => {
         currentRow = Math.floor(currentPlayer.position.y);
         currentCol = Math.floor(currentPlayer.position.x);
-        if (currentRow === row && currentCol === col) {
-          verifyPlayerDamage(room, currentPlayer, idx);
-        } else {
-          if (r === currentRow && c === currentCol) {
-            verifyPlayerDamage(room, currentPlayer, idx);
+        if ((currentRow === row && currentCol === col) || (r === currentRow && c === currentCol)) {
+          currentPlayer.Lives--;
+          if (currentPlayer.Lives <= 0) {
+            currentPlayer.isLosed = true;
+            RemovePlayer(currentPlayer.stream);
+            return;
           }
+
+          currentPlayer.isDamaged = true;
+
+          ResetPositions(room, currentPlayer, idx)
         }
       });
     };
@@ -104,20 +109,4 @@ export function HandleBomb(player, room) {
 
     player.Bombstries++;
   }, 3000);
-}
-
-function verifyPlayerDamage(room, currentPlayer, idx) {
-  const mapWidth = room.map[0].length;
-  const mapHeight = room.map.length;
-  currentPlayer.Lives--;
-
-  if (currentPlayer.Lives <= 0) {
-    currentPlayer.isLosed = true;
-    RemovePlayer(currentPlayer.stream);
-    return;
-  }
-
-  currentPlayer.isDamaged = true;
-
-  ResetPositions(mapWidth, mapHeight, currentPlayer, idx)
 }
