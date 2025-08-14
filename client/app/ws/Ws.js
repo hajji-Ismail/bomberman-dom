@@ -21,8 +21,6 @@ export const CreateWs = () => {
 
             switch (message.type) {
                 case "waitting_room":
-
-
                     CounterObj.isInitialized = false
                     clearInterval(CounterObj.timer)
                     state.set('current_room', message.room)

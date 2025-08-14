@@ -65,9 +65,9 @@ export function GenerateMap(size) {
 
     // Power-up codes (you can define these however your game logic expects):
     // e.g., 3 = speed, 4 = bomb, 5 = flame
-    for (let i = 0; i < 4; i++) abilities.push(3); // Speed
-    for (let i = 0; i < 4; i++) abilities.push(4); // Bomb
-    for (let i = 0; i < 4; i++) abilities.push(5); // Flame
+    for (let i = 0; i < 3; i++) abilities.push(3); // Speed
+    for (let i = 0; i < 3; i++) abilities.push(4); // Bomb
+    for (let i = 0; i < 3; i++) abilities.push(5); // Flame
 
     // Shuffle and select random tiles for power-ups
     const abilityTiles = [...softWallTiles];
