@@ -15,13 +15,9 @@ const divsClasses = {
   10: "flames ",
 };
 
-
-
-
 const battleField = () => {
   const current = state.get("current_room");
   const map = current.map;
-  console.table(map);
 
   const players = current.players;
   const currentUsername = state.get("username");
