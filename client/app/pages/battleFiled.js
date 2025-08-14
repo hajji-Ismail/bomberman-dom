@@ -14,15 +14,6 @@ const divsClasses = {
   9: "earn-flame fa-solid fa-fire",
   10: "flames ",
 };
-{
-  /* <i class="fa-solid fa-plus"></i>// */
-}
-
-const earnAbilityWrapperClasses = {
-  7: "earn-bomb",
-  8: "earn-speed",
-  9: "earn-flame",
-};
 
 const battleField = () => {
   const current = state.get("current_room");
