@@ -3,65 +3,65 @@ import { broadCastRoom } from "./broadCast.js"
 import { getPlayer, getRoom } from "./getData.js"
 
 
-export function movePlayer(data = {}) {
+export function movePlayer(data = {}, stream) {
     let room = getRoom(data.room.id)
     const map = room.map
 
-  const player = getPlayer(room.id, data.username)
-if (!player) {
+    const player = getPlayer(room.id, data.username)
+    if (!player) {
         return
     }
-  let Xstep = 0.075 * player.Speed
-  let Ystep = 0.075 * player.Speed
-  const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
+    let Xstep = 0.075 * player.Speed
+    let Ystep = 0.075 * player.Speed
+    const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6]
 
-  const earnAbility = (cellValue, y, x) => {
-    switch (cellValue) {
-      case 7:
-        room.map[y][x] = 0;
-        player.Bombs++;
-        break;
-      case 8:
-        room.map[y][x] = 0;
-        player.Speed++;
-        break;
-      case 9:
-        room.map[y][x] = 0;
-        player.Flames++;
-        break;
-      default:
-        break;
-    }
-  };
+    const earnAbility = (cellValue, y, x) => {
+        switch (cellValue) {
+            case 7:
+                room.map[y][x] = 0;
+                player.Bombs++;
+                break;
+            case 8:
+                room.map[y][x] = 0;
+                player.Speed++;
+                break;
+            case 9:
+                room.map[y][x] = 0;
+                player.Flames++;
+                break;
+            default:
+                break;
+        }
+    };
 
 
     const canMove = (cellul) => {
         return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
 
-  };
-  const tryMove = (player, axis, step, direction, room, map) => {
-    let targetX = axis === "x" ? Math.floor(player.position.x + step) : Math.floor(player.position.x);
-    let targetY = axis === "y" ? Math.floor(player.position.y + step) : Math.floor(player.position.y);
+    };
+    const tryMove = (player, axis, step, direction, room, map) => {
+        let targetX = axis === "x" ? Math.floor(player.position.x + step) : Math.floor(player.position.x);
+        let targetY = axis === "y" ? Math.floor(player.position.y + step) : Math.floor(player.position.y);
 
-    let checkCell = map[targetY][targetX];
+        let checkCell = map[targetY][targetX];
 
-    if (canMove(checkCell)) {
-      earnAbility(checkCell, targetY, targetX);  
+        if (canMove(checkCell)) {
+            earnAbility(checkCell, targetY, targetX);
 
-      player.position[axis] += step;
-      player.position[axis + "step"] += step;
+            player.position[axis] += step;
+            player.position[axis + "step"] += step;
 
-      broadCastRoom(room, {
-        type: "canMove",
-        player: getSafePlayer(player),
-        direction,
-        newCLass: GenerateNewClass(player) + " player-" + direction,
-        playerNumber: player.playerNumber,
-        room : room
-      });
-      return;
+            broadCastRoom(room, {
+                type: "canMove",
+                player: getSafePlayer(player),
+                direction,
+                newCLass: GenerateNewClass(player) + " player-" + direction,
+                playerNumber: player.playerNumber,
+                room: room
+            });
+            return;
+        }
     }
-  }
 
 
 
@@ -80,7 +80,7 @@ if (!player) {
                     player: getSafePlayer(player),
                     room: room
                 })
-                HandleBomb(player, room)
+                HandleBomb(player, room,stream)
             }
 
             break
