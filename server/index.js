@@ -58,7 +58,7 @@ ws.on('connection', (stream) => {
         const room = RemovePlayer(stream)
         const result = checkVictory(room)
         if (result.win.length == 1) {
-            result.win[0].send(JSON.stringify({
+            result.win[0].stream.send(JSON.stringify({
                 type: "result",
                 result: "win"
             }))

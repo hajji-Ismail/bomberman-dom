@@ -1,6 +1,8 @@
 import { rooms } from "../index.js";
 
 export function RemovePlayer(stream) {
+
+
     let newRoom;
     rooms.forEach(room => {
         const index = room.players.findIndex(player => {
@@ -18,8 +20,9 @@ export function RemovePlayer(stream) {
             } else {
                 room.players[index]['isDeath'] = true
             }
-            
+
         }
     })
+
     return newRoom
 }

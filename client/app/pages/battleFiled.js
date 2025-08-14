@@ -60,7 +60,7 @@ const battleField = () => {
 
             const playerAtCell = players.find(
                 (p, idx) =>
-                    !p.isDeath &&
+                    !p.isDeath && !p.isLosed&&
                     ((11 + idx === cellValue) ||
                         (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
             );

@@ -1,5 +1,5 @@
 import { broadCastRoom } from "./broadCast.js"
-import { RemovePlayer } from "./RemovePlayer.js";
+import { checkVictory } from "./checkVictory.js";
 export function HandleBomb(player, room) {
     const row = Math.floor(player.position.y)
     const col = Math.floor(player.position.x)
@@ -72,9 +72,23 @@ function verifyPlayerDamage(room, currentPlayer, idx) {
     currentPlayer.Lives--
 
     if (currentPlayer.Lives <= 0) {
-
         currentPlayer.isLosed = true
-        RemovePlayer(currentPlayer.stream)
+        console.log(currentPlayer.username);
+        const result = checkVictory(room)
+        currentPlayer.stream.send(JSON.stringify({
+            type: "result",
+            result: "lose"
+        }))
+        if (result.win.length == 1) {
+            result.win[0].stream.send(JSON.stringify({
+                type: "result",
+                result: "win"
+            }))
+            room.players = []
+            room.available = true
+            return
+        }
+
         broadCastRoom(room, {
             type: "newRoom",
             room
