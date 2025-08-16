@@ -9,7 +9,12 @@ function Waitting() {
     if (availablePlayer?.length <= 1) {
         clearInterval(CounterObj.timer)
     }
-    
+    if (availablePlayer?.length == 4) {
+        CounterObj.completTeam = true
+    } else {
+        CounterObj.completTeam = false
+    }
+
     const displayPlayerNames = () => {
         return availablePlayer?.map(p => {
             return {
@@ -30,7 +35,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(availablePlayer?.length > 0 ? [counterRoom()] : [{
+        ...(availablePlayer?.length > 1 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'
