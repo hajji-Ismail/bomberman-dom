@@ -1,5 +1,5 @@
 import chat from "../components/chat.js"
-import counterRoom, { CounterObj } from "../components/counterRoom.js"
+import counterRoom, { CloseRoom, CounterObj } from "../components/counterRoom.js"
 import { state } from "../main.js"
 
 function Waitting() {
@@ -9,10 +9,11 @@ function Waitting() {
     if (availablePlayer?.length <= 1) {
         clearInterval(CounterObj.timer)
     }
-    if (availablePlayer?.length == 4) {
-        CounterObj.completTeam = true
-    } else {
-        CounterObj.completTeam = false
+
+    if (CounterObj.timer && !CounterObj.isRestartPhase && availablePlayer.length === 4) {
+        CounterObj.isRestartPhase = true
+        CloseRoom()
+        state.set("counter", Math.floor(CounterObj.cp / 2));
     }
 
     const displayPlayerNames = () => {
