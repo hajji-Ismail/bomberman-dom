@@ -70,7 +70,6 @@ const battleField = () => {
           !p.isDeath && !p.isLosed &&
           (11 + idx === (Array.isArray(cellValue) ? cellValue[0] : cellValue))
       );
-      console.log(playerAtCell);
 
       if (playerAtCell) {
         const playerIndex = players.indexOf(playerAtCell);

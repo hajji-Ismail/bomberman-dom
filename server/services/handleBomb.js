@@ -1,4 +1,4 @@
-import { broadCastRoom } from "./broadCast.js";
+import { broadCastRoom, getSafeRoom } from "./broadCast.js";
 import { CheckVictory } from "./checkVictory.js";
 import { GenerateMap } from "./genrateMap.js";
 import { ResetPositions } from "./setUpPlayers.js";
@@ -31,22 +31,22 @@ export function HandleBomb(player, room) {
             currentPlayer.stream.send(JSON.stringify({
               type: "result",
               result: "lose",
-              room
+              room: getSafeRoom(room)
             }))
             if (win.length == 1) {
               win[0].stream.send(JSON.stringify({
                 type: "result",
                 result: "win",
-                room
+                room: getSafeRoom(room)
               }))
               room.players = []
               room.available = true
-              room.map=GenerateMap(13)
+              room.map = GenerateMap(13)
               return
             }
             broadCastRoom(room, {
               type: "newRoom",
-              room
+              room: room
             })
             currentPlayer.stream.close()
             return

@@ -7,13 +7,12 @@ function Waitting() {
     const availablePlayer = current?.players?.filter(
         (p) =>
             !p.isDeath && !p.isLosed)
-    console.log(availablePlayer);
 
     if (availablePlayer?.length <= 1) {
         clearInterval(CounterObj.timer)
     }
     const displayPlayerNames = () => {
-        return current?.players?.map(p => {
+        return availablePlayer?.map(p => {
             return {
                 tag: "p",
                 attrs: {
@@ -32,7 +31,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(availablePlayer?.length > 1 ? [counterRoom()] : [{
+        ...(availablePlayer?.length > 0 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'

@@ -2,7 +2,7 @@ import http from 'http';
 import { WebSocketServer } from 'ws';
 
 import { RemovePlayer } from './services/RemovePlayer.js';
-import { broadCastRoom } from './services/broadCast.js';
+import { broadCastRoom, getSafeRoom } from './services/broadCast.js';
 import { HandleChat } from './services/handleChating.js';
 import { HandleRooms } from './services/availableRoom.js';
 import { setUpPlayers } from './services/setUpPlayers.js';
@@ -34,7 +34,7 @@ ws.on('connection', (stream) => {
                 setUpPlayers(room)
                 broadCastRoom(room, {
                     type: "waitting_room",
-                    room: room
+                    room: getSafeRoom(room)
                 })
                 break
             case "chating":
@@ -74,7 +74,7 @@ ws.on('connection', (stream) => {
 
         broadCastRoom(room, {
             type: "newRoom",
-            room
+            room: getSafeRoom(room)
         })
     })
 })
