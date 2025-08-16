@@ -14,7 +14,6 @@ import { CheckVictory } from './services/checkVictory.js';
 const PORT = 8080;
 
 export const rooms = []
-export let globalStream = null
 
 const server = http.createServer((req, res) => {
     res.writeHead(200)
@@ -24,7 +23,6 @@ const ws = new WebSocketServer({ server, path: '/ws' })
 
 
 ws.on('connection', (stream) => {
-    globalStream = stream
     stream.on('message', (message) => {
         const data = JSON.parse(message.toString())
 

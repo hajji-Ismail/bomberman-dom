@@ -6,7 +6,9 @@ import { ResetPositions } from "./setUpPlayers.js";
 export function HandleBomb(player, room) {
   const row = Math.floor(player.position.y);
   const col = Math.floor(player.position.x);
+  let isDamaged = false
   setTimeout(() => {
+
     let currentRow, currentCol;
     const getTile = (r, c) => room.map[r][c];
 
@@ -22,7 +24,7 @@ export function HandleBomb(player, room) {
         currentCol = Math.floor(currentPlayer.position.x);
 
         if ((currentRow === row && currentCol === col) || (r === currentRow && c === currentCol)) {
-
+          isDamaged = true
           currentPlayer.Lives--;
 
           if (currentPlayer.Lives <= 0) {
@@ -110,6 +112,7 @@ export function HandleBomb(player, room) {
       for (const { r, c } of direction) {
         const tile = getTile(r, c);
 
+
         if (tile === 1) break;
         if ([2, 3, 4, 5].includes(tile)) {
           placeFlames(r, c);
@@ -119,7 +122,7 @@ export function HandleBomb(player, room) {
 
         placeFlames(r, c);
         destroyBlock(r, c);
-        damagePlayer(r, c);
+        if (!isDamaged) damagePlayer(r, c);
       }
     });
 
@@ -133,6 +136,7 @@ export function HandleBomb(player, room) {
     });
 
     player.Bombstries++;
+    isDamaged = false
   }, 3000);
 }
 
