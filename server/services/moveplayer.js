@@ -46,14 +46,15 @@ export function movePlayer(data = {}) {
     return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
   };
   const tryMove = (player, axis, step, signe, direction, room, map) => {
-    let margin = 0.15;
+    let marginX = 0.15;
+    let marginY = 0.25
     let targetX =
       axis === "x"
-        ? Math.floor(player.position.x + signe * (step + margin))
+        ? Math.floor(player.position.x + signe * (step + marginX))
         : Math.floor(player.position.x);
     let targetY =
       axis === "y"
-        ? Math.floor(player.position.y + signe * (step + margin))
+        ? Math.floor(player.position.y + signe * (step + marginY))
         : Math.floor(player.position.y);
 
     let checkCell = map[targetY][targetX];
