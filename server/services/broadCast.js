@@ -1,8 +1,4 @@
 export function broadCastRoom(room, message) {
-    // const safeRoom = getSafeRoom(room);
-    // room.
-    // const safeRoom = {...room}
-    // safeRoom.
 
     room.players.forEach(player => {
         player.stream.send(JSON.stringify(message));

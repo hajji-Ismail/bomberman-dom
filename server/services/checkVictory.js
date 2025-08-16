@@ -1,11 +1,10 @@
-export function checkVictory(room) {
-    const result = { win: [], lose: [] }
+export function CheckVictory(room) {
+    const win = []
+    if (!room?.players) return
     room.players.forEach(player => {
-        if (player.hasOwnProperty('isLosed')) {
-            result.lose.push(player.stream)
-        } else if (!player.hasOwnProperty('isLosed') && !player.hasOwnProperty('isDeath')) {
-            result.win.push(player.stream)
+        if (!player.hasOwnProperty('isLosed') && !player.hasOwnProperty('isDeath')) {
+            win.push(player)
         }
     });
-    return result
+    return win
 }

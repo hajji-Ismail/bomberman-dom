@@ -48,6 +48,9 @@ export const CreateWs = () => {
                     HandleMovement(message, state)
                     break
                 case "result":
+                    console.log(message.result);
+
+                    state.set('current_room', message.room)
                     state.set('result', message.result)
                     state.set('route', '/resultPage')
                     break

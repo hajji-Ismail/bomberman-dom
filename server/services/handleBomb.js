@@ -1,10 +1,14 @@
 import { broadCastRoom } from "./broadCast.js";
-import { RemovePlayer } from "./RemovePlayer.js";
+import { CheckVictory } from "./checkVictory.js";
+import { GenerateMap } from "./genrateMap.js";
 import { ResetPositions } from "./setUpPlayers.js";
+
 export function HandleBomb(player, room) {
   const row = Math.floor(player.position.y);
   const col = Math.floor(player.position.x);
+  let isDamaged = false
   setTimeout(() => {
+
     let currentRow, currentCol;
     const getTile = (r, c) => room.map[r][c];
 
@@ -14,21 +18,44 @@ export function HandleBomb(player, room) {
       }
     };
 
-
-
     const damagePlayer = (r, c) => {
       room.players.forEach((currentPlayer, idx) => {
         currentRow = Math.floor(currentPlayer.position.y);
         currentCol = Math.floor(currentPlayer.position.x);
+
         if ((currentRow === row && currentCol === col) || (r === currentRow && c === currentCol)) {
+          isDamaged = true
           currentPlayer.Lives--;
+
           if (currentPlayer.Lives <= 0) {
-            currentPlayer.isLosed = true;
-            RemovePlayer(currentPlayer.stream);
-            return;
+            currentPlayer.isLosed = true
+            const win = CheckVictory(room)
+            currentPlayer.stream.send(JSON.stringify({
+              type: "result",
+              result: "lose",
+              room
+            }))
+            if (win.length == 1) {
+              win[0].stream.send(JSON.stringify({
+                type: "result",
+                result: "win",
+                room
+              }))
+              room.players = []
+              room.available = true
+              room.map=GenerateMap(13)
+              return
+            }
+            broadCastRoom(room, {
+              type: "newRoom",
+              room
+            })
+            currentPlayer.stream.close()
+            return
           }
 
           ResetPositions(room, currentPlayer, idx)
+
         }
       });
     };
@@ -36,36 +63,41 @@ export function HandleBomb(player, room) {
     const placeFlames = (r, c) => {
       let oldTile = getTile(r, c);
 
-      // Normalize the old tile
-      if (oldTile === 2) {
-        oldTile = 0; // destroyed block becomes empty
+      if (oldTile === 2 || oldTile === 10) {
+        oldTile = 0;
       }
-      if ([3, 4, 5].includes(oldTile) && !Array.isArray(room.map[r][c])) {
-        oldTile += 4; // damaged state
+      if ([3, 4, 5].includes(oldTile)) {
+        oldTile += 4;
       }
 
-      // Place flame
-      if (Array.isArray(room.map[r][c])) {
+      if (Array.isArray(oldTile)) {
         oldTile = oldTile[0];
-        room.map[r][c] = [...room.map[r][c], 10];
+        room.map[r][c] = [oldTile, 10];
       } else {
         room.map[r][c] = 10;
       }
 
       // Restore old tile after 1 second
-
       setTimeout(() => {
-        if (Array.isArray(oldTile)) {
-          room.map[r][c] = [...oldTile];
+        if ([11, 12, 13, 14].includes(oldTile)) {
+          room.map[r][c] = [oldTile];
         } else {
           room.map[r][c] = oldTile;
         }
+        if (Array.isArray(room.map[row][col])) {
+          room.map[row][col] = [room.map[row][col][0]];
+        } else {
+          room.map[row][col] = 0;
+        }
+        broadCastRoom(room, {
+          type: "newRoom",
+          room
+        })
       }, 1000);
     };
 
     const directions = [[], [], [], []];
 
-    // Fill each direction until flames reach limit
     for (let index = 1; index <= player.Flames; index++) {
       directions[0].push({ r: row - index, c: col }); // up
       directions[1].push({ r: row + index, c: col }); // down
@@ -73,31 +105,28 @@ export function HandleBomb(player, room) {
       directions[3].push({ r: row, c: col + index }); // right
     }
 
-    // Include the bomb’s own tile
 
-    // Loop through each direction
+    placeFlames(row, col);
+
     directions.forEach((direction) => {
       for (const { r, c } of direction) {
         const tile = getTile(r, c);
+
 
         if (tile === 1) break;
         if ([2, 3, 4, 5].includes(tile)) {
           placeFlames(r, c);
           destroyBlock(r, c);
           break;
-        } // stop at solid wall
+        }
+
         placeFlames(r, c);
         destroyBlock(r, c);
-        damagePlayer(r, c);
+        if (!isDamaged) damagePlayer(r, c);
       }
     });
 
-    if (Array.isArray(room.map[row][col])) {
-      room.map[row][col] = [room.map[row][col][0]];
-    } else {
-      room.map[row][col] = 0;
-    }
-    placeFlames(row, col);
+
     broadCastRoom(room, {
       type: "placeBomb",
       player,
@@ -107,5 +136,7 @@ export function HandleBomb(player, room) {
     });
 
     player.Bombstries++;
+    isDamaged = false
   }, 3000);
 }
+

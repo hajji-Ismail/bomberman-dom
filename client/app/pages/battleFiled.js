@@ -12,8 +12,9 @@ const divsClasses = {
   7: "earn-bomb fa-solid fa-bomb",
   8: "earn-speed fa-solid fa-bolt-lightning",
   9: "earn-flame fa-solid fa-fire",
-  10: "flames ",
+  10: "flames",
 };
+
 
 const battleField = () => {
   const current = state.get("current_room");
@@ -41,29 +42,35 @@ const battleField = () => {
   const moving = sendAction("move");
   const stopMoving = sendAction("stop-move");
 
-  const divs = map.map((row) => {
-    const wall = row.map((cellValue) => {
-      const isAbility = [3, 4, 5].includes(cellValue);
-      const isEarnAbility = [7, 8, 9].includes(cellValue);
-      const isPlacingBomb = cellValue === 6;
+  const walls = map.map((row) => {
+    const line = row.map((cellValue) => {
+      const realValue = Array.isArray(cellValue) ? cellValue[1] : cellValue;
+
+      const isAbility = [3, 4, 5].includes(realValue);
+      const isEarnAbility = [7, 8, 9].includes(realValue);
+      const isPlacingBomb = realValue === 6;
+      const isFlames = realValue === 10;
 
       let baseClass = "path";
       if (isAbility) baseClass = "soft";
       else if (isEarnAbility) baseClass = "path";
-      else baseClass = divsClasses[cellValue] || "path";
+      else baseClass = divsClasses[realValue] || "path";
 
       const box = {
         tag: "div",
-        attrs: { class: `${isPlacingBomb ? "path" : baseClass} box` },
+        attrs: {
+          class: `${isFlames ? divsClasses[10] : isPlacingBomb ? "path" : baseClass} box`,
+        },
+
         children: [],
       };
 
       const playerAtCell = players.find(
         (p, idx) =>
-          !p.isDeath &&
-          (11 + idx === cellValue ||
-            (Array.isArray(cellValue) && 11 + idx === cellValue[0]))
+          !p.isDeath && !p.isLosed &&
+          (11 + idx === (Array.isArray(cellValue) ? cellValue[0] : cellValue))
       );
+      console.log(playerAtCell);
 
       if (playerAtCell) {
         const playerIndex = players.indexOf(playerAtCell);
@@ -85,7 +92,7 @@ const battleField = () => {
       if (isAbility) {
         box.children.push({
           tag: "div",
-          attrs: { class: `abilitie ${divsClasses[cellValue]}` },
+          attrs: { class: `abilitie ${divsClasses[realValue]}` },
         });
       } else if (isEarnAbility) {
         box.children.push({
@@ -94,20 +101,17 @@ const battleField = () => {
           children: [
             {
               tag: "i",
-              attrs: { class: divsClasses[cellValue] },
+              attrs: { class: divsClasses[realValue] },
             },
           ],
         });
       }
 
-      if (
-        isPlacingBomb &&
-        !(Array.isArray(cellValue) && cellValue.length > 1)
-      ) {
+      if (isPlacingBomb) {
         box.children.push({
           tag: "div",
           attrs: {
-            class: divsClasses[6],
+            class: divsClasses[realValue],
           },
           children: [
             {
@@ -116,30 +120,15 @@ const battleField = () => {
             },
           ],
         });
-        if (
-          isPlacingBomb ||
-          (Array.isArray(cellValue) && cellValue.length > 1)
-        ) {
-          const isbomb = Array.isArray(cellValue) ? cellValue[1] === 6 : false;
+      }
 
-          box.children.push({
-            tag: "div",
-            attrs: {
-              class: Array.isArray(cellValue)
-                ? divsClasses[cellValue[1]]
-                : baseClass,
-              isbomb: isbomb,
-            },
-            children: isbomb
-              ? [
-                  {
-                    tag: "i",
-                    attrs: { class: "fa-solid fa-bomb" },
-                  },
-                ]
-              : [],
-          });
-        }
+      if (isFlames) {
+        box.children.push({
+          tag: "div",
+          attrs: {
+            class: divsClasses[realValue],
+          },
+        });
       }
 
       return box;
@@ -148,9 +137,11 @@ const battleField = () => {
     return {
       tag: "div",
       attrs: { class: "wall" },
-      children: wall,
+      children: line,
     };
   });
+
+
 
   return [
     {
@@ -161,7 +152,7 @@ const battleField = () => {
         {
           tag: "div",
           attrs: { class: "battle-field" },
-          children: divs,
+          children: walls,
         },
       ],
     },

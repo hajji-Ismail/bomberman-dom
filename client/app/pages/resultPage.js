@@ -18,12 +18,13 @@ const resultPage = () => {
                     },
                     children: [{
                         tag: 'h3',
-                        text: `${result == "win" ? "Congrats" : "Next time"} ${username} you ${result} ${result == "win" ? "..." : "this Time."}`
+                        
+                        text: `${result == "win" ? "Congrats" : "Next game"} ${username} you ${result} ${result == "win" ? "..." : "this Time."}`
                     },
                     {
                         tag: 'div',
                         attrs: {
-                            class: `'img-${result == "win" ? "celebrating" : "lose"}'`
+                            class: `img-${result == "win" ? "celebrating" : "lose"}`
                         }
                     }]
                 }

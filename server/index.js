@@ -9,12 +9,11 @@ import { setUpPlayers } from './services/setUpPlayers.js';
 
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
-import { checkVictory } from './services/checkVictory.js';
+import { CheckVictory } from './services/checkVictory.js';
 
 const PORT = 8080;
 
 export const rooms = []
-export let globalStream = null
 
 const server = http.createServer((req, res) => {
     res.writeHead(200)
@@ -24,7 +23,6 @@ const ws = new WebSocketServer({ server, path: '/ws' })
 
 
 ws.on('connection', (stream) => {
-    globalStream = stream
     stream.on('message', (message) => {
         const data = JSON.parse(message.toString())
 
@@ -56,14 +54,19 @@ ws.on('connection', (stream) => {
 
     stream.on('close', () => {
         const room = RemovePlayer(stream)
-        const result = checkVictory(room)
-        if (result.win.length == 1) {
-            result.win[0].send(JSON.stringify({
+        const win = CheckVictory(room)
+        if (!win) {
+            return
+        }
+        if (win.length == 1 && !room.available) {
+            win[0].stream.send(JSON.stringify({
                 type: "result",
-                result: "win"
+                result: "win",
+                room
             }))
             room.players = []
             room.available = true
+            stream.close()
             return
         }
 
