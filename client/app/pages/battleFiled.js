@@ -15,7 +15,8 @@ const divsClasses = {
   10: "flames",
 };
 
-
+let move = false
+let reqid
 const battleField = () => {
   const current = state.get("current_room");
   const map = current.map;
@@ -29,18 +30,34 @@ const battleField = () => {
   const classes = state.get("playerClasses") || {};
 
   const sendAction = (type) => (e) => {
-    socket.send(
-      JSON.stringify({
-        type,
-        username: currentUsername,
-        room: current,
-        action: e.key,
-      })
-    );
+    if (!move) {
+      move = true
+      const fn = () => {
+        if (!move) {
+          return
+        }
+        reqid = requestAnimationFrame(fn)
+        socket.send(
+          JSON.stringify({
+            type,
+            username: currentUsername,
+            room: current,
+            action: e.key,
+          })
+        );
+      }
+
+      fn()
+
+    }
   };
 
   const moving = sendAction("move");
-  const stopMoving = sendAction("stop-move");
+  const stopMoving = () => {
+    move = false
+    cancelAnimationFrame(reqid)
+    sendAction("stop-move");
+  }
 
   const walls = map.map((row) => {
     const line = row.map((cellValue) => {
@@ -84,6 +101,7 @@ const battleField = () => {
               classes[playerAtCell.username] || `player char${playerIndex + 1}`,
             onkeydown: moving,
             onkeyup: stopMoving,
+
           },
         });
       }

@@ -10,6 +10,7 @@ import { setUpPlayers } from './services/setUpPlayers.js';
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
 import { CheckVictory } from './services/checkVictory.js';
+import { GenerateMap } from './services/genrateMap.js';
 
 const PORT = 8080;
 
@@ -68,6 +69,7 @@ ws.on('connection', (stream) => {
             }))
             room.players = []
             room.available = true
+            room.map = GenerateMap(13)
             return
         }
 
