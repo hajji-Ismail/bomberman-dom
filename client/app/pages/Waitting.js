@@ -4,13 +4,12 @@ import { state } from "../main.js"
 
 function Waitting() {
     const current = state.get('current_room')
-    const availablePlayer = current?.players?.filter(
-        (p) =>
-            !p.isDeath && !p.isLosed)
+    const availablePlayer = current?.players?.filter((p) => !p.isDeath && !p.isLosed)
 
     if (availablePlayer?.length <= 1) {
         clearInterval(CounterObj.timer)
     }
+    
     const displayPlayerNames = () => {
         return availablePlayer?.map(p => {
             return {
