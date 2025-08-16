@@ -60,10 +60,11 @@ ws.on('connection', (stream) => {
         if (!win) {
             return
         }
-        if (win.length == 1) {
-            win[0].send(JSON.stringify({
+        if (win.length == 1 && !room.available) {
+            win[0].stream.send(JSON.stringify({
                 type: "result",
-                result: "win"
+                result: "win",
+                room
             }))
             room.players = []
             room.available = true

@@ -1,10 +1,17 @@
 import chat from "../components/chat.js"
-import counterRoom from "../components/counterRoom.js"
+import counterRoom, { CounterObj } from "../components/counterRoom.js"
 import { state } from "../main.js"
 
 function Waitting() {
     const current = state.get('current_room')
+    const availablePlayer = current?.players?.filter(
+        (p) =>
+            !p.isDeath && !p.isLosed)
+    console.log(availablePlayer);
 
+    if (availablePlayer?.length <= 1) {
+        clearInterval(CounterObj.timer)
+    }
     const displayPlayerNames = () => {
         return current?.players?.map(p => {
             return {
@@ -25,7 +32,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(current?.players?.length > 0 ? [counterRoom()] : [{
+        ...(availablePlayer?.length > 1 ? [counterRoom()] : [{
             tag: "p",
             attrs: {
                 class: 'title'

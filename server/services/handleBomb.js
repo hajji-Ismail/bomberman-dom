@@ -1,5 +1,6 @@
 import { broadCastRoom } from "./broadCast.js";
 import { CheckVictory } from "./checkVictory.js";
+import { GenerateMap } from "./genrateMap.js";
 import { ResetPositions } from "./setUpPlayers.js";
 
 export function HandleBomb(player, room) {
@@ -19,7 +20,9 @@ export function HandleBomb(player, room) {
       room.players.forEach((currentPlayer, idx) => {
         currentRow = Math.floor(currentPlayer.position.y);
         currentCol = Math.floor(currentPlayer.position.x);
+
         if ((currentRow === row && currentCol === col) || (r === currentRow && c === currentCol)) {
+
           currentPlayer.Lives--;
 
           if (currentPlayer.Lives <= 0) {
@@ -27,16 +30,18 @@ export function HandleBomb(player, room) {
             const win = CheckVictory(room)
             currentPlayer.stream.send(JSON.stringify({
               type: "result",
-              result: "lose"
+              result: "lose",
+              room
             }))
             if (win.length == 1) {
               win[0].stream.send(JSON.stringify({
                 type: "result",
-                result: "win"
+                result: "win",
+                room
               }))
               room.players = []
               room.available = true
-              win[0].stream.close()
+              room.map=GenerateMap(13)
               return
             }
             broadCastRoom(room, {
@@ -111,6 +116,7 @@ export function HandleBomb(player, room) {
           destroyBlock(r, c);
           break;
         }
+
         placeFlames(r, c);
         destroyBlock(r, c);
         damagePlayer(r, c);

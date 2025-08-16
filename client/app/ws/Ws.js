@@ -4,7 +4,7 @@ import { state } from "../main.js";
 
 export const CreateWs = () => {
     return new Promise((resolve, reject) => {
-        const ws = new WebSocket("ws://10.1.4.3:8080/ws");
+        const ws = new WebSocket("ws://localhost:8080/ws");
         ws.onopen = () => {
             console.log("🔗 WebSocket connection opened");
             state.set("ws", ws);
@@ -48,6 +48,9 @@ export const CreateWs = () => {
                     HandleMovement(message, state)
                     break
                 case "result":
+                    console.log(message.result);
+
+                    state.set('current_room', message.room)
                     state.set('result', message.result)
                     state.set('route', '/resultPage')
                     break
