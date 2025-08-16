@@ -29,9 +29,7 @@ export function HandleRooms(stream, username = "") {
 
 
         availableRoom.players.push(player)
-        if (availableRoom.players.length === 4) {
-            availableRoom.available = false
-        }
+      
         return availableRoom
     } else {
         return NewRoom(player)

@@ -53,11 +53,13 @@ ws.on('connection', (stream) => {
     })
 
     stream.on('close', () => {
+
         const room = RemovePlayer(stream)
         const win = CheckVictory(room)
         if (!win) {
             return
         }
+
         if (win.length == 1 && !room.available) {
             win[0].stream.send(JSON.stringify({
                 type: "result",
@@ -66,13 +68,12 @@ ws.on('connection', (stream) => {
             }))
             room.players = []
             room.available = true
-            stream.close()
             return
         }
 
         broadCastRoom(room, {
             type: "newRoom",
-            room: getSafeRoom(room)
+            room: room
         })
     })
 })

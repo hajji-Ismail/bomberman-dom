@@ -3,7 +3,7 @@ import { state } from "../main.js";
 export const CounterObj = {
     isInitialized: false,
     timer: undefined,
-    cp: 4
+    cp: 99
 }
 
 const counterRoom = () => {
