@@ -2,43 +2,33 @@ import { state } from "../main.js";
 
 export const CounterObj = {
     isInitialized: false,
+    isRestartPhase: false,
     timer: undefined,
-    cp: 5
+    cp: 10
 }
 
 const counterRoom = () => {
     if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
-        let isRestartPhase = false;
+        CounterObj.isRestartPhase = false
         state.set("counter", CounterObj.cp);
         CounterObj.timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
-                if (isRestartPhase) {
+                if (CounterObj.isRestartPhase) {
                     clearInterval(CounterObj.timer);
                     return;
-                } else  {
-                    const player = state.get('current_room')
-                    if(player.players[player.players.length -1].username == state.get("username")){
-                        state.get('ws').send(JSON.stringify({
-                        type: "close-room",
-                        id: state.get('current_room').id
-                    }))}
-                    state.set('current_room', { ...state.get('current_room'), available: false })
-                    state.set("counter", 2);
-                    isRestartPhase = true;
+                } else {
+                    CloseRoom()
                     return;
                 }
             }
+
             state.set("counter", counter - 1);
-
-
-            if (isRestartPhase && counter <= 1) {
+            if (CounterObj.isRestartPhase && counter <= 1) {
                 state.set('route', "/game")
             }
         }, 1000);
-
-
     }
 
     const counter = state.get("counter");
@@ -47,8 +37,21 @@ const counterRoom = () => {
         attrs: {
             class: "wait-counter"
         },
-        text: (counter || counter === 0) ? counter : 20
+        text: (counter || counter === 0) ? counter : ""
     };
 };
+
+export function CloseRoom() {
+    const player = state.get('current_room')
+    if (player.players[player.players.length - 1].username == state.get("username")) {
+        state.get('ws').send(JSON.stringify({
+            type: "close-room",
+            id: state.get('current_room').id
+        }))
+    }
+    state.set('current_room', { ...state.get('current_room'), available: false })
+    state.set("counter", Math.floor(CounterObj.cp / 2));
+    CounterObj.isRestartPhase = true;
+}
 
 export default counterRoom;
