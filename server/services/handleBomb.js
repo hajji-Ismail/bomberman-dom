@@ -33,27 +33,25 @@ export function HandleBomb(player, room) {
             currentPlayer.stream.send(JSON.stringify({
               type: "result",
               result: "lose",
-              room
+              room: (room)
             }))
             if (win.length == 1) {
               win[0].stream.send(JSON.stringify({
                 type: "result",
                 result: "win",
-                room
+                room: (room)
               }))
               room.players = []
               room.available = true
-              room.map=GenerateMap(13)
+              room.map = GenerateMap(13)
               return
             }
             broadCastRoom(room, {
               type: "newRoom",
-              room
+              room: room
             })
-            currentPlayer.stream.close()
             return
           }
-
           ResetPositions(room, currentPlayer, idx)
 
         }

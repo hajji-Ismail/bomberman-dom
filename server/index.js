@@ -2,7 +2,7 @@ import http from 'http';
 import { WebSocketServer } from 'ws';
 
 import { RemovePlayer } from './services/RemovePlayer.js';
-import { broadCastRoom } from './services/broadCast.js';
+import { broadCastRoom, getSafeRoom } from './services/broadCast.js';
 import { HandleChat } from './services/handleChating.js';
 import { HandleRooms } from './services/availableRoom.js';
 import { setUpPlayers } from './services/setUpPlayers.js';
@@ -10,6 +10,7 @@ import { setUpPlayers } from './services/setUpPlayers.js';
 import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
 import { CheckVictory } from './services/checkVictory.js';
+import { GenerateMap } from './services/genrateMap.js';
 
 const PORT = 8080;
 
@@ -32,7 +33,7 @@ ws.on('connection', (stream) => {
                 setUpPlayers(room)
                 broadCastRoom(room, {
                     type: "waitting_room",
-                    room: room
+                    room: getSafeRoom(room)
                 })
                 break
             case "chating":
@@ -53,11 +54,13 @@ ws.on('connection', (stream) => {
     })
 
     stream.on('close', () => {
+
         const room = RemovePlayer(stream)
         const win = CheckVictory(room)
         if (!win) {
             return
         }
+
         if (win.length == 1 && !room.available) {
             win[0].stream.send(JSON.stringify({
                 type: "result",
@@ -66,13 +69,13 @@ ws.on('connection', (stream) => {
             }))
             room.players = []
             room.available = true
-            stream.close()
+            room.map = GenerateMap(13)
             return
         }
 
         broadCastRoom(room, {
             type: "newRoom",
-            room
+            room: room
         })
     })
 })
