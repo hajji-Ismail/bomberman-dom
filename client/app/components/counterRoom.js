@@ -4,7 +4,7 @@ export const CounterObj = {
     isInitialized: false,
     isRestartPhase: false,
     timer: undefined,
-    cp: 10
+    cp: 20
 }
 
 const counterRoom = () => {

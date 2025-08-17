@@ -15,48 +15,84 @@ const divsClasses = {
   10: "flames",
 };
 
-let move = false
-let reqid
+let keys = {
+  up: false,
+  down: false,
+  left: false,
+  right: false,
+  space: false
+};
+
+let action
+let reqid = null;
+
 const battleField = () => {
   const current = state.get("current_room");
   const map = current.map;
-
   const players = current.players;
   const currentUsername = state.get("username");
   const socket = state.get("ws");
   const player = players.find((p) => p.username === currentUsername);
-
   const styles = state.get("playerStyles") || {};
   const classes = state.get("playerClasses") || {};
 
-  const sendAction = (type) => (e) => {
-    if (!move) {
-      move = true
-      const fn = () => {
-        if (!move) {
-          return
-        }
-        reqid = requestAnimationFrame(fn)
-        socket.send(
-          JSON.stringify({
-            type,
-            username: currentUsername,
-            room: current,
-            action: e.key,
-          })
-        );
-      }
-
-      fn()
-
+  const moving = (e) => {
+    if (e.key === "ArrowUp") {
+      keys = { up: true, down: false, left: false, right: false, space: false };
+    } else if (e.key === "ArrowDown") {
+      keys = { up: false, down: true, left: false, right: false, space: false };
+    } else if (e.key === "ArrowLeft") {
+      keys = { up: false, down: false, left: true, right: false, space: false };
+    } else if (e.key === "ArrowRight") {
+      keys = { up: false, down: false, left: false, right: true, space: false };
+    } else if (e.key === " ") {
+      keys = { up: false, down: false, left: false, right: false, space: true };
     }
+
+    if (reqid) return
+
+    const playerMovement = () => {
+      reqid = requestAnimationFrame(playerMovement);
+
+      action = null
+      if (keys.up) action = "ArrowUp"
+      else if (keys.down) action = "ArrowDown"
+      else if (keys.left) action = "ArrowLeft"
+      else if (keys.right) action = "ArrowRight"
+      else if (keys.space) action = " "
+
+      socket.send(
+        JSON.stringify({
+          type: "move",
+          username: currentUsername,
+          room: current,
+          action
+        })
+      );
+    };
+
+    playerMovement();
   };
 
-  const moving = sendAction("move");
-  const stopMoving = () => {
-    move = false
-    cancelAnimationFrame(reqid)
-    sendAction("stop-move");
+  const stopMoving = (e) => {
+    if (e.key === "ArrowUp") keys.up = false
+    if (e.key === "ArrowDown") keys.down = false
+    if (e.key === "ArrowLeft") keys.left = false
+    if (e.key === "ArrowRight") keys.right = false
+
+    if (!keys.up && !keys.down && !keys.left && !keys.right) {
+      cancelAnimationFrame(reqid)
+      reqid = null
+
+      socket.send(
+        JSON.stringify({
+          type: "stop-move",
+          username: currentUsername,
+          room: current,
+          action
+        })
+      );
+    }
   }
 
   const walls = map.map((row) => {
