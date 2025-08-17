@@ -1,4 +1,4 @@
-import { CounterObj } from "../components/counterRoom.js";
+import { CloseRoom, CounterObj } from "../components/counterRoom.js";
 import { HandleMovement, StopMove } from "../services/HandleMovemement.js";
 import { state } from "../main.js";
 import {  requestAnimation } from "../pages/battleFiled.js";
@@ -54,6 +54,10 @@ export const CreateWs = () => {
                     state.set('current_room', message.room)
                     state.set('result', message.result)
                     state.set('route', '/resultPage')
+                    break
+                case "resetCounter":
+                    CounterObj.isRestartPhase = true
+                    CloseRoom()
                     break
                 default:
                     break;

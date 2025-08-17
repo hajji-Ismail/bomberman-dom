@@ -9,12 +9,16 @@ function Waitting() {
     if (availablePlayer?.length <= 1) {
         clearInterval(CounterObj.timer)
     }
-
-    if (CounterObj.timer && !CounterObj.isRestartPhase && availablePlayer.length === 4) {
-        CounterObj.isRestartPhase = true
-        CloseRoom()
-        state.set("counter", Math.floor(CounterObj.cp / 2));
+    if (!CounterObj.timer && availablePlayer.length === 4) {
+        CounterObj.completTeam = true
+        state.get('ws').send(JSON.stringify({
+            type: 'reset-counter',
+            id: current.id,
+            newTime: Math.floor(CounterObj.cp / 2)
+        }))
     }
+
+
 
     const displayPlayerNames = () => {
         return availablePlayer?.map(p => {
@@ -28,6 +32,7 @@ function Waitting() {
         })
     }
 
+
     return [
         {
             tag: "h1",
@@ -36,7 +41,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(availablePlayer?.length > 1 ? [counterRoom()] : [{
+        ...(availablePlayer?.length > 1 ? [counterRoom(availablePlayer)] : [{
             tag: "p",
             attrs: {
                 class: 'title'
