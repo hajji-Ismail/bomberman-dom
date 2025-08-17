@@ -1,11 +1,18 @@
 export function broadCastRoom(room, message) {
+    // if (message.room) {
+    //     message.room = getSafeRoom(message.room)
+    // }
+
+    // if (message.player) {
+    //     message.player = getSafePlayer(message.player)
+    // }
+
     room.players.forEach(player => {
         player.stream.send(JSON.stringify(message));
     });
 }
 
-export function getSafeRoom(room) {
-
+function getSafeRoom(room) {
     return {
         id: room.id,
         players: room.players.map(p => ({
@@ -25,3 +32,14 @@ export function getSafeRoom(room) {
         map: room.map
     };
 }
+
+function getSafePlayer(player) {
+    return {
+      Bombs: player.Bombs,
+      Flames: player.Flames,
+      Speed: player.Speed,
+      playerNumber: player.playerNumber,
+      position: player.position,
+      username: player.username,
+    };
+  }

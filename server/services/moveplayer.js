@@ -67,7 +67,7 @@ export function movePlayer(data = {}) {
 
       broadCastRoom(room, {
         type: "canMove",
-        player: getSafePlayer(player),
+        player,
         direction,
         newCLass: GenerateNewClass(player) + " player-" + direction,
         playerNumber: player.playerNumber,
@@ -88,7 +88,7 @@ export function movePlayer(data = {}) {
                 Array.isArray(cellul) ? cellul.push(6) : map[Math.floor(player.position.y)][Math.floor(player.position.x)] = 6
                 broadCastRoom(room, {
                     type: "placeBomb",
-                    player: getSafePlayer(player),
+                    player,
                     room: room
                 })
                 HandleBomb(player, room)
@@ -155,13 +155,4 @@ function GenerateNewClass(player) {
   return newCLass;
 }
 
-function getSafePlayer(player) {
-  return {
-    Bombs: player.Bombs,
-    Flames: player.Flames,
-    Speed: player.Speed,
-    playerNumber: player.playerNumber,
-    position: player.position,
-    username: player.username,
-  };
-}
+
