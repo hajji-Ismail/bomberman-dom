@@ -4,14 +4,18 @@ export const CounterObj = {
     isInitialized: false,
     isRestartPhase: false,
     timer: undefined,
-    cp: 10
+    cp: 20,
+    completTeam: false,
 }
 
 const counterRoom = () => {
+
     if (!CounterObj.isInitialized) {
         CounterObj.isInitialized = true;
-        CounterObj.isRestartPhase = false
-        state.set("counter", CounterObj.cp);
+
+        if (!CounterObj.completTeam) {
+            state.set("counter", CounterObj.cp);
+        }
         CounterObj.timer = setInterval(() => {
             let counter = state.get("counter");
             if (counter === 0) {
@@ -48,8 +52,11 @@ export function CloseRoom() {
     if (player.players[player.players.length - 1].username == state.get("username")) {
         state.get('ws').send(JSON.stringify({
             type: "close-room",
-            id: state.get('current_room').id
+            id: state.get('current_room').id,
+            counter: Math.floor(CounterObj.cp / 2)
         }))
+
+
     }
     state.set('current_room', { ...state.get('current_room'), available: false })
     state.set("counter", Math.floor(CounterObj.cp / 2));

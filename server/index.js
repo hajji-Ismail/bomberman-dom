@@ -11,6 +11,7 @@ import { movePlayer, stopMoving } from './services/moveplayer.js';
 import { getRoom } from './services/getData.js';
 import { CheckVictory } from './services/checkVictory.js';
 import { GenerateMap } from './services/genrateMap.js';
+import { resetCounter } from './services/resetCounter.js';
 
 const PORT = 8080;
 
@@ -48,6 +49,9 @@ ws.on('connection', (stream) => {
                 break
             case "stop-move":
                 stopMoving(data, rooms)
+                break
+            case "reset-counter":
+                resetCounter(data)
                 break
 
         }
