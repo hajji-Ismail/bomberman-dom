@@ -12,8 +12,10 @@ const divsClasses = {
   7: "earn-bomb fa-solid fa-bomb",
   8: "earn-speed fa-solid fa-bolt-lightning",
   9: "earn-flame fa-solid fa-fire",
-  10: "flames",
+  10: "flames path",
 };
+// <i class="fa-regular fa-burst" style="color: #fe9862;"></i>
+
 
 let keys = {
   up: false,
