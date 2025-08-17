@@ -24,7 +24,9 @@ let keys = {
 };
 
 let action
-let reqid = null;
+export let requestAnimation = {
+  id: null
+}
 
 const battleField = () => {
   const current = state.get("current_room");
@@ -49,10 +51,10 @@ const battleField = () => {
       keys = { up: false, down: false, left: false, right: false, space: true };
     }
 
-    if (reqid) return
+    if (requestAnimation.id) return
 
     const playerMovement = () => {
-      reqid = requestAnimationFrame(playerMovement);
+      requestAnimation.id = requestAnimationFrame(playerMovement);
 
       action = null
       if (keys.up) action = "ArrowUp"
@@ -81,8 +83,8 @@ const battleField = () => {
     if (e.key === "ArrowRight") keys.right = false
 
     if (!keys.up && !keys.down && !keys.left && !keys.right) {
-      cancelAnimationFrame(reqid)
-      reqid = null
+      cancelAnimationFrame(requestAnimation.id)
+      requestAnimation.id = null
 
       socket.send(
         JSON.stringify({
