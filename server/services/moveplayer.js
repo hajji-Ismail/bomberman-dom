@@ -10,7 +10,7 @@ export function movePlayer(data = {}) {
   if (!player) {
     return;
   }
-  let step = 0.01 + player.Speed / 64;
+  let step = 0.02 + player.Speed / 128
   if (!player.isMoving) {
     player.isMoving = true;
     player.boostFrames = 3;
