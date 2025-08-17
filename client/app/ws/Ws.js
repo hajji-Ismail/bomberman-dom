@@ -1,6 +1,7 @@
 import { CloseRoom, CounterObj } from "../components/counterRoom.js";
 import { HandleMovement, StopMove } from "../services/HandleMovemement.js";
 import { state } from "../main.js";
+import {  requestAnimation } from "../pages/battleFiled.js";
 
 export const CreateWs = () => {
     return new Promise((resolve, reject) => {
@@ -13,6 +14,8 @@ export const CreateWs = () => {
 
         ws.onclose = () => {
             console.log("❌ WebSocket error");
+            cancelAnimationFrame(requestAnimation.id)
+            requestAnimation.id = null
             reject(false);
         };
 
