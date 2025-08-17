@@ -12,8 +12,10 @@ const divsClasses = {
   7: "earn-bomb fa-solid fa-bomb",
   8: "earn-speed fa-solid fa-bolt-lightning",
   9: "earn-flame fa-solid fa-fire",
-  10: "flames",
+  10: "flames path",
 };
+// <i class="fa-regular fa-burst" style="color: #fe9862;"></i>
+
 
 let keys = {
   up: false,
@@ -24,7 +26,9 @@ let keys = {
 };
 
 let action
-let reqid = null;
+export let requestAnimation = {
+  id: null
+}
 
 const battleField = () => {
   const current = state.get("current_room");
@@ -49,10 +53,10 @@ const battleField = () => {
       keys = { up: false, down: false, left: false, right: false, space: true };
     }
 
-    if (reqid) return
+    if (requestAnimation.id) return
 
     const playerMovement = () => {
-      reqid = requestAnimationFrame(playerMovement);
+      requestAnimation.id = requestAnimationFrame(playerMovement);
 
       action = null
       if (keys.up) action = "ArrowUp"
@@ -81,8 +85,8 @@ const battleField = () => {
     if (e.key === "ArrowRight") keys.right = false
 
     if (!keys.up && !keys.down && !keys.left && !keys.right) {
-      cancelAnimationFrame(reqid)
-      reqid = null
+      cancelAnimationFrame(requestAnimation.id)
+      requestAnimation.id = null
 
       socket.send(
         JSON.stringify({

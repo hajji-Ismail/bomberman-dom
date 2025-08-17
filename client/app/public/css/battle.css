@@ -39,12 +39,16 @@
 }
 
 .flames {
-  background-image: url(../blocks/flamme.gif);
+  background-image: url("../icons/icons8-explosion-48.png");
   background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-color: transparent;
+  background-repeat: no-repeat; /* prevents duplicates */
+  background-size: cover;       /* fully fills the box */
+  /* width: 40px;                  
+  height: 40px;                  */
+  display: inline-block;
 }
+
+
 
 .wall {
   display: flex;
@@ -66,11 +70,12 @@
    Tile Types
 ============================= */
 .path {
-  background-image: url('../blocks/road.png');
+  /* background-image: url('../blocks/road.png'); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   transform-origin: center;
+  background-color: rgb(92, 74, 50)
 }
 
 .solid {

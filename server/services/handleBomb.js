@@ -61,7 +61,7 @@ export function HandleBomb(player, room) {
     const placeFlames = (r, c) => {
       let oldTile = getTile(r, c);
 
-      if (oldTile === 2 || oldTile === 10) {
+      if (oldTile === 2 || oldTile === 10 || oldTile == 6) {
         oldTile = 0;
       }
       if ([3, 4, 5].includes(oldTile)) {
