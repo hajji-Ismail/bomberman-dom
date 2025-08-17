@@ -165,13 +165,7 @@ const battleField = () => {
           tag: "div",
           attrs: {
             class: divsClasses[realValue],
-          },
-          children: [
-            {
-              tag: "i",
-              attrs: { class: "fa-solid fa-bomb" },
-            },
-          ],
+          }
         });
       }
 
