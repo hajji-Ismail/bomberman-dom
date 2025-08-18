@@ -12,12 +12,6 @@ export function HandleBomb(player, room) {
     let currentRow, currentCol;
     const getTile = (r, c) => room.map[r][c];
 
-    const destroyBlock = (r, c) => {
-      if (getTile(r, c) === 2) {
-        room.map[r][c] = 0;
-      }
-    };
-
     const damagePlayer = (r, c) => {
       room.players.forEach((currentPlayer, idx) => {
         currentRow = Math.floor(currentPlayer.position.y);
@@ -33,23 +27,20 @@ export function HandleBomb(player, room) {
             currentPlayer.stream.send(JSON.stringify({
               type: "result",
               result: "lose",
-              room: (room)
+              room: room
             }))
             if (win.length == 1) {
               win[0].stream.send(JSON.stringify({
                 type: "result",
                 result: "win",
-                room: (room)
+                room: room
               }))
               room.players = []
               room.available = true
               room.map = GenerateMap(13)
               return
             }
-            broadCastRoom(room, {
-              type: "newRoom",
-              room: room
-            })
+
             return
           }
           ResetPositions(room, currentPlayer, idx)
@@ -87,6 +78,7 @@ export function HandleBomb(player, room) {
         } else {
           room.map[row][col] = 0;
         }
+
         broadCastRoom(room, {
           type: "newRoom",
           room
@@ -110,17 +102,11 @@ export function HandleBomb(player, room) {
       for (const { r, c } of direction) {
         const tile = getTile(r, c);
 
-
         if (tile === 1) break;
-        if ([2, 3, 4, 5].includes(tile)) {
-          placeFlames(r, c);
-          destroyBlock(r, c);
-          break;
-        }
-
         placeFlames(r, c);
-        destroyBlock(r, c);
-        if (!isDamaged) damagePlayer(r, c);
+        if (![2, 3, 4, 5].includes(tile && !isDamaged)) {
+          damagePlayer(r, c);
+        }
       }
     });
 

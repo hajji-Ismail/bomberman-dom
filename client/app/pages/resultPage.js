@@ -18,7 +18,7 @@ const resultPage = () => {
                     },
                     children: [{
                         tag: 'h3',
-                        
+
                         text: `${result == "win" ? "Congrats" : "Next game"} ${username} you ${result} ${result == "win" ? "..." : "this Time."}`
                     },
                     {
@@ -27,6 +27,23 @@ const resultPage = () => {
                             class: `img-${result == "win" ? "celebrating" : "lose"}`
                         }
                     }]
+                },
+                {
+                    tag: "div",
+                    attrs: {
+                        class: "home-btn"
+                    },
+                    children: [
+                        {
+                            tag: "button",
+                            text: "home",
+                            attrs: {
+                                onclick: () => {
+                                    location.href = "/"
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         }
