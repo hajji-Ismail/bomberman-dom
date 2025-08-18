@@ -60,17 +60,24 @@
 }
 
 .flames {
-  background-image: url("../icons/icons8-explosion-48.png");
-  background-position: center;
+  width: 40px;
+  height: 50px;
+  background-image: url("../players/explosion.png");
   background-repeat: no-repeat;
-  /* prevents duplicates */
-  background-size: cover;
-  /* fully fills the box */
-  /* width: 40px;                  
-  height: 40px;                  */
-  display: inline-block;
+  background-size: 200px 150px;
+  background-position: 0px -100px;
+  animation: bomb 1s steps(5) infinite;
 }
 
+@keyframes bomb {
+  from {
+    background-position: 0px -100px;
+  }
+
+  to {
+    background-position: -200px -100px;
+  }
+}
 
 
 .wall {

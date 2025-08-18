@@ -103,12 +103,5 @@ body {
     animation: damageBlink 0.5s ease-in-out infinite alternate;
 }
 
-@keyframes damageBlink {
-    from {
-        opacity: .3;
-    }
 
-    to {
-        opacity: 1;
-    }
-}
+
