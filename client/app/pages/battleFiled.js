@@ -1,3 +1,4 @@
+import Aside from "../components/aside.js";
 import board from "../components/board.js";
 import { state } from "../main.js";
 
@@ -197,18 +198,34 @@ const battleField = () => {
       !p.isDeath && !p.isLosed)
 
   return [
+
     {
-      tag: "div",
-      attrs: { class: "game-container" },
+      tag: 'div',
+      attrs: {
+        class: "bat-cont"
+      },
       children: [
-        board(player, activePlayer.length),
         {
           tag: "div",
-          attrs: { class: "battle-field" },
-          children: walls,
+          attrs: { class: "game-container" },
+          children: [
+            board(player, activePlayer.length),
+            {
+              tag: "div",
+              attrs: { class: "battle-field" },
+              children: walls,
+            },
+          ],
         },
-      ],
-    },
+        {
+          tag: 'div',
+          attrs: {
+            class: "aside"
+          },
+          children: Aside()
+        },
+      ]
+    }
   ];
 };
 
