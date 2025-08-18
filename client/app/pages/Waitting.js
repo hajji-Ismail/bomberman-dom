@@ -1,5 +1,5 @@
 import chat from "../components/chat.js"
-import counterRoom, { CloseRoom, CounterObj } from "../components/counterRoom.js"
+import counterRoom, { CounterObj } from "../components/counterRoom.js"
 import { state } from "../main.js"
 
 function Waitting() {
