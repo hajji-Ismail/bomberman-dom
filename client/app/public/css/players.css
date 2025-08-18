@@ -15,6 +15,7 @@ body {
     z-index: 99999;
 }
 
+
 /* Character variations (only the image changes) */
 .player.char1 {
     background-image: url("../players/player1.png");

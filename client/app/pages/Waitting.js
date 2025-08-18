@@ -6,9 +6,9 @@ function Waitting() {
     const current = state.get('current_room')
     const availablePlayer = current?.players?.filter((p) => !p.isDeath && !p.isLosed)
 
-    if (availablePlayer?.length <= 1) {
-        clearInterval(CounterObj.timer)
-    }
+    // if (availablePlayer?.length <= 1) {
+    //     clearInterval(CounterObj.timer)
+    // }
     if (availablePlayer && !CounterObj.timer && availablePlayer.length === 4) {
         CounterObj.completTeam = true
         state.get('ws').send(JSON.stringify({

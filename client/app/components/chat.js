@@ -51,8 +51,7 @@ function chat() {
                 : []
         };
     };
-    const players = state.get("current_room").players
-    console.log(players);
+    const players = state.get("current_room")?.players
 
     return {
         tag: "div",
@@ -60,9 +59,7 @@ function chat() {
         children: [
             {
                 tag: 'p',
-                attrs: {
-                    class: "num-players"
-                },
+              
                 text: `${players?.length}/4`
             }
             ,
