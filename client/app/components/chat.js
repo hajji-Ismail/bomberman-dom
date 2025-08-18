@@ -29,7 +29,6 @@ function chat() {
     const showMessages = () => {
         const messages = state.get('messages');
         const user = state.get("username")
-
         return {
             tag: "div",
             attrs: { id: "chatmessages" },
@@ -52,11 +51,21 @@ function chat() {
                 : []
         };
     };
+    const players = state.get("current_room").players
+    console.log(players);
 
     return {
         tag: "div",
         attrs: { id: "chatroom" },
         children: [
+            {
+                tag: 'p',
+                attrs: {
+                    class: "num-players"
+                },
+                text: `${players?.length}/4`
+            }
+            ,
             showMessages(),
             {
                 tag: "input",

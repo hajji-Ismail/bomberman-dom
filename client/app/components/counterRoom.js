@@ -4,7 +4,7 @@ export const CounterObj = {
     isInitialized: false,
     isRestartPhase: false,
     timer: undefined,
-    cp: 2,
+    cp: 10,
     completTeam: false,
 }
 

@@ -6,10 +6,10 @@ function Waitting() {
     const current = state.get('current_room')
     const availablePlayer = current?.players?.filter((p) => !p.isDeath && !p.isLosed)
 
-    // if (availablePlayer?.length <= 1) {
-    //     clearInterval(CounterObj.timer)
-    // }
-    if (!CounterObj.timer && availablePlayer.length === 4) {
+    if (availablePlayer?.length <= 1) {
+        clearInterval(CounterObj.timer)
+    }
+    if (availablePlayer && !CounterObj.timer && availablePlayer.length === 4) {
         CounterObj.completTeam = true
         state.get('ws').send(JSON.stringify({
             type: 'reset-counter',
@@ -41,7 +41,7 @@ function Waitting() {
             },
             text: "WAITTING..."
         },
-        ...(availablePlayer?.length > 0 ? [counterRoom(availablePlayer)] : [{
+        ...(availablePlayer?.length > 1 ? [counterRoom(availablePlayer)] : [{
             tag: "p",
             attrs: {
                 class: 'title'
@@ -55,7 +55,7 @@ function Waitting() {
             },
             children: displayPlayerNames()
         },
-        chat(state)
+        chat()
     ]
 
 }
