@@ -192,14 +192,16 @@ const battleField = () => {
     };
   });
 
-
+  const activePlayer = players.filter(
+    (p) =>
+      !p.isDeath && !p.isLosed)
 
   return [
     {
       tag: "div",
       attrs: { class: "game-container" },
       children: [
-        board(player),
+        board(player, activePlayer.length),
         {
           tag: "div",
           attrs: { class: "battle-field" },
