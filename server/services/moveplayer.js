@@ -43,8 +43,9 @@ export function movePlayer(data = {}) {
   };
 
   const canMove = (cellul) => {
-    return walkableCells.includes(Array.isArray(cellul) ? cellul[0] : cellul);
+    return walkableCells.includes(Array.isArray(cellul) ? cellul[cellul.length - 1] : cellul);
   };
+
   const tryMove = (player, axis, step, signe, direction, room, map) => {
     let marginX = 0.15;
     let marginY = 0.25

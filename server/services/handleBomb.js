@@ -74,6 +74,7 @@ export function HandleBomb(player, room) {
         } else {
           room.map[r][c] = oldTile;
         }
+
         if (Array.isArray(room.map[row][col])) {
           room.map[row][col] = [room.map[row][col][0]];
         } else {
@@ -110,7 +111,6 @@ export function HandleBomb(player, room) {
         }
       }
     });
-
 
     broadCastRoom(room, {
       type: "placeBomb",
