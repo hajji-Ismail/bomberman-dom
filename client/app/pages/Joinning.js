@@ -18,7 +18,7 @@ function Joinning() {
 
                 state.set('route', "/waitting");
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
 

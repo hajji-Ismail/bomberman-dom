@@ -56,7 +56,7 @@ const battleField = () => {
     if (requestAnimation.id) return
 
     const playerMovement = () => {
-      requestAnimation.id = requestAnimationFrame(playerMovement);
+      if (!keys.space) requestAnimation.id = requestAnimationFrame(playerMovement)
 
       action = null
       if (keys.up) action = "ArrowUp"
