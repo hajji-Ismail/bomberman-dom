@@ -16,7 +16,7 @@ const Aside = () => {
             }
         ]
     }
-    console.log(findPlayer());
+    // console.log(findPlayer());
 
 
     return [
