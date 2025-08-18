@@ -178,7 +178,7 @@ const battleField = () => {
         box.children.push({
           tag: "div",
           attrs: {
-            class: divsClasses[realValue],
+            class: 'flames',
           },
         });
       }
