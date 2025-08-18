@@ -5,7 +5,7 @@ import {  requestAnimation } from "../pages/battleFiled.js";
 
 export const CreateWs = () => {
     return new Promise((resolve, reject) => {
-        const ws = new WebSocket("ws://10.1.17.21:8080/ws");
+        const ws = new WebSocket("ws://localhost:8080/ws");
         ws.onopen = () => {
             console.log("🔗 WebSocket connection opened");
             state.set("ws", ws);

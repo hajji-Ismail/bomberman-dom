@@ -52,8 +52,7 @@ function chat() {
         };
     };
     const players = state.get("current_room").players
-    console.log(players);
-
+    
     return {
         tag: "div",
         attrs: { id: "chatroom" },

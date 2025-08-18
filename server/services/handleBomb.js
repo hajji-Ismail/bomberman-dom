@@ -52,9 +52,10 @@ export function HandleBomb(player, room) {
     const placeFlames = (r, c) => {
       let oldTile = getTile(r, c);
 
-      if (oldTile === 2 || oldTile === 10 || oldTile == 6) {
+      if (oldTile === 2 || oldTile === 10 || oldTile === 6) {
         oldTile = 0;
       }
+
       if ([3, 4, 5].includes(oldTile)) {
         oldTile += 4;
       }
@@ -104,7 +105,7 @@ export function HandleBomb(player, room) {
 
         if (tile === 1) break;
         placeFlames(r, c);
-        if (![2, 3, 4, 5].includes(tile && !isDamaged)) {
+        if (![2, 3, 4, 5].includes(tile) && !isDamaged) {
           damagePlayer(r, c);
         }
       }
