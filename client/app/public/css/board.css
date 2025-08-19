@@ -1,21 +1,21 @@
 :root {
-  --bg-color: #1e1e2f;
-  --wall-color: #2b2b40;
-  --block-color: #6b6bb5;
+    --bg-color: #1e1e2f;
+    --wall-color: #2b2b40;
+    --block-color: #6b6bb5;
 
-  --player1-color: #ff7b7b;
-  --player2-color: #70e1d6;
-  --player3-color: #fff07d;
-  --player4-color: #d1b3ff;
+    --player1-color: #ff7b7b;
+    --player2-color: #70e1d6;
+    --player3-color: #fff07d;
+    --player4-color: #d1b3ff;
 
-  --bomb-color: #4a4d55;
-  --explosion-color: #ff6e6e;
-  --powerup-color: #00d6a0;
+    --bomb-color: #4a4d55;
+    --explosion-color: #ff6e6e;
+    --powerup-color: #00d6a0;
 
-  --text-color: #f7f7f7;
-  --button-color: #3f7ff3;
+    --text-color: #f7f7f7;
+    --button-color: #3f7ff3;
 
-  --shadow: rgba(0, 0, 0, 0.2);
+    --shadow: rgba(0, 0, 0, 0.2);
 }
 
 
@@ -53,4 +53,15 @@
 .board i {
     font-size: 1.3rem;
     color: var(--player2-color);
+    animation: pop 1s infinite;
+}
+
+@keyframes pop {
+    to {
+        scale: .9;
+    }
+
+    from {
+        scale: 1s;
+    }
 }
