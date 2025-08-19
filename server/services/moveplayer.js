@@ -20,7 +20,7 @@ export function movePlayer(data = {}) {
     player.boostFrames--;
   }
 
-  const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14, 6];
+  const walkableCells = [0, 7, 8, 9, 11, 12, 13, 14];
 
   const earnAbility = (cellValue, y, x) => {
     switch (cellValue) {
