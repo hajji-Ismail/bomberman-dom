@@ -26,33 +26,39 @@ const ws = new WebSocketServer({ server, path: '/ws' })
 
 ws.on('connection', (stream) => {
     stream.on('message', (message) => {
-        const data = JSON.parse(message.toString())
+        try {
 
-        switch (data.type) {
-            case "join":
-                const room = HandleRooms(stream, data.username)
-                setUpPlayers(room)
-                broadCastRoom(room, {
-                    type: "waitting_room",
-                    room: room
-                })
-                break
-            case "chating":
-                HandleChat(data)
-                break
-            case "close-room":
-                const c_room = getRoom(data.id)
-                c_room.available = false
-                break
-            case "move":
-                movePlayer(data)
-                break
-            case "stop-move":
-                stopMoving(data, rooms)
-                break
-            case "reset-counter":
-                resetCounter(data)
-                break
+            const data = JSON.parse(message.toString())
+
+            switch (data.type) {
+                case "join":
+                    const room = HandleRooms(stream, data.username)
+                    setUpPlayers(room)
+                    broadCastRoom(room, {
+                        type: "waitting_room",
+                        room: room
+                    })
+                    break
+                case "chating":
+                    HandleChat(data)
+                    break
+                case "close-room":
+                    const c_room = getRoom(data.id)
+                    c_room.available = false
+                    break
+                case "move":
+                    movePlayer(data)
+                    break
+                case "stop-move":
+                    stopMoving(data, rooms)
+                    break
+                case "reset-counter":
+                    resetCounter(data)
+                    break
+
+            }
+        } catch (error) {
+            console.log("error");
 
         }
     })
