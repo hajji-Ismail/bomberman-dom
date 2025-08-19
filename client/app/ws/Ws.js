@@ -1,11 +1,11 @@
 import { CloseRoom, CounterObj } from "../components/counterRoom.js";
 import { HandleMovement, StopMove } from "../services/HandleMovemement.js";
 import { state } from "../main.js";
-import {  requestAnimation } from "../pages/battleFiled.js";
+import { requestAnimation } from "../pages/battleFiled.js";
 
 export const CreateWs = () => {
     return new Promise((resolve, reject) => {
-        const ws = new WebSocket("ws://localhost:8080/ws");
+        const ws = new WebSocket(`ws://${location.hostname}:8080/ws`);
         ws.onopen = () => {
             console.log("🔗 WebSocket connection opened");
             state.set("ws", ws);

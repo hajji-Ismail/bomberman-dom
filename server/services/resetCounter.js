@@ -4,8 +4,7 @@ import { getRoom } from "./getData.js";
 export function resetCounter(data = {}) {
     let room = getRoom(data.id);
     broadCastRoom(room, {
-        type: "resetCounter",
-        newTime: data.newTime
+        type: "resetCounter"
     });
 
 }

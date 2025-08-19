@@ -67,6 +67,7 @@
   background-size: 200px 150px;
   background-position: 0px -100px;
   animation: bomb 1s steps(5) infinite;
+  position: absolute;
 }
 
 @keyframes bomb {
@@ -94,6 +95,7 @@
   height: 55px;
   box-sizing: border-box;
   position: relative;
+  display: flex;
 }
 
 /* =============================

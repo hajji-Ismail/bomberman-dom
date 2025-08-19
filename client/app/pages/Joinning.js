@@ -5,7 +5,7 @@ import { state } from "../main.js";
 function Joinning() {
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (state.get("username").trim().length > 0) {
+        if (state.get("username") && state.get("username").trim().length > 0) {
             try {
 
                 await CreateWs();
@@ -13,7 +13,7 @@ function Joinning() {
 
                 socket.send(JSON.stringify({
                     type: "join",
-                    username: state.get("username")
+                    username: state.get("username").trim()
                 }))
 
                 state.set('route', "/waitting");

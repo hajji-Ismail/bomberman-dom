@@ -106,9 +106,13 @@ export function HandleBomb(player, room) {
 
         if (tile === 1) break;
         placeFlames(r, c);
-        if (![2, 3, 4, 5].includes(tile) && !isDamaged) {
-          damagePlayer(r, c);
+        if ([2, 3, 4, 5].includes(tile)) {
+    
+          break
         }
+
+        if (!isDamaged) damagePlayer(r, c);
+
       }
     });
 
