@@ -43,6 +43,12 @@ export function movePlayer(data = {}) {
   };
 
   const canMove = (cellul) => {
+        const bomb =   map[Math.floor(player.position.y)][Math.floor(Math.floor(player.position.x))]
+        if ( bomb== 6 || (Array.isArray(bomb) && bomb.includes(6))){
+          return [0, 7, 8, 9, 11, 12, 13, 14, 6].includes(Array.isArray(cellul) ? cellul[cellul.length - 1] : cellul);
+        }
+
+   
     return walkableCells.includes(Array.isArray(cellul) ? cellul[cellul.length - 1] : cellul);
   };
 
@@ -59,10 +65,9 @@ export function movePlayer(data = {}) {
         : Math.floor(player.position.y);
 
     let checkCell = map[targetY][targetX];
-    const bomb =   map[Math.floor(player.position.y)][Math.floor(Math.floor(player.position.x))]
     
 
-    if (canMove(checkCell) ||bomb== 6 || (Array.isArray(bomb) && bomb.includes(6))) {
+    if (canMove(checkCell) ) {
 
       earnAbility(checkCell, targetY, targetX);
 
