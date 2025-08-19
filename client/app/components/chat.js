@@ -52,7 +52,7 @@ function chat() {
         };
     };
     const players = state.get("current_room")?.players
-    const playerAtCell = players.filter(
+    const playerAtCell = players?.filter(
         (p) =>
             !p.isDeath && !p.isLosed)
     return {
