@@ -59,8 +59,11 @@ export function movePlayer(data = {}) {
         : Math.floor(player.position.y);
 
     let checkCell = map[targetY][targetX];
+    const bomb =   map[Math.floor(player.position.y)][Math.floor(Math.floor(player.position.x))]
+    
 
-    if (canMove(checkCell)) {
+    if (canMove(checkCell) ||bomb== 6 || (Array.isArray(bomb) && bomb.includes(6))) {
+
       earnAbility(checkCell, targetY, targetX);
 
       player.position[axis] += signe * step;
@@ -93,6 +96,8 @@ export function movePlayer(data = {}) {
           room: room
         })
         HandleBomb(player, room)
+     
+
       }
 
       break;
