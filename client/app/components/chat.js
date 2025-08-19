@@ -52,15 +52,17 @@ function chat() {
         };
     };
     const players = state.get("current_room")?.players
-
+    const playerAtCell = players.filter(
+        (p) =>
+            !p.isDeath && !p.isLosed)
     return {
         tag: "div",
         attrs: { id: "chatroom" },
         children: [
             {
                 tag: 'p',
-              
-                text: `${players?.length}/4`
+
+                text: `${playerAtCell?.length}/4`
             }
             ,
             showMessages(),
